@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		420BF1048692DB50D7E94E2A /* Pods_youPipe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AFF1D5A1B1410B9D5E6F16 /* Pods_youPipe.framework */; };
+		7C244390229562BD00A32598 /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C24438F229562BD00A32598 /* PacketTunnelProvider.swift */; };
+		7C244395229562BD00A32598 /* PacketTunel.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 7C24438D229562BD00A32598 /* PacketTunel.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7C244399229562C700A32598 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */; };
 		7CC57BAA229547100046C5C5 /* iosDelegate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC57BA92295470F0046C5C5 /* iosDelegate.framework */; };
-		7CC57BB22295515A0046C5C5 /* AppProxyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC57BB12295515A0046C5C5 /* AppProxyProvider.swift */; };
-		7CC57BB72295515A0046C5C5 /* PacketTunnel.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 7CC57BAF229551590046C5C5 /* PacketTunnel.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		7CC57BBC229551A60046C5C5 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */; };
 		7CF3BBB22283DA5E000D6F4D /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */; };
 		8A446DA5227086A0000BD58D /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A446DA4227086A0000BD58D /* Service.swift */; };
 		8AAAB4182270762100099F3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAAB4172270762100099F3A /* AppDelegate.swift */; };
@@ -23,12 +23,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		7CC57BB52295515A0046C5C5 /* PBXContainerItemProxy */ = {
+		7C244393229562BD00A32598 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8AAAB40C2270762100099F3A /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7CC57BAE229551590046C5C5;
-			remoteInfo = PacketTunnel;
+			remoteGlobalIDString = 7C24438C229562BD00A32598;
+			remoteInfo = PacketTunel;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -39,7 +39,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				7CC57BB72295515A0046C5C5 /* PacketTunnel.appex in Embed App Extensions */,
+				7C244395229562BD00A32598 /* PacketTunel.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -50,11 +50,11 @@
 		3D3F29E0DE8A67E6D9E264B6 /* Pods-youPipe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-youPipe.debug.xcconfig"; path = "Target Support Files/Pods-youPipe/Pods-youPipe.debug.xcconfig"; sourceTree = "<group>"; };
 		589E542609B84429E49EC01C /* Pods-youPipe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-youPipe.release.xcconfig"; path = "Target Support Files/Pods-youPipe/Pods-youPipe.release.xcconfig"; sourceTree = "<group>"; };
 		66AFF1D5A1B1410B9D5E6F16 /* Pods_youPipe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_youPipe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C24438D229562BD00A32598 /* PacketTunel.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PacketTunel.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C24438F229562BD00A32598 /* PacketTunnelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketTunnelProvider.swift; sourceTree = "<group>"; };
+		7C244391229562BD00A32598 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7C244392229562BD00A32598 /* PacketTunel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PacketTunel.entitlements; sourceTree = "<group>"; };
 		7CC57BA92295470F0046C5C5 /* iosDelegate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iosDelegate.framework; path = lib/iosDelegate.framework; sourceTree = "<group>"; };
-		7CC57BAF229551590046C5C5 /* PacketTunnel.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PacketTunnel.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		7CC57BB12295515A0046C5C5 /* AppProxyProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppProxyProvider.swift; sourceTree = "<group>"; };
-		7CC57BB32295515A0046C5C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7CC57BB42295515A0046C5C5 /* PacketTunnel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PacketTunnel.entitlements; sourceTree = "<group>"; };
 		7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		7CF3BBB32283DA5E000D6F4D /* youPipe-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "youPipe-ios.entitlements"; sourceTree = "<group>"; };
 		8A446DA4227086A0000BD58D /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
@@ -71,11 +71,11 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		7CC57BAC229551590046C5C5 /* Frameworks */ = {
+		7C24438A229562BD00A32598 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7CC57BBC229551A60046C5C5 /* NetworkExtension.framework in Frameworks */,
+				7C244399229562C700A32598 /* NetworkExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,21 +113,21 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		7CC57BB02295515A0046C5C5 /* PacketTunnel */ = {
+		7C24438E229562BD00A32598 /* PacketTunel */ = {
 			isa = PBXGroup;
 			children = (
-				7CC57BB12295515A0046C5C5 /* AppProxyProvider.swift */,
-				7CC57BB32295515A0046C5C5 /* Info.plist */,
-				7CC57BB42295515A0046C5C5 /* PacketTunnel.entitlements */,
+				7C24438F229562BD00A32598 /* PacketTunnelProvider.swift */,
+				7C244391229562BD00A32598 /* Info.plist */,
+				7C244392229562BD00A32598 /* PacketTunel.entitlements */,
 			);
-			path = PacketTunnel;
+			path = PacketTunel;
 			sourceTree = "<group>";
 		};
 		8AAAB40B2270762100099F3A = {
 			isa = PBXGroup;
 			children = (
 				8AAAB4162270762100099F3A /* youPipe-ios */,
-				7CC57BB02295515A0046C5C5 /* PacketTunnel */,
+				7C24438E229562BD00A32598 /* PacketTunel */,
 				8AAAB4152270762100099F3A /* Products */,
 				249A623500EA85E47A331AF3 /* Pods */,
 				0BD7E131D3C68EE3F0F2D72C /* Frameworks */,
@@ -138,7 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				8AAAB4142270762100099F3A /* youPipe.app */,
-				7CC57BAF229551590046C5C5 /* PacketTunnel.appex */,
+				7C24438D229562BD00A32598 /* PacketTunel.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -162,21 +162,21 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7CC57BAE229551590046C5C5 /* PacketTunnel */ = {
+		7C24438C229562BD00A32598 /* PacketTunel */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7CC57BB82295515A0046C5C5 /* Build configuration list for PBXNativeTarget "PacketTunnel" */;
+			buildConfigurationList = 7C244396229562BD00A32598 /* Build configuration list for PBXNativeTarget "PacketTunel" */;
 			buildPhases = (
-				7CC57BAB229551590046C5C5 /* Sources */,
-				7CC57BAC229551590046C5C5 /* Frameworks */,
-				7CC57BAD229551590046C5C5 /* Resources */,
+				7C244389229562BD00A32598 /* Sources */,
+				7C24438A229562BD00A32598 /* Frameworks */,
+				7C24438B229562BD00A32598 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = PacketTunnel;
-			productName = PacketTunnel;
-			productReference = 7CC57BAF229551590046C5C5 /* PacketTunnel.appex */;
+			name = PacketTunel;
+			productName = PacketTunel;
+			productReference = 7C24438D229562BD00A32598 /* PacketTunel.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		8AAAB4132270762100099F3A /* youPipe */ = {
@@ -193,7 +193,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				7CC57BB62295515A0046C5C5 /* PBXTargetDependency */,
+				7C244394229562BD00A32598 /* PBXTargetDependency */,
 			);
 			name = youPipe;
 			productName = "youPipe-ios";
@@ -210,12 +210,9 @@
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = ribencong;
 				TargetAttributes = {
-					7CC57BAE229551590046C5C5 = {
+					7C24438C229562BD00A32598 = {
 						CreatedOnToolsVersion = 10.2.1;
 						SystemCapabilities = {
-							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
-							};
 							com.apple.NetworkExtensions.iOS = {
 								enabled = 1;
 							};
@@ -255,13 +252,13 @@
 			projectRoot = "";
 			targets = (
 				8AAAB4132270762100099F3A /* youPipe */,
-				7CC57BAE229551590046C5C5 /* PacketTunnel */,
+				7C24438C229562BD00A32598 /* PacketTunel */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		7CC57BAD229551590046C5C5 /* Resources */ = {
+		7C24438B229562BD00A32598 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -323,11 +320,11 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		7CC57BAB229551590046C5C5 /* Sources */ = {
+		7C244389229562BD00A32598 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7CC57BB22295515A0046C5C5 /* AppProxyProvider.swift in Sources */,
+				7C244390229562BD00A32598 /* PacketTunnelProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,10 +342,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		7CC57BB62295515A0046C5C5 /* PBXTargetDependency */ = {
+		7C244394229562BD00A32598 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 7CC57BAE229551590046C5C5 /* PacketTunnel */;
-			targetProxy = 7CC57BB52295515A0046C5C5 /* PBXContainerItemProxy */;
+			target = 7C24438C229562BD00A32598 /* PacketTunel */;
+			targetProxy = 7C244393229562BD00A32598 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -372,47 +369,45 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		7CC57BB92295515A0046C5C5 /* Debug */ = {
+		7C244397229562BD00A32598 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = PacketTunnel/PacketTunnel.entitlements;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_ENTITLEMENTS = PacketTunel/PacketTunel.entitlements;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7745PS7TY6;
-				INFOPLIST_FILE = PacketTunnel/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				INFOPLIST_FILE = PacketTunel/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe.packetTunnel;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe.PacketTunel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = youpipe.packetTunnel_debug;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		7CC57BBA2295515A0046C5C5 /* Release */ = {
+		7C244398229562BD00A32598 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = PacketTunnel/PacketTunnel.entitlements;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_ENTITLEMENTS = PacketTunel/PacketTunel.entitlements;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7745PS7TY6;
-				INFOPLIST_FILE = PacketTunnel/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				INFOPLIST_FILE = PacketTunel/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe.packetTunnel;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe.PacketTunel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = youpipe.packetTunnel_debug;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -616,11 +611,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7CC57BB82295515A0046C5C5 /* Build configuration list for PBXNativeTarget "PacketTunnel" */ = {
+		7C244396229562BD00A32598 /* Build configuration list for PBXNativeTarget "PacketTunel" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7CC57BB92295515A0046C5C5 /* Debug */,
-				7CC57BBA2295515A0046C5C5 /* Release */,
+				7C244397229562BD00A32598 /* Debug */,
+				7C244398229562BD00A32598 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
