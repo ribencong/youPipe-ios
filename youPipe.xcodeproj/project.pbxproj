@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		420BF1048692DB50D7E94E2A /* Pods_youPipe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AFF1D5A1B1410B9D5E6F16 /* Pods_youPipe.framework */; };
+		7CC57BAA229547100046C5C5 /* iosDelegate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC57BA92295470F0046C5C5 /* iosDelegate.framework */; };
 		7CF3BBB22283DA5E000D6F4D /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */; };
 		8A446DA5227086A0000BD58D /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A446DA4227086A0000BD58D /* Service.swift */; };
 		8AAAB4182270762100099F3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAAB4172270762100099F3A /* AppDelegate.swift */; };
@@ -22,6 +23,7 @@
 		3D3F29E0DE8A67E6D9E264B6 /* Pods-youPipe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-youPipe.debug.xcconfig"; path = "Target Support Files/Pods-youPipe/Pods-youPipe.debug.xcconfig"; sourceTree = "<group>"; };
 		589E542609B84429E49EC01C /* Pods-youPipe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-youPipe.release.xcconfig"; path = "Target Support Files/Pods-youPipe/Pods-youPipe.release.xcconfig"; sourceTree = "<group>"; };
 		66AFF1D5A1B1410B9D5E6F16 /* Pods_youPipe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_youPipe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CC57BA92295470F0046C5C5 /* iosDelegate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iosDelegate.framework; path = lib/iosDelegate.framework; sourceTree = "<group>"; };
 		7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		7CF3BBB32283DA5E000D6F4D /* youPipe-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "youPipe-ios.entitlements"; sourceTree = "<group>"; };
 		8A446DA4227086A0000BD58D /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
@@ -42,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CC57BAA229547100046C5C5 /* iosDelegate.framework in Frameworks */,
 				7CF3BBB22283DA5E000D6F4D /* NetworkExtension.framework in Frameworks */,
 				420BF1048692DB50D7E94E2A /* Pods_youPipe.framework in Frameworks */,
 			);
@@ -53,6 +56,7 @@
 		0BD7E131D3C68EE3F0F2D72C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7CC57BA92295470F0046C5C5 /* iosDelegate.framework */,
 				7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */,
 				66AFF1D5A1B1410B9D5E6F16 /* Pods_youPipe.framework */,
 			);
@@ -391,7 +395,16 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
-					"$(PROJECT_DIR)/lib",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-l\"z\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"GCDWebServer\"",
+					"-framework",
+					"\"MobileCoreServices\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -422,7 +435,16 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
-					"$(PROJECT_DIR)/lib",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-l\"z\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"GCDWebServer\"",
+					"-framework",
+					"\"MobileCoreServices\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
