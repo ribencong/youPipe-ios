@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		420BF1048692DB50D7E94E2A /* Pods_youPipe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AFF1D5A1B1410B9D5E6F16 /* Pods_youPipe.framework */; };
 		7CF3BBB22283DA5E000D6F4D /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */; };
 		8A446DA5227086A0000BD58D /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A446DA4227086A0000BD58D /* Service.swift */; };
 		8AAAB4182270762100099F3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAAB4172270762100099F3A /* AppDelegate.swift */; };
@@ -15,11 +16,12 @@
 		8AAAB41F2270762100099F3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AAAB41D2270762100099F3A /* Main.storyboard */; };
 		8AAAB4212270762700099F3A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AAAB4202270762700099F3A /* Assets.xcassets */; };
 		8AAAB4242270762700099F3A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AAAB4222270762700099F3A /* LaunchScreen.storyboard */; };
-		BD5291D6773DBFB5DD48B3C2 /* Pods_youPipe_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13AEAD98A9985D170213A184 /* Pods_youPipe_ios.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		13AEAD98A9985D170213A184 /* Pods_youPipe_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_youPipe_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D3F29E0DE8A67E6D9E264B6 /* Pods-youPipe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-youPipe.debug.xcconfig"; path = "Target Support Files/Pods-youPipe/Pods-youPipe.debug.xcconfig"; sourceTree = "<group>"; };
+		589E542609B84429E49EC01C /* Pods-youPipe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-youPipe.release.xcconfig"; path = "Target Support Files/Pods-youPipe/Pods-youPipe.release.xcconfig"; sourceTree = "<group>"; };
+		66AFF1D5A1B1410B9D5E6F16 /* Pods_youPipe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_youPipe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		7CF3BBB32283DA5E000D6F4D /* youPipe-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "youPipe-ios.entitlements"; sourceTree = "<group>"; };
 		8A446DA4227086A0000BD58D /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
@@ -40,8 +42,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD5291D6773DBFB5DD48B3C2 /* Pods_youPipe_ios.framework in Frameworks */,
 				7CF3BBB22283DA5E000D6F4D /* NetworkExtension.framework in Frameworks */,
+				420BF1048692DB50D7E94E2A /* Pods_youPipe.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,7 +54,7 @@
 			isa = PBXGroup;
 			children = (
 				7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */,
-				13AEAD98A9985D170213A184 /* Pods_youPipe_ios.framework */,
+				66AFF1D5A1B1410B9D5E6F16 /* Pods_youPipe.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -62,6 +64,8 @@
 			children = (
 				BBF873CFA4C99F6097E9696E /* Pods-youPipe-ios.debug.xcconfig */,
 				CA94FCCD2D3861D6605D2318 /* Pods-youPipe-ios.release.xcconfig */,
+				3D3F29E0DE8A67E6D9E264B6 /* Pods-youPipe.debug.xcconfig */,
+				589E542609B84429E49EC01C /* Pods-youPipe.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -193,7 +197,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-youPipe-ios-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-youPipe-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -206,15 +210,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-youPipe-ios/Pods-youPipe-ios-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-youPipe/Pods-youPipe-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-youPipe-ios/Pods-youPipe-ios-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-youPipe/Pods-youPipe-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-youPipe-ios/Pods-youPipe-ios-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-youPipe/Pods-youPipe-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -371,7 +375,7 @@
 		};
 		8AAAB4292270762700099F3A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BBF873CFA4C99F6097E9696E /* Pods-youPipe-ios.debug.xcconfig */;
+			baseConfigurationReference = 3D3F29E0DE8A67E6D9E264B6 /* Pods-youPipe.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -402,7 +406,7 @@
 		};
 		8AAAB42A2270762700099F3A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CA94FCCD2D3861D6605D2318 /* Pods-youPipe-ios.release.xcconfig */;
+			baseConfigurationReference = 589E542609B84429E49EC01C /* Pods-youPipe.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
