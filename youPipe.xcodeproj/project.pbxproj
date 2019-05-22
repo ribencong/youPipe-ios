@@ -15,7 +15,6 @@
 		8AAAB41F2270762100099F3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AAAB41D2270762100099F3A /* Main.storyboard */; };
 		8AAAB4212270762700099F3A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AAAB4202270762700099F3A /* Assets.xcassets */; };
 		8AAAB4242270762700099F3A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AAAB4222270762700099F3A /* LaunchScreen.storyboard */; };
-		BBB2F48422952C500056EF03 /* dss.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB2F48322952C500056EF03 /* dss.framework */; };
 		BD5291D6773DBFB5DD48B3C2 /* Pods_youPipe_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13AEAD98A9985D170213A184 /* Pods_youPipe_ios.framework */; };
 /* End PBXBuildFile section */
 
@@ -32,7 +31,6 @@
 		8AAAB4202270762700099F3A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8AAAB4232270762700099F3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8AAAB4252270762700099F3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BBB2F48322952C500056EF03 /* dss.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = dss.framework; path = lib/dss.framework; sourceTree = "<group>"; };
 		BBF873CFA4C99F6097E9696E /* Pods-youPipe-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-youPipe-ios.debug.xcconfig"; path = "Target Support Files/Pods-youPipe-ios/Pods-youPipe-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		CA94FCCD2D3861D6605D2318 /* Pods-youPipe-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-youPipe-ios.release.xcconfig"; path = "Target Support Files/Pods-youPipe-ios/Pods-youPipe-ios.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -44,7 +42,6 @@
 			files = (
 				BD5291D6773DBFB5DD48B3C2 /* Pods_youPipe_ios.framework in Frameworks */,
 				7CF3BBB22283DA5E000D6F4D /* NetworkExtension.framework in Frameworks */,
-				BBB2F48422952C500056EF03 /* dss.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,7 +51,6 @@
 		0BD7E131D3C68EE3F0F2D72C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BBB2F48322952C500056EF03 /* dss.framework */,
 				7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */,
 				13AEAD98A9985D170213A184 /* Pods_youPipe_ios.framework */,
 			);
@@ -387,9 +383,11 @@
 					"$(PROJECT_DIR)/lib",
 				);
 				INFOPLIST_FILE = "youPipe-ios/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+					"$(PROJECT_DIR)/lib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -416,9 +414,11 @@
 					"$(PROJECT_DIR)/lib",
 				);
 				INFOPLIST_FILE = "youPipe-ios/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+					"$(PROJECT_DIR)/lib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";

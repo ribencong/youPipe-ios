@@ -1,8 +1,0 @@
-framework module "IosDelegate" {
-	header "ref.h"
-    header "IosDelegate.objc.h"
-    header "Universe.objc.h"
-    header "IosDelegate.h"
-
-    export *
-}
