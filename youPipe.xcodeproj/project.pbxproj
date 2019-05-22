@@ -15,6 +15,7 @@
 		8AAAB41F2270762100099F3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AAAB41D2270762100099F3A /* Main.storyboard */; };
 		8AAAB4212270762700099F3A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AAAB4202270762700099F3A /* Assets.xcassets */; };
 		8AAAB4242270762700099F3A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AAAB4222270762700099F3A /* LaunchScreen.storyboard */; };
+		BBB2F48422952C500056EF03 /* dss.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB2F48322952C500056EF03 /* dss.framework */; };
 		BD5291D6773DBFB5DD48B3C2 /* Pods_youPipe_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13AEAD98A9985D170213A184 /* Pods_youPipe_ios.framework */; };
 /* End PBXBuildFile section */
 
@@ -23,7 +24,7 @@
 		7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		7CF3BBB32283DA5E000D6F4D /* youPipe-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "youPipe-ios.entitlements"; sourceTree = "<group>"; };
 		8A446DA4227086A0000BD58D /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
-		8AAAB4142270762100099F3A /* youPipe-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "youPipe-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8AAAB4142270762100099F3A /* youPipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = youPipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AAAB4172270762100099F3A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8AAAB4192270762100099F3A /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		8AAAB41B2270762100099F3A /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
@@ -31,6 +32,7 @@
 		8AAAB4202270762700099F3A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8AAAB4232270762700099F3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8AAAB4252270762700099F3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BBB2F48322952C500056EF03 /* dss.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = dss.framework; path = lib/dss.framework; sourceTree = "<group>"; };
 		BBF873CFA4C99F6097E9696E /* Pods-youPipe-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-youPipe-ios.debug.xcconfig"; path = "Target Support Files/Pods-youPipe-ios/Pods-youPipe-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		CA94FCCD2D3861D6605D2318 /* Pods-youPipe-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-youPipe-ios.release.xcconfig"; path = "Target Support Files/Pods-youPipe-ios/Pods-youPipe-ios.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -42,6 +44,7 @@
 			files = (
 				BD5291D6773DBFB5DD48B3C2 /* Pods_youPipe_ios.framework in Frameworks */,
 				7CF3BBB22283DA5E000D6F4D /* NetworkExtension.framework in Frameworks */,
+				BBB2F48422952C500056EF03 /* dss.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,6 +54,7 @@
 		0BD7E131D3C68EE3F0F2D72C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BBB2F48322952C500056EF03 /* dss.framework */,
 				7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */,
 				13AEAD98A9985D170213A184 /* Pods_youPipe_ios.framework */,
 			);
@@ -79,7 +83,7 @@
 		8AAAB4152270762100099F3A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8AAAB4142270762100099F3A /* youPipe-ios.app */,
+				8AAAB4142270762100099F3A /* youPipe.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -103,9 +107,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8AAAB4132270762100099F3A /* youPipe-ios */ = {
+		8AAAB4132270762100099F3A /* youPipe */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8AAAB4282270762700099F3A /* Build configuration list for PBXNativeTarget "youPipe-ios" */;
+			buildConfigurationList = 8AAAB4282270762700099F3A /* Build configuration list for PBXNativeTarget "youPipe" */;
 			buildPhases = (
 				5E084DCBB3F65FB4FE04A376 /* [CP] Check Pods Manifest.lock */,
 				8AAAB4102270762100099F3A /* Sources */,
@@ -117,9 +121,9 @@
 			);
 			dependencies = (
 			);
-			name = "youPipe-ios";
+			name = youPipe;
 			productName = "youPipe-ios";
-			productReference = 8AAAB4142270762100099F3A /* youPipe-ios.app */;
+			productReference = 8AAAB4142270762100099F3A /* youPipe.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -146,7 +150,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8AAAB40F2270762100099F3A /* Build configuration list for PBXProject "youPipe-ios" */;
+			buildConfigurationList = 8AAAB40F2270762100099F3A /* Build configuration list for PBXProject "youPipe" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -159,7 +163,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8AAAB4132270762100099F3A /* youPipe-ios */,
+				8AAAB4132270762100099F3A /* youPipe */,
 			);
 		};
 /* End PBXProject section */
@@ -376,20 +380,25 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "youPipe-ios/youPipe-ios.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2XYK8RBB6M;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 7745PS7TY6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
 				INFOPLIST_FILE = "youPipe-ios/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.nbs.gameacceleration.youPipe-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = youPipe_debug;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -400,26 +409,31 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "youPipe-ios/youPipe-ios.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2XYK8RBB6M;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 7745PS7TY6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
 				INFOPLIST_FILE = "youPipe-ios/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.nbs.gameacceleration.youPipe-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = youPipe_debug;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8AAAB40F2270762100099F3A /* Build configuration list for PBXProject "youPipe-ios" */ = {
+		8AAAB40F2270762100099F3A /* Build configuration list for PBXProject "youPipe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8AAAB4262270762700099F3A /* Debug */,
@@ -428,7 +442,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8AAAB4282270762700099F3A /* Build configuration list for PBXNativeTarget "youPipe-ios" */ = {
+		8AAAB4282270762700099F3A /* Build configuration list for PBXNativeTarget "youPipe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8AAAB4292270762700099F3A /* Debug */,
