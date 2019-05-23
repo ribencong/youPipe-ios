@@ -56,11 +56,14 @@ class VpnManager{
                 }
                 
                 let status = self.manager!.connection.status
-                if status == .connected{
+                switch status {
+                case .connected:
                         try self.disconnect()
-                }else if status == .disconnected{
+                case .invalid, .disconnected:
                         try self.connect()
-                }else{
+                case .connecting, .reasserting,.disconnecting:
+                        break
+                @unknown default:
                         return
                 }
         }
@@ -98,23 +101,30 @@ class VpnManager{
                 newManager.localizedDescription = "YouPipe VPN"
                 newManager.protocolConfiguration?.serverAddress = "YouPipe Blockchain Miner"
                 self.manager = newManager
-                self.manager?.saveToPreferences { (err) in
-                        guard err == nil else{
-                                print("Save to preferences err -=>:", err.debugDescription)
-                                return
-                        }
-                        self.manager?.loadFromPreferences{ (err) in
-                                print("Load again after save to prefere -=>:", err.debugDescription)
-                        }
-                }
         }
         
         func connect() throws{
                 guard let m = self.manager else{
                         throw YouPipeError.NoTunManagerErr
                 }
+                
                 m.isEnabled = true
-                try m.connection.startVPNTunnel()
+                m.saveToPreferences {
+                        if $0 != nil{
+                                print("Save prefereces err-=>:", $0.debugDescription)
+                                return
+                        }
+                        
+                        m.loadFromPreferences{
+                                if $0 != nil{
+                                        print("Load again err -=>:", $0!.localizedDescription)
+                                        return
+                                }
+                                do {try m.connection.startVPNTunnel()}catch let e1{
+                                        print("Start tunnel err-=>:",e1.localizedDescription)
+                                }
+                        }                       
+                }
         }
         
         func disconnect()throws{
