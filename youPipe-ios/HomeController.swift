@@ -8,13 +8,16 @@
 
 import UIKit
 
-class FirstViewController: UIViewController {
+class HomeController: UIViewController {
 
+        @IBOutlet weak var connectButton: UIButton!
         override func viewDidLoad() {
                 super.viewDidLoad()
                 // Do any additional setup after loading the view, typically from a nib.
         }
 
-
+        @IBAction func ConnectAction(_ sender: UIButton) {
+        }
+        
 }
 

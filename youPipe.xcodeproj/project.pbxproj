@@ -11,12 +11,13 @@
 		7C244390229562BD00A32598 /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C24438F229562BD00A32598 /* PacketTunnelProvider.swift */; };
 		7C244395229562BD00A32598 /* PacketTunel.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 7C24438D229562BD00A32598 /* PacketTunel.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7C244399229562C700A32598 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */; };
+		7C41D9A7229639F80020DC6C /* VpnManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C41D9A6229639F80020DC6C /* VpnManager.swift */; };
 		7CC57BAA229547100046C5C5 /* iosDelegate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC57BA92295470F0046C5C5 /* iosDelegate.framework */; };
 		7CF3BBB22283DA5E000D6F4D /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */; };
 		8A446DA5227086A0000BD58D /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A446DA4227086A0000BD58D /* Service.swift */; };
 		8AAAB4182270762100099F3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAAB4172270762100099F3A /* AppDelegate.swift */; };
-		8AAAB41A2270762100099F3A /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAAB4192270762100099F3A /* FirstViewController.swift */; };
-		8AAAB41C2270762100099F3A /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAAB41B2270762100099F3A /* SecondViewController.swift */; };
+		8AAAB41A2270762100099F3A /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAAB4192270762100099F3A /* HomeController.swift */; };
+		8AAAB41C2270762100099F3A /* SettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAAB41B2270762100099F3A /* SettingController.swift */; };
 		8AAAB41F2270762100099F3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AAAB41D2270762100099F3A /* Main.storyboard */; };
 		8AAAB4212270762700099F3A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AAAB4202270762700099F3A /* Assets.xcassets */; };
 		8AAAB4242270762700099F3A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AAAB4222270762700099F3A /* LaunchScreen.storyboard */; };
@@ -54,14 +55,15 @@
 		7C24438F229562BD00A32598 /* PacketTunnelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketTunnelProvider.swift; sourceTree = "<group>"; };
 		7C244391229562BD00A32598 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C244392229562BD00A32598 /* PacketTunel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PacketTunel.entitlements; sourceTree = "<group>"; };
+		7C41D9A6229639F80020DC6C /* VpnManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VpnManager.swift; sourceTree = "<group>"; };
 		7CC57BA92295470F0046C5C5 /* iosDelegate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iosDelegate.framework; path = lib/iosDelegate.framework; sourceTree = "<group>"; };
 		7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		7CF3BBB32283DA5E000D6F4D /* youPipe-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "youPipe-ios.entitlements"; sourceTree = "<group>"; };
 		8A446DA4227086A0000BD58D /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		8AAAB4142270762100099F3A /* youPipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = youPipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AAAB4172270762100099F3A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		8AAAB4192270762100099F3A /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		8AAAB41B2270762100099F3A /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		8AAAB4192270762100099F3A /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
+		8AAAB41B2270762100099F3A /* SettingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingController.swift; sourceTree = "<group>"; };
 		8AAAB41E2270762100099F3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8AAAB4202270762700099F3A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8AAAB4232270762700099F3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -123,6 +125,37 @@
 			path = PacketTunel;
 			sourceTree = "<group>";
 		};
+		7C41D9A3229639BD0020DC6C /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				8AAAB41D2270762100099F3A /* Main.storyboard */,
+				8AAAB4222270762700099F3A /* LaunchScreen.storyboard */,
+				8AAAB4192270762100099F3A /* HomeController.swift */,
+				8AAAB41B2270762100099F3A /* SettingController.swift */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		7C41D9A4229639C20020DC6C /* Logic */ = {
+			isa = PBXGroup;
+			children = (
+				8A446DA4227086A0000BD58D /* Service.swift */,
+				8AAAB4172270762100099F3A /* AppDelegate.swift */,
+				7C41D9A6229639F80020DC6C /* VpnManager.swift */,
+			);
+			path = Logic;
+			sourceTree = "<group>";
+		};
+		7C41D9A5229639C90020DC6C /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				7CF3BBB32283DA5E000D6F4D /* youPipe-ios.entitlements */,
+				8AAAB4202270762700099F3A /* Assets.xcassets */,
+				8AAAB4252270762700099F3A /* Info.plist */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
 		8AAAB40B2270762100099F3A = {
 			isa = PBXGroup;
 			children = (
@@ -146,15 +179,9 @@
 		8AAAB4162270762100099F3A /* youPipe-ios */ = {
 			isa = PBXGroup;
 			children = (
-				7CF3BBB32283DA5E000D6F4D /* youPipe-ios.entitlements */,
-				8AAAB4172270762100099F3A /* AppDelegate.swift */,
-				8AAAB4192270762100099F3A /* FirstViewController.swift */,
-				8AAAB41B2270762100099F3A /* SecondViewController.swift */,
-				8AAAB41D2270762100099F3A /* Main.storyboard */,
-				8AAAB4202270762700099F3A /* Assets.xcassets */,
-				8AAAB4222270762700099F3A /* LaunchScreen.storyboard */,
-				8AAAB4252270762700099F3A /* Info.plist */,
-				8A446DA4227086A0000BD58D /* Service.swift */,
+				7C41D9A5229639C90020DC6C /* Data */,
+				7C41D9A4229639C20020DC6C /* Logic */,
+				7C41D9A3229639BD0020DC6C /* UI */,
 			);
 			path = "youPipe-ios";
 			sourceTree = "<group>";
@@ -332,9 +359,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8AAAB41C2270762100099F3A /* SecondViewController.swift in Sources */,
+				8AAAB41C2270762100099F3A /* SettingController.swift in Sources */,
 				8AAAB4182270762100099F3A /* AppDelegate.swift in Sources */,
-				8AAAB41A2270762100099F3A /* FirstViewController.swift in Sources */,
+				7C41D9A7229639F80020DC6C /* VpnManager.swift in Sources */,
+				8AAAB41A2270762100099F3A /* HomeController.swift in Sources */,
 				8A446DA5227086A0000BD58D /* Service.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
