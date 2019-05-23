@@ -136,16 +136,6 @@
 			name = UI;
 			sourceTree = "<group>";
 		};
-		7C41D9A4229639C20020DC6C /* Logic */ = {
-			isa = PBXGroup;
-			children = (
-				8A446DA4227086A0000BD58D /* Service.swift */,
-				8AAAB4172270762100099F3A /* AppDelegate.swift */,
-				7C41D9A6229639F80020DC6C /* VpnManager.swift */,
-			);
-			path = Logic;
-			sourceTree = "<group>";
-		};
 		7C41D9A5229639C90020DC6C /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +144,16 @@
 				8AAAB4252270762700099F3A /* Info.plist */,
 			);
 			name = Data;
+			sourceTree = "<group>";
+		};
+		7C41D9A822963BCD0020DC6C /* Logic */ = {
+			isa = PBXGroup;
+			children = (
+				8A446DA4227086A0000BD58D /* Service.swift */,
+				8AAAB4172270762100099F3A /* AppDelegate.swift */,
+				7C41D9A6229639F80020DC6C /* VpnManager.swift */,
+			);
+			name = Logic;
 			sourceTree = "<group>";
 		};
 		8AAAB40B2270762100099F3A = {
@@ -179,8 +179,8 @@
 		8AAAB4162270762100099F3A /* youPipe-ios */ = {
 			isa = PBXGroup;
 			children = (
+				7C41D9A822963BCD0020DC6C /* Logic */,
 				7C41D9A5229639C90020DC6C /* Data */,
-				7C41D9A4229639C20020DC6C /* Logic */,
 				7C41D9A3229639BD0020DC6C /* UI */,
 			);
 			path = "youPipe-ios";
