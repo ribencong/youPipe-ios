@@ -12,16 +12,26 @@ class HomeController: UIViewController {
 
         @IBOutlet weak var connectButton: UIButton!
         
+        
         required init?(coder aDecoder: NSCoder) {
                 super.init(coder: aDecoder)
-                NotificationCenter.default.addObserver(self,
-                                                       selector: #selector(onVpnStatusChanged),
-                                                       name: NSNotification.Name(rawValue: kProxyServiceVPNStatusNotification),
-                                                       object: nil)
         }
         
         deinit {
                 NotificationCenter.default.removeObserver(self)
+        }
+        
+        func observeStatus() {
+                NotificationCenter.default.addObserver(forName: NSNotification.Name.NEVPNStatusDidChange,
+                                                       object: nil,
+                                                       queue: OperationQueue.main,
+                                                       using:  updateConnectButton)
+        }
+        
+        func stopObservingStatus() {
+               NotificationCenter.default.removeObserver(self,
+                                                         name: NSNotification.Name.NEVPNStatusDidChange,
+                                                         object: nil)
         }
         
         override func viewDidLoad() {
@@ -29,38 +39,29 @@ class HomeController: UIViewController {
         }
         override func viewWillAppear(_ animated: Bool) {
                 super.viewWillAppear(animated)
-               self.onVpnStatusChanged()
-        }
-
-        
-        
-        @IBAction func ConnectAction(_ sender: UIButton) {
-                do{
-                        if(VpnManager.shared.vpnStatus == .off){
-                                try VpnManager.shared.connect()
-                        }else{
-                                try VpnManager.shared.disconnect()
-                        }
-                }catch let err{
-                        print(err)//TODO::
-                }
+                stopObservingStatus()
+                VpnManager.shared.ReLoad()
+                observeStatus()
         }
         
-        @objc func onVpnStatusChanged(){
-                let status = VpnManager.shared.vpnStatus
-                switch status {
-                case .connecting:
-                        connectButton.setTitle("connecting", for: UIControl.State())
-                case .disconnecting:
-                        connectButton.setTitle("disconnect", for: UIControl.State())
-                case .on:
-                        connectButton.setTitle("Disconnect", for: UIControl.State())
-                case .off:
-                        connectButton.setTitle("Connect", for: UIControl.State())
+        @IBAction func ConnectAction(_ sender: UIButton) { 
+                do {
+                        try VpnManager.shared.ChangeStatus()
                         
+                }catch let err{
+                        
+                        let alert = UIAlertController(title: "Error", message: err.localizedDescription, preferredStyle:.alert)
+                       alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                        
+                       self.present(alert, animated:true)
                 }
-                connectButton.isEnabled = [VPNStatus.on,VPNStatus.off].contains(VpnManager.shared.vpnStatus)
+               
         }
         
+        func updateConnectButton(_ noti:Notification){
+                let (status, enabled) = VpnManager.shared.GetVPNStatus()
+                connectButton.setTitle(status, for: UIControl.State())
+                connectButton.isEnabled = enabled
+        }
 }
 

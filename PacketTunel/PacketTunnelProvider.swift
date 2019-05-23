@@ -11,10 +11,12 @@ import NetworkExtension
 class PacketTunnelProvider: NEPacketTunnelProvider {
 
     override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
+        print("start Tunnel")
         // Add code here to start the process of connecting the tunnel.
     }
     
     override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
+                print("stopTunnel")
         // Add code here to start the process of stopping the tunnel.
         completionHandler()
     }
@@ -33,5 +35,6 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
     
     override func wake() {
         // Add code here to wake up.
+         print("wake")
     }
 }
