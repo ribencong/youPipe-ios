@@ -15,6 +15,8 @@
 		7C41D9A7229639F80020DC6C /* VpnManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C41D9A6229639F80020DC6C /* VpnManager.swift */; };
 		7C765CCB2297CB7200218149 /* YouPipe.js in Resources */ = {isa = PBXBuildFile; fileRef = 7C765CC92297CB7100218149 /* YouPipe.js */; };
 		7C765CCC2297CB7200218149 /* YouPipe_debug.js in Resources */ = {isa = PBXBuildFile; fileRef = 7C765CCA2297CB7200218149 /* YouPipe_debug.js */; };
+		7C765CCE2297D78200218149 /* iosDelegate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC57BA92295470F0046C5C5 /* iosDelegate.framework */; };
+		7C765CD02297DD6400218149 /* bypass.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7C765CCF2297DD6400218149 /* bypass.txt */; };
 		7CC57BAA229547100046C5C5 /* iosDelegate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC57BA92295470F0046C5C5 /* iosDelegate.framework */; };
 		7CF3BBB22283DA5E000D6F4D /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */; };
 		8A446DA5227086A0000BD58D /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A446DA4227086A0000BD58D /* Service.swift */; };
@@ -62,6 +64,7 @@
 		7C41D9A6229639F80020DC6C /* VpnManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VpnManager.swift; sourceTree = "<group>"; };
 		7C765CC92297CB7100218149 /* YouPipe.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = YouPipe.js; sourceTree = "<group>"; };
 		7C765CCA2297CB7200218149 /* YouPipe_debug.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = YouPipe_debug.js; sourceTree = "<group>"; };
+		7C765CCF2297DD6400218149 /* bypass.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bypass.txt; sourceTree = "<group>"; };
 		7CC57BA92295470F0046C5C5 /* iosDelegate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iosDelegate.framework; path = lib/iosDelegate.framework; sourceTree = "<group>"; };
 		7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		7CF3BBB32283DA5E000D6F4D /* youPipe-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "youPipe-ios.entitlements"; sourceTree = "<group>"; };
@@ -83,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C765CCE2297D78200218149 /* iosDelegate.framework in Frameworks */,
 				7C244399229562C700A32598 /* NetworkExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -124,6 +128,7 @@
 		7C24438E229562BD00A32598 /* PacketTunel */ = {
 			isa = PBXGroup;
 			children = (
+				7C765CCF2297DD6400218149 /* bypass.txt */,
 				7C765CCA2297CB7200218149 /* YouPipe_debug.js */,
 				7C765CC92297CB7100218149 /* YouPipe.js */,
 				7C24438F229562BD00A32598 /* PacketTunnelProvider.swift */,
@@ -298,6 +303,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C765CD02297DD6400218149 /* bypass.txt in Resources */,
 				7C765CCC2297CB7200218149 /* YouPipe_debug.js in Resources */,
 				7C765CCB2297CB7200218149 /* YouPipe.js in Resources */,
 			);
@@ -415,6 +421,11 @@
 				CODE_SIGN_ENTITLEMENTS = PacketTunel/PacketTunel.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7745PS7TY6;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
 				INFOPLIST_FILE = PacketTunel/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -436,6 +447,11 @@
 				CODE_SIGN_ENTITLEMENTS = PacketTunel/PacketTunel.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7745PS7TY6;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
 				INFOPLIST_FILE = PacketTunel/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
