@@ -32,9 +32,13 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         let networkSettings = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: "8.8.8.8")
         networkSettings.mtu = 1500
         let ipv4Settings = NEIPv4Settings(addresses: ["10.8.0.2"], subnetMasks: ["255.255.255.255"])
+        ipv4Settings.includedRoutes = [NEIPv4Route.default()]
         networkSettings.ipv4Settings = ipv4Settings
         
-        let proxySettings = NEProxySettings()
+//        let proxySettings = NEProxySettings()
+//        proxySettings.excludeSimpleHostnames = true
+//        proxySettings.matchDomains = [""]
+        
         
 //        proxySettings.autoProxyConfigurationEnabled = true
 //        let bundleURL = Bundle.main.resourceURL!
@@ -42,15 +46,15 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
 //        proxySettings.proxyAutoConfigurationURL = url
 //        NSLog("url for pac file \(url.absoluteString)")
         
-        let proxyPort = 51080
-        proxySettings.httpEnabled = true
-        proxySettings.httpServer = NEProxyServer(address: "127.0.0.1", port: proxyPort)
-        proxySettings.httpsEnabled = true
-        proxySettings.httpsServer = NEProxyServer(address: "127.0.0.1", port: proxyPort)
-        proxySettings.excludeSimpleHostnames = true
-        proxySettings.matchDomains = ["facebook.com"]
+//        let proxyPort = 51080
+//        proxySettings.httpEnabled = true
+//        proxySettings.httpServer = NEProxyServer(address: "127.0.0.1", port: proxyPort)
+//        proxySettings.httpsEnabled = true
+//        proxySettings.httpsServer = NEProxyServer(address: "127.0.0.1", port: proxyPort)
+        
 
-        networkSettings.proxySettings = proxySettings
+//        networkSettings.proxySettings = proxySettings
+        
         
         setTunnelNetworkSettings(networkSettings){
                 err in
@@ -71,8 +75,8 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                         packets, pro in
                         NSLog("---=>:pro=%d, data:=%d", pro, packets.count)
                         
-                        for (idx, pd) in packets.enumerated(){
-                                NSLog("---=>:idx:\(idx) value:\(pd.hexadecimal())")
+                        for (_, pd) in packets.enumerated(){
+                                NSLog(IosDelegateParseNsData(pd))
                         }
                         
                         self.handlePackets()

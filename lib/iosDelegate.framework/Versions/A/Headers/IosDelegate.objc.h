@@ -11,35 +11,6 @@
 #include "Universe.objc.h"
 
 
-@protocol IosDelegateVpnDelegate;
-@class IosDelegateVpnDelegate;
-
-@protocol IosDelegateVpnDelegate <NSObject>
-- (BOOL)byPass:(int32_t)fd;
-- (NSString* _Nonnull)getBootPath;
-- (NSData* _Nullable)readBuff;
-- (BOOL)write:(NSData* _Nullable)p0 n:(long* _Nullable)n error:(NSError* _Nullable* _Nullable)error;
-@end
-
-FOUNDATION_EXPORT BOOL IosDelegateInitVPN(NSString* _Nullable addr, NSString* _Nullable cipher, NSString* _Nullable license, NSString* _Nullable url, NSString* _Nullable boot, NSString* _Nullable IPs, id<IosDelegateVpnDelegate> _Nullable d, NSError* _Nullable* _Nullable error);
-
-FOUNDATION_EXPORT void IosDelegateRun(void);
-
-FOUNDATION_EXPORT BOOL IosDelegateSetupVpn(NSString* _Nullable password, NSString* _Nullable locAddr, NSError* _Nullable* _Nullable error);
-
-FOUNDATION_EXPORT void IosDelegateStopVpn(void);
-
-@class IosDelegateVpnDelegate;
-
-@interface IosDelegateVpnDelegate : NSObject <goSeqRefInterface, IosDelegateVpnDelegate> {
-}
-@property(strong, readonly) _Nonnull id _ref;
-
-- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (BOOL)byPass:(int32_t)fd;
-- (NSString* _Nonnull)getBootPath;
-- (NSData* _Nullable)readBuff;
-- (BOOL)write:(NSData* _Nullable)p0 n:(long* _Nullable)n error:(NSError* _Nullable* _Nullable)error;
-@end
+FOUNDATION_EXPORT NSString* _Nonnull IosDelegateParseNsData(NSData* _Nullable data);
 
 #endif
