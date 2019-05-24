@@ -9,36 +9,12 @@
 import NetworkExtension
 import IosDelegate
 
-class PacketTunnelProvider: NEPacketTunnelProvider, IosDelegateVpnDelegateProtocol {
+class PacketTunnelProvider: NEPacketTunnelProvider {
         
         var bootNodeSavedPath:String = (Bundle.main.resourceURL?.appendingPathComponent("youPipe").absoluteString)!
-        func byPass(_ fd: Int32) -> Bool {
-                return true
-        }
-        
-        func getBootPath() -> String {
-                return self.bootNodeSavedPath
-        }
-        
-        func readBuff() -> Data? {
-                var data:Data?
-                self.packetFlow.readPacketObjects { datas in
-                        data = datas[0].data
-                }
-                return data
-        }
-        
-        func write(_ p0: Data?, n: UnsafeMutablePointer<Int>?) throws {
-                let data = NEPacket.init(data: p0!, protocolFamily: sa_family_t(AF_INET))
-                self.packetFlow.writePacketObjects([data])
-        }
-        
 
     override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
-//        do {
-       
-        
-       
+ 
 //                let ipUrl = bundleURL.appendingPathComponent("bypass.txt")
 //        let ips = try String(contentsOf: ipUrl)
 //
@@ -58,8 +34,6 @@ class PacketTunnelProvider: NEPacketTunnelProvider, IosDelegateVpnDelegateProtoc
         let ipv4Settings = NEIPv4Settings(addresses: ["10.8.0.2"], subnetMasks: ["255.255.255.255"])
         networkSettings.ipv4Settings = ipv4Settings
         
-        
-        
         let proxySettings = NEProxySettings()
         
 //        proxySettings.autoProxyConfigurationEnabled = true
@@ -74,29 +48,38 @@ class PacketTunnelProvider: NEPacketTunnelProvider, IosDelegateVpnDelegateProtoc
         proxySettings.httpsEnabled = true
         proxySettings.httpsServer = NEProxyServer(address: "127.0.0.1", port: proxyPort)
         proxySettings.excludeSimpleHostnames = true
-        proxySettings.matchDomains = [""]
+        proxySettings.matchDomains = ["facebook.com"]
 
         networkSettings.proxySettings = proxySettings
         
         setTunnelNetworkSettings(networkSettings){
                 err in
                 guard err == nil else{
-                        print("setTunnelNetworkSettings err:", err!)
+                        NSLog("---=>:SetTunnelNetworkSettings err:%s", err.debugDescription)
                         completionHandler(err)
                         return
                 }
                 
                 completionHandler(nil)
-                NSLog("Tunnel start success......")
+                NSLog("---=>:Tunnel start success......")
+                self.handlePackets()
+        }
+    }
+        
+        func handlePackets() {
                 self.packetFlow.readPackets {
                         packets, pro in
-                        NSLog("pro=%d, data:=%d d=%s", pro, packets.count, String(data: packets[0], encoding: .utf8) ?? "--->>>sss")
-                }
+                        NSLog("---=>:pro=%d, data:=%d", pro, packets.count)
+                        
+                        for (idx, pd) in packets.enumerated(){
+                                NSLog("---=>:idx:\(idx) value:\(pd.hexadecimal())")
+                        }
+                        
+                        self.handlePackets()
+                 }
         }
-//                }catch let err{
-//                        NSLog(err.localizedDescription)
-//        }
-    }
+        
+        
     
     override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
         print("Packet tunnel stopTunnel......")
@@ -127,4 +110,11 @@ class PacketTunnelProvider: NEPacketTunnelProvider, IosDelegateVpnDelegateProtoc
         // Add code here to wake up.
          NSLog("Packet tunnel wake......")
     }
+}
+
+extension Data {
+        func hexadecimal() -> String {
+                return map { String(format: "%02x", $0) }
+                        .joined(separator: "")
+        }
 }
