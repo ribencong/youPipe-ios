@@ -15,46 +15,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
 
     override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
  
-//                let ipUrl = bundleURL.appendingPathComponent("bypass.txt")
-//        let ips = try String(contentsOf: ipUrl)
-//
-//                NSLog(ips)
-// var error: NSError?
-//        IosDelegateInitVPN("YPFZStv4N68XpQyjqph4kMVagZDyT9RaUoSAGwzMpFJAKd",
-//                           "2sUfGDAmC6D5Yj1uHVqKTFGYje6NtZfxwN4vfZ4d4xa7vyAHP7NQTNwaRmKnA8s64M2zNPqVwSfCLUW5NkyuQFVCg4F4jAEc2ioSaBjyh9sjV6",
-//                           "{\"sig\":\"+FAKEnV7GOyKp16D4hz4+l91gRnuyAg84z4E9DP+n+kWIy9AcLBYamgkTeGBBaNILvHY7Y0JdvdK9qlkpoMdAw==\",\"start\":\"2019-05-17 09:47:43\",\"end\":\"2019-05-27 09:47:43\",\"user\":\"YPFZStv4N68XpQyjqph4kMVagZDyT9RaUoSAGwzMpFJAKd\"}\n" ,
-//                "",
-//                "",
-//                ips,
-//                self,
-//               &error)
-        
-        let networkSettings = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: "8.8.8.8")
-        networkSettings.mtu = 1500
-        let ipv4Settings = NEIPv4Settings(addresses: ["10.8.0.2"], subnetMasks: ["255.255.255.255"])
-        ipv4Settings.includedRoutes = [NEIPv4Route.default()]
-        networkSettings.ipv4Settings = ipv4Settings
-        
-//        let proxySettings = NEProxySettings()
-//        proxySettings.excludeSimpleHostnames = true
-//        proxySettings.matchDomains = [""]
-        
-        
-//        proxySettings.autoProxyConfigurationEnabled = true
-//        let bundleURL = Bundle.main.resourceURL!
-//        let url = bundleURL.appendingPathComponent("YouPipe.js")//YouPipe_debug.js//YouPipe.js
-//        proxySettings.proxyAutoConfigurationURL = url
-//        NSLog("url for pac file \(url.absoluteString)")
-        
-//        let proxyPort = 51080
-//        proxySettings.httpEnabled = true
-//        proxySettings.httpServer = NEProxyServer(address: "127.0.0.1", port: proxyPort)
-//        proxySettings.httpsEnabled = true
-//        proxySettings.httpsServer = NEProxyServer(address: "127.0.0.1", port: proxyPort)
-        
-
-//        networkSettings.proxySettings = proxySettings
-        
+        let networkSettings = createSetting()
         
         setTunnelNetworkSettings(networkSettings){
                 err in
@@ -73,8 +34,6 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         func handlePackets() {
                 self.packetFlow.readPackets {
                         packets, pro in
-                        NSLog("---=>:pro=%d, data:=%d", pro, packets.count)
-                        
                         for (_, pd) in packets.enumerated(){
                                 NSLog(IosDelegateParseNsData(pd))
                         }
@@ -114,11 +73,56 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         // Add code here to wake up.
          NSLog("Packet tunnel wake......")
     }
+        
+        
 }
 
-extension Data {
-        func hexadecimal() -> String {
-                return map { String(format: "%02x", $0) }
-                        .joined(separator: "")
-        }
+func createSetting()->NEPacketTunnelNetworkSettings?{
+        
+        //                let ipUrl = bundleURL.appendingPathComponent("bypass.txt")
+        //        let ips = try String(contentsOf: ipUrl)
+        //
+        //                NSLog(ips)
+        // var error: NSError?
+        //        IosDelegateInitVPN("YPFZStv4N68XpQyjqph4kMVagZDyT9RaUoSAGwzMpFJAKd",
+        //                           "2sUfGDAmC6D5Yj1uHVqKTFGYje6NtZfxwN4vfZ4d4xa7vyAHP7NQTNwaRmKnA8s64M2zNPqVwSfCLUW5NkyuQFVCg4F4jAEc2ioSaBjyh9sjV6",
+        //                           "{\"sig\":\"+FAKEnV7GOyKp16D4hz4+l91gRnuyAg84z4E9DP+n+kWIy9AcLBYamgkTeGBBaNILvHY7Y0JdvdK9qlkpoMdAw==\",\"start\":\"2019-05-17 09:47:43\",\"end\":\"2019-05-27 09:47:43\",\"user\":\"YPFZStv4N68XpQyjqph4kMVagZDyT9RaUoSAGwzMpFJAKd\"}\n" ,
+        //                "",
+        //                "",
+        //                ips,
+        //                self,
+        //               &error)
+        
+        let networkSettings = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: "8.8.8.8")
+        networkSettings.mtu = 1500
+        let ipv4Settings = NEIPv4Settings(addresses: ["10.8.0.2"], subnetMasks: ["255.255.255.255"])
+        ipv4Settings.includedRoutes = [NEIPv4Route.default()]
+        networkSettings.ipv4Settings = ipv4Settings
+        
+        //        let proxySettings = NEProxySettings()
+        //        proxySettings.excludeSimpleHostnames = true
+        //        proxySettings.matchDomains = [""]
+        
+        
+        //        proxySettings.autoProxyConfigurationEnabled = true
+        //        let bundleURL = Bundle.main.resourceURL!
+        //        let url = bundleURL.appendingPathComponent("YouPipe.js")//YouPipe_debug.js//YouPipe.js
+        //        proxySettings.proxyAutoConfigurationURL = url
+        //        NSLog("url for pac file \(url.absoluteString)")
+        
+        //        let proxyPort = 51080
+        //        proxySettings.httpEnabled = true
+        //        proxySettings.httpServer = NEProxyServer(address: "127.0.0.1", port: proxyPort)
+        //        proxySettings.httpsEnabled = true
+        //        proxySettings.httpsServer = NEProxyServer(address: "127.0.0.1", port: proxyPort)
+        
+        
+        //        networkSettings.proxySettings = proxySettings
+        
+//        let dnsSettings = NEDNSSettings(servers: [])
+//        // This overrides system DNS settings
+//        dnsSettings.matchDomains = [""]
+//        networkSettings.dnsSettings = dnsSettings
+        
+        return networkSettings
 }
