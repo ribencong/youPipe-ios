@@ -8,3 +8,11 @@ target 'youPipe' do
   # Pods for youPipe
 	pod "GCDWebServer", "~> 3.0"
 end
+
+target 'PacketTunel' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+  
+  # Pods for PacketTunel
+  pod 'CocoaAsyncSocket'
+end
