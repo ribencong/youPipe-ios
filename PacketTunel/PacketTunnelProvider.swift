@@ -7,7 +7,7 @@
 //
 
 import NetworkExtension
-import IosDelegate
+import IosLib
 let proxyPort = 51080
 
 class PacketTunnelProvider: NEPacketTunnelProvider {
@@ -41,15 +41,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                         packets, pro in
                         
                         for (_, pd) in packets.enumerated(){
-                                NSLog(IosDelegateParseNsData(pd))
-//                                switch pro[idx].int32Value{
-//                                        case AF_INET:
-//                                        NSLog("---=>:This is IPV4 packet")
-//                                        case AF_INET6:
-//                                        NSLog("---=>:This is IPV6 packet")
-//                                default:
-//                                        fatalError()
-//                                }
+                                IosLibInputPacketData(pd)
                         }
                         
                         self.handlePackets()
@@ -151,4 +143,24 @@ func createSetting()->NEPacketTunnelNetworkSettings?{
 //        networkSettings.dnsSettings = dnsSettings
         
         return networkSettings
+}
+
+extension PacketTunnelProvider: IosLibVpnDelegateProtocol{
+        func byPass(_ fd: Int32) -> Bool {
+                return true
+        }
+        
+        func log(_ str: String?) {
+                NSLog("---=>:", str ?? "")
+        }
+        
+        func write(_ p0: Data?, n: UnsafeMutablePointer<Int>?) throws {
+                
+                guard let data = p0 else{
+                        return
+                }
+                
+                let pk = NEPacket(data: data, protocolFamily: sa_family_t(AF_INET))
+                self.packetFlow.writePacketObjects([pk])
+        }
 }

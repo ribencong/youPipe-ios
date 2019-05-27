@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		420BF1048692DB50D7E94E2A /* Pods_youPipe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AFF1D5A1B1410B9D5E6F16 /* Pods_youPipe.framework */; };
 		48F2AA7A65B20C244B28636E /* Pods_PacketTunel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBDA914573CE82DA33F12527 /* Pods_PacketTunel.framework */; };
+		7C08A548229B828000291CB1 /* iosLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C08A547229B827F00291CB1 /* iosLib.framework */; };
 		7C1711EE2296861D00C4637F /* YouPipeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1711ED2296861D00C4637F /* YouPipeError.swift */; };
 		7C244390229562BD00A32598 /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C24438F229562BD00A32598 /* PacketTunnelProvider.swift */; };
 		7C244395229562BD00A32598 /* PacketTunel.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 7C24438D229562BD00A32598 /* PacketTunel.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -16,9 +17,7 @@
 		7C41D9A7229639F80020DC6C /* VpnManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C41D9A6229639F80020DC6C /* VpnManager.swift */; };
 		7C765CCB2297CB7200218149 /* YouPipe.js in Resources */ = {isa = PBXBuildFile; fileRef = 7C765CC92297CB7100218149 /* YouPipe.js */; };
 		7C765CCC2297CB7200218149 /* YouPipe_debug.js in Resources */ = {isa = PBXBuildFile; fileRef = 7C765CCA2297CB7200218149 /* YouPipe_debug.js */; };
-		7C765CCE2297D78200218149 /* iosDelegate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC57BA92295470F0046C5C5 /* iosDelegate.framework */; };
 		7C765CD02297DD6400218149 /* bypass.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7C765CCF2297DD6400218149 /* bypass.txt */; };
-		7CC57BAA229547100046C5C5 /* iosDelegate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC57BA92295470F0046C5C5 /* iosDelegate.framework */; };
 		7CD14858229AA3A500A47DE5 /* HTTPProxyServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD14856229AA3A500A47DE5 /* HTTPProxyServer.swift */; };
 		7CD14859229AA3A500A47DE5 /* HTTPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD14857229AA3A500A47DE5 /* HTTPConnection.swift */; };
 		7CD1485D229AA40400A47DE5 /* SessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD1485C229AA40400A47DE5 /* SessionModel.swift */; };
@@ -62,6 +61,7 @@
 		3D3F29E0DE8A67E6D9E264B6 /* Pods-youPipe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-youPipe.debug.xcconfig"; path = "Target Support Files/Pods-youPipe/Pods-youPipe.debug.xcconfig"; sourceTree = "<group>"; };
 		589E542609B84429E49EC01C /* Pods-youPipe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-youPipe.release.xcconfig"; path = "Target Support Files/Pods-youPipe/Pods-youPipe.release.xcconfig"; sourceTree = "<group>"; };
 		66AFF1D5A1B1410B9D5E6F16 /* Pods_youPipe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_youPipe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C08A547229B827F00291CB1 /* iosLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iosLib.framework; path = lib/iosLib.framework; sourceTree = "<group>"; };
 		7C1711ED2296861D00C4637F /* YouPipeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouPipeError.swift; sourceTree = "<group>"; };
 		7C24438D229562BD00A32598 /* PacketTunel.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PacketTunel.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C24438F229562BD00A32598 /* PacketTunnelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketTunnelProvider.swift; sourceTree = "<group>"; };
@@ -71,7 +71,6 @@
 		7C765CC92297CB7100218149 /* YouPipe.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = YouPipe.js; sourceTree = "<group>"; };
 		7C765CCA2297CB7200218149 /* YouPipe_debug.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = YouPipe_debug.js; sourceTree = "<group>"; };
 		7C765CCF2297DD6400218149 /* bypass.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bypass.txt; sourceTree = "<group>"; };
-		7CC57BA92295470F0046C5C5 /* iosDelegate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iosDelegate.framework; path = lib/iosDelegate.framework; sourceTree = "<group>"; };
 		7CD14856229AA3A500A47DE5 /* HTTPProxyServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPProxyServer.swift; sourceTree = "<group>"; };
 		7CD14857229AA3A500A47DE5 /* HTTPConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPConnection.swift; sourceTree = "<group>"; };
 		7CD1485C229AA40400A47DE5 /* SessionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionModel.swift; sourceTree = "<group>"; };
@@ -98,7 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C765CCE2297D78200218149 /* iosDelegate.framework in Frameworks */,
+				7C08A548229B828000291CB1 /* iosLib.framework in Frameworks */,
 				7C244399229562C700A32598 /* NetworkExtension.framework in Frameworks */,
 				48F2AA7A65B20C244B28636E /* Pods_PacketTunel.framework in Frameworks */,
 			);
@@ -108,7 +107,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7CC57BAA229547100046C5C5 /* iosDelegate.framework in Frameworks */,
 				7CF3BBB22283DA5E000D6F4D /* NetworkExtension.framework in Frameworks */,
 				420BF1048692DB50D7E94E2A /* Pods_youPipe.framework in Frameworks */,
 			);
@@ -120,7 +118,7 @@
 		0BD7E131D3C68EE3F0F2D72C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7CC57BA92295470F0046C5C5 /* iosDelegate.framework */,
+				7C08A547229B827F00291CB1 /* iosLib.framework */,
 				7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */,
 				66AFF1D5A1B1410B9D5E6F16 /* Pods_youPipe.framework */,
 				EBDA914573CE82DA33F12527 /* Pods_PacketTunel.framework */,
