@@ -40,12 +40,11 @@ class HTTPProxyServer: NSObject {
             self.connections.remove(connection)
         }
     }
-    
 }
 
 extension HTTPProxyServer: GCDAsyncSocketDelegate {
     
-    func socket(_ sock: GCDAsyncSocket, didAcceptNewSocket newSocket: GCDAsyncSocket) { NSLog("---=>:host:\(newSocket.connectedHost!):\(newSocket.connectedPort)->\(newSocket.localHost!):\(newSocket.localPort)")
+    func socket(_ sock: GCDAsyncSocket, didAcceptNewSocket newSocket: GCDAsyncSocket) { NSLog("---=>:Accept:\(newSocket.connectedHost!):\(newSocket.connectedPort)->\(newSocket.localHost!):\(newSocket.localPort)")
         
         let conn: HTTPConnection = HTTPConnection(
             index: self.index,
@@ -55,5 +54,4 @@ extension HTTPProxyServer: GCDAsyncSocketDelegate {
         self.index += 1
         self.connections.insert(conn)
     }
-    
 }

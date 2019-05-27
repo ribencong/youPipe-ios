@@ -15,8 +15,6 @@
 		7C244395229562BD00A32598 /* PacketTunel.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 7C24438D229562BD00A32598 /* PacketTunel.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7C244399229562C700A32598 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */; };
 		7C41D9A7229639F80020DC6C /* VpnManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C41D9A6229639F80020DC6C /* VpnManager.swift */; };
-		7C765CCB2297CB7200218149 /* YouPipe.js in Resources */ = {isa = PBXBuildFile; fileRef = 7C765CC92297CB7100218149 /* YouPipe.js */; };
-		7C765CCC2297CB7200218149 /* YouPipe_debug.js in Resources */ = {isa = PBXBuildFile; fileRef = 7C765CCA2297CB7200218149 /* YouPipe_debug.js */; };
 		7C765CD02297DD6400218149 /* bypass.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7C765CCF2297DD6400218149 /* bypass.txt */; };
 		7CD14858229AA3A500A47DE5 /* HTTPProxyServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD14856229AA3A500A47DE5 /* HTTPProxyServer.swift */; };
 		7CD14859229AA3A500A47DE5 /* HTTPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD14857229AA3A500A47DE5 /* HTTPConnection.swift */; };
@@ -68,8 +66,6 @@
 		7C244391229562BD00A32598 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C244392229562BD00A32598 /* PacketTunel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PacketTunel.entitlements; sourceTree = "<group>"; };
 		7C41D9A6229639F80020DC6C /* VpnManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VpnManager.swift; sourceTree = "<group>"; };
-		7C765CC92297CB7100218149 /* YouPipe.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = YouPipe.js; sourceTree = "<group>"; };
-		7C765CCA2297CB7200218149 /* YouPipe_debug.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = YouPipe_debug.js; sourceTree = "<group>"; };
 		7C765CCF2297DD6400218149 /* bypass.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bypass.txt; sourceTree = "<group>"; };
 		7CD14856229AA3A500A47DE5 /* HTTPProxyServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPProxyServer.swift; sourceTree = "<group>"; };
 		7CD14857229AA3A500A47DE5 /* HTTPConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPConnection.swift; sourceTree = "<group>"; };
@@ -147,8 +143,6 @@
 				7CD14857229AA3A500A47DE5 /* HTTPConnection.swift */,
 				7CD14856229AA3A500A47DE5 /* HTTPProxyServer.swift */,
 				7C765CCF2297DD6400218149 /* bypass.txt */,
-				7C765CCA2297CB7200218149 /* YouPipe_debug.js */,
-				7C765CC92297CB7100218149 /* YouPipe.js */,
 				7C24438F229562BD00A32598 /* PacketTunnelProvider.swift */,
 				7C244391229562BD00A32598 /* Info.plist */,
 				7C244392229562BD00A32598 /* PacketTunel.entitlements */,
@@ -323,8 +317,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C765CD02297DD6400218149 /* bypass.txt in Resources */,
-				7C765CCC2297CB7200218149 /* YouPipe_debug.js in Resources */,
-				7C765CCB2297CB7200218149 /* YouPipe.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -658,8 +650,6 @@
 					"-framework",
 					"\"CFNetwork\"",
 					"-framework",
-					"\"GCDWebServer\"",
-					"-framework",
 					"\"MobileCoreServices\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe;
@@ -698,8 +688,6 @@
 					"-l\"z\"",
 					"-framework",
 					"\"CFNetwork\"",
-					"-framework",
-					"\"GCDWebServer\"",
 					"-framework",
 					"\"MobileCoreServices\"",
 				);

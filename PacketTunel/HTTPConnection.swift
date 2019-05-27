@@ -194,6 +194,8 @@ extension HTTPConnection: GCDAsyncSocketDelegate {
                 return
             }
             
+            NSLog("---=>:host:\(host)")
+            
             /* set request header & request helper */
             self.requestHeader = requestHeader
             self.requestHelper.handleHeader(with: requestHeader)

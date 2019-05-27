@@ -11,29 +11,27 @@
 #include "Universe.objc.h"
 
 
-@protocol IosLibVpnDelegate;
-@class IosLibVpnDelegate;
+@protocol IosLibVPNOutLogger;
+@class IosLibVPNOutLogger;
 
-@protocol IosLibVpnDelegate <NSObject>
-- (BOOL)byPass:(int32_t)fd;
+@protocol IosLibVPNOutLogger <NSObject>
 - (void)log:(NSString* _Nullable)str;
-- (BOOL)write:(NSData* _Nullable)p0 n:(long* _Nullable)n error:(NSError* _Nullable* _Nullable)error;
 @end
 
-FOUNDATION_EXPORT BOOL IosLibInitVPN(id<IosLibVpnDelegate> _Nullable d, NSString* _Nullable lAddr, NSError* _Nullable* _Nullable error);
+FOUNDATION_EXPORT void IosLibDumpPacket(NSData* _Nullable data);
 
-FOUNDATION_EXPORT void IosLibInputPacketData(NSData* _Nullable data);
+FOUNDATION_EXPORT void IosLibHttpServer(NSString* _Nullable lAddr);
 
-@class IosLibVpnDelegate;
+FOUNDATION_EXPORT void IosLibInitVPN(id<IosLibVPNOutLogger> _Nullable l);
 
-@interface IosLibVpnDelegate : NSObject <goSeqRefInterface, IosLibVpnDelegate> {
+@class IosLibVPNOutLogger;
+
+@interface IosLibVPNOutLogger : NSObject <goSeqRefInterface, IosLibVPNOutLogger> {
 }
 @property(strong, readonly) _Nonnull id _ref;
 
 - (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (BOOL)byPass:(int32_t)fd;
 - (void)log:(NSString* _Nullable)str;
-- (BOOL)write:(NSData* _Nullable)p0 n:(long* _Nullable)n error:(NSError* _Nullable* _Nullable)error;
 @end
 
 #endif
