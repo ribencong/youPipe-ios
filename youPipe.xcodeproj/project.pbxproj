@@ -16,6 +16,7 @@
 		7C244399229562C700A32598 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */; };
 		7C41D9A7229639F80020DC6C /* VpnManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C41D9A6229639F80020DC6C /* VpnManager.swift */; };
 		7C765CD02297DD6400218149 /* bypass.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7C765CCF2297DD6400218149 /* bypass.txt */; };
+		7C89E645229C18B20021CC7E /* gfw.torrent in Resources */ = {isa = PBXBuildFile; fileRef = 7C89E644229C18B20021CC7E /* gfw.torrent */; };
 		7CD14858229AA3A500A47DE5 /* HTTPProxyServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD14856229AA3A500A47DE5 /* HTTPProxyServer.swift */; };
 		7CD14859229AA3A500A47DE5 /* HTTPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD14857229AA3A500A47DE5 /* HTTPConnection.swift */; };
 		7CD1485D229AA40400A47DE5 /* SessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD1485C229AA40400A47DE5 /* SessionModel.swift */; };
@@ -67,6 +68,7 @@
 		7C244392229562BD00A32598 /* PacketTunel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PacketTunel.entitlements; sourceTree = "<group>"; };
 		7C41D9A6229639F80020DC6C /* VpnManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VpnManager.swift; sourceTree = "<group>"; };
 		7C765CCF2297DD6400218149 /* bypass.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bypass.txt; sourceTree = "<group>"; };
+		7C89E644229C18B20021CC7E /* gfw.torrent */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gfw.torrent; sourceTree = "<group>"; };
 		7CD14856229AA3A500A47DE5 /* HTTPProxyServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPProxyServer.swift; sourceTree = "<group>"; };
 		7CD14857229AA3A500A47DE5 /* HTTPConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPConnection.swift; sourceTree = "<group>"; };
 		7CD1485C229AA40400A47DE5 /* SessionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionModel.swift; sourceTree = "<group>"; };
@@ -138,11 +140,11 @@
 		7C24438E229562BD00A32598 /* PacketTunel */ = {
 			isa = PBXGroup;
 			children = (
+				7C748953229BDDBA0079ED9A /* data */,
 				7CD1485E229ABCEE00A47DE5 /* SessionManager.swift */,
 				7CD1485C229AA40400A47DE5 /* SessionModel.swift */,
 				7CD14857229AA3A500A47DE5 /* HTTPConnection.swift */,
 				7CD14856229AA3A500A47DE5 /* HTTPProxyServer.swift */,
-				7C765CCF2297DD6400218149 /* bypass.txt */,
 				7C24438F229562BD00A32598 /* PacketTunnelProvider.swift */,
 				7C244391229562BD00A32598 /* Info.plist */,
 				7C244392229562BD00A32598 /* PacketTunel.entitlements */,
@@ -180,6 +182,15 @@
 				7C1711ED2296861D00C4637F /* YouPipeError.swift */,
 			);
 			name = Logic;
+			sourceTree = "<group>";
+		};
+		7C748953229BDDBA0079ED9A /* data */ = {
+			isa = PBXGroup;
+			children = (
+				7C89E644229C18B20021CC7E /* gfw.torrent */,
+				7C765CCF2297DD6400218149 /* bypass.txt */,
+			);
+			name = data;
 			sourceTree = "<group>";
 		};
 		8AAAB40B2270762100099F3A = {
@@ -317,6 +328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C765CD02297DD6400218149 /* bypass.txt in Resources */,
+				7C89E645229C18B20021CC7E /* gfw.torrent in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

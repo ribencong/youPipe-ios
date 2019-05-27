@@ -9,6 +9,7 @@
 import NetworkExtension
 import IosLib
 let proxyPort = 51080
+let domainsURL = "https://raw.githubusercontent.com/youpipe/ypctorrent/master/gfw.torrent"
 
 class PacketTunnelProvider: NEPacketTunnelProvider {
         var httpProxy: HTTPProxyServer?
@@ -20,15 +21,14 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
 //                self.httpProxy = HTTPProxyServer()
 //                self.httpProxy!.start(with: "127.0.0.1", port: proxyPort)
                 
-                IosLibInitVPN(self)
-                
-                IosLibHttpServer("127.0.0.1:51080")
+                IosLibInitVPN(self, "127.0.0.1:\(proxyPort)")
 
-                let networkSettings = createSetting()
+                let networkSettings = newPacketTunnelSettings(proxyHost: "127.0.0.1", proxyPort: UInt16(proxyPort))
 
                 setTunnelNetworkSettings(networkSettings){
                         err in
                         guard err == nil else{
+                                
                                 NSLog("---=>:SetTunnelNetworkSettings err:%s", err.debugDescription)
                                 completionHandler(err)
                                 return
@@ -45,7 +45,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                         packets, pro in
                         
                         for (_, pd) in packets.enumerated(){
-                                IosLibDumpPacket(pd)
+                                IosLibInputPacket(pd)
                         }
                         
                         self.handlePackets()
@@ -62,87 +62,71 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         
 }
 
-func createSetting()->NEPacketTunnelNetworkSettings?{
+func newPacketTunnelSettings(proxyHost: String, proxyPort: UInt16) -> NEPacketTunnelNetworkSettings {
+        let settings: NEPacketTunnelNetworkSettings = NEPacketTunnelNetworkSettings(
+                tunnelRemoteAddress: "240.0.0.1"
+        )
         
-//        let ipUrl = bundleURL.appendingPathComponent("bypass.txt")
-//        let ips = try String(contentsOf: ipUrl)
-//
-//                NSLog(ips)
-// var error: NSError?
-//        IosDelegateInitVPN("YPFZStv4N68XpQyjqph4kMVagZDyT9RaUoSAGwzMpFJAKd",
-//                           "2sUfGDAmC6D5Yj1uHVqKTFGYje6NtZfxwN4vfZ4d4xa7vyAHP7NQTNwaRmKnA8s64M2zNPqVwSfCLUW5NkyuQFVCg4F4jAEc2ioSaBjyh9sjV6",
-//                           "{\"sig\":\"+FAKEnV7GOyKp16D4hz4+l91gRnuyAg84z4E9DP+n+kWIy9AcLBYamgkTeGBBaNILvHY7Y0JdvdK9qlkpoMdAw==\",\"start\":\"2019-05-17 09:47:43\",\"end\":\"2019-05-27 09:47:43\",\"user\":\"YPFZStv4N68XpQyjqph4kMVagZDyT9RaUoSAGwzMpFJAKd\"}\n" ,
-//                "",
-//                "",
-//                ips,
-//                self,
-//               &error)
+        /* proxy settings */
+        let proxySettings: NEProxySettings = NEProxySettings()
+        proxySettings.httpServer = NEProxyServer(
+                address: proxyHost,
+                port: Int(proxyPort)
+        )
+        proxySettings.httpsServer = NEProxyServer(
+                address: proxyHost,
+                port: Int(proxyPort)
+        )
+        proxySettings.autoProxyConfigurationEnabled = false
+        proxySettings.httpEnabled = true
+        proxySettings.httpsEnabled = true
+        proxySettings.excludeSimpleHostnames = true
+        proxySettings.exceptionList = [
+                "192.168.0.0/16",
+                "10.0.0.0/8",
+                "172.16.0.0/12",
+                "127.0.0.1",
+                "localhost",
+                "*.local"
+        ]
+        proxySettings.matchDomains = ["facebook.com", "sina.com.cn"]
+        settings.proxySettings = proxySettings
         
-        let networkSettings = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: "8.8.8.8")
-        networkSettings.mtu = NSNumber(value: UINT16_MAX)
-        
-        let ipv4Settings = NEIPv4Settings(addresses: ["10.8.0.2"], subnetMasks: ["255.255.255.255"])
-
+        /* ipv4 settings */
+        let ipv4Settings: NEIPv4Settings = NEIPv4Settings(
+                addresses: ["10.8.0.2"],
+                subnetMasks: ["255.255.255.255"]
+        )
         ipv4Settings.includedRoutes = [NEIPv4Route.default()]
         ipv4Settings.excludedRoutes = [
                 NEIPv4Route(destinationAddress: "192.168.0.0", subnetMask: "255.255.0.0"),
                 NEIPv4Route(destinationAddress: "10.0.0.0", subnetMask: "255.0.0.0"),
                 NEIPv4Route(destinationAddress: "172.16.0.0", subnetMask: "255.240.0.0")
         ]
+        settings.ipv4Settings = ipv4Settings
         
-        networkSettings.ipv4Settings = ipv4Settings
+        /* MTU */
+        settings.mtu = NSNumber(value: UINT16_MAX)
         
-        let proxySettings = NEProxySettings()
-        proxySettings.excludeSimpleHostnames = true
-        proxySettings.matchDomains = [""]
-
-        proxySettings.autoProxyConfigurationEnabled = true
-        let bundleURL = Bundle.main.resourceURL!
-        let url = bundleURL.appendingPathComponent("YouPipe.js")//YouPipe_debug.js//YouPipe.js
-        proxySettings.proxyAutoConfigurationURL = url
-        NSLog("url for pac file \(url.absoluteString)")
-
-        
-//        proxySettings.autoProxyConfigurationEnabled = false
-//        proxySettings.excludeSimpleHostnames = true
-//        proxySettings.httpEnabled = true
-//        proxySettings.httpServer = NEProxyServer(address: "127.0.0.1", port: proxyPort)
-//        proxySettings.httpsEnabled = true
-//        proxySettings.httpsServer = NEProxyServer(address: "127.0.0.1", port: proxyPort)
-//        proxySettings.matchDomains=[""]
-//        networkSettings.proxySettings = proxySettings
-        
-//        let dnsSettings = NEDNSSettings(servers: [])
-//        // This overrides system DNS settings
-//        dnsSettings.matchDomains = [""]
-//        networkSettings.dnsSettings = dnsSettings
-        
-        return networkSettings
+        return settings
 }
 
-//extension PacketTunnelProvider: IosLibVpnDelegateProtocol{
-//        func byPass(_ fd: Int32) -> Bool {
-//                return true
-//        }
-//
-//        func log(_ str: String?) {
-//                NSLog("---=>:", str!)
-//        }
-//
-//        func write(_ p0: Data?, n: UnsafeMutablePointer<Int>?) throws {
-//
-//                guard let data = p0 else{
-//                        return
-//                }
-//
-//                let pk = NEPacket(data: data, protocolFamily: sa_family_t(AF_INET))
-//                self.packetFlow.writePacketObjects([pk])
-//        }
-//}
-
-extension PacketTunnelProvider: IosLibVPNOutLoggerProtocol{
+extension PacketTunnelProvider: IosLibVpnDelegateProtocol{
+        func byPass(_ fd: Int32) -> Bool {
+                return true
+        }
+        
         func log(_ str: String?) {
                 NSLog("---=>:\(str ?? "空数据")")
         }
         
+        func write(_ p0: Data?, n: UnsafeMutablePointer<Int>?) throws {
+
+                guard let data = p0 else{
+                        return
+                }
+
+                let pk = NEPacket(data: data, protocolFamily: sa_family_t(AF_INET))
+                self.packetFlow.writePacketObjects([pk])
+        }
 }
