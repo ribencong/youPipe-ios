@@ -1,18 +1,11 @@
-//
-//  HTTPProxyServer.swift
-//  Sniffer
-//
-//  Created by ZapCannon87 on 23/04/2017.
-//  Copyright © 2017 zapcannon87. All rights reserved.
-//
-
 import Foundation
 import CocoaAsyncSocket
 
 class HTTPProxyServer: NSObject {
     
-    let listenSocket: GCDAsyncSocket
-    
+        let listenSocket: GCDAsyncSocket
+        fileprivate var proxyReq: Set<Pipe> = []
+        
     override init() {
         self.listenSocket = GCDAsyncSocket()
         super.init()
@@ -32,11 +25,14 @@ class HTTPProxyServer: NSObject {
 }
 
 extension HTTPProxyServer: GCDAsyncSocketDelegate {
-    
-    func socket(_ sock: GCDAsyncSocket, didAcceptNewSocket newSocket: GCDAsyncSocket) { NSLog("---=>:Accept:\(newSocket.connectedHost!):\(newSocket.connectedPort)->\(newSocket.localHost!):\(newSocket.localPort)")
-        
-        let _: HTTPConnection = HTTPConnection( 
-            incomingSocket: newSocket
-        )
-    }
+        func socket(_ sock: GCDAsyncSocket, didAcceptNewSocket newSocket: GCDAsyncSocket) {
+                NSLog("---=>:Accept:\(newSocket.connectedHost!):\(newSocket.connectedPort)->\(newSocket.localHost!):\(newSocket.localPort)")
+                
+                let p = Pipe(inSock: newSocket){
+                        pp in
+                        self.proxyReq.remove(pp)
+                }
+                
+                self.proxyReq.insert(p)
+        }
 }

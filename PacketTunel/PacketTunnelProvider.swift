@@ -20,8 +20,6 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
 
                 self.httpProxy = HTTPProxyServer()
                 self.httpProxy!.start(with: "127.0.0.1", port: proxyPort)
-                
-//                IosLibInitVPN(self, "127.0.0.1:\(proxyPort)")
 
                 let networkSettings = newPacketTunnelSettings(proxyHost: "127.0.0.1", proxyPort: UInt16(proxyPort))
 

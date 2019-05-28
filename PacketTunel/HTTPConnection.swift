@@ -1,10 +1,3 @@
-//
-//  HTTPConnection.swift
-//  Sniffer
-//
-//  Created by ZapCannon87 on 23/04/2017.
-//  Copyright © 2017 zapcannon87. All rights reserved.
-//
 
 import Foundation
 import CocoaAsyncSocket
@@ -44,13 +37,9 @@ class HTTPConnection: NSObject {
     let outgoingSocket: GCDAsyncSocket
     
     fileprivate var requestHeader: HTTPRequestHeader!
-    
     fileprivate var responseHeader: HTTPResponseHeader!
-    
     fileprivate let requestHelper: HTTPPayloadHelper = HTTPPayloadHelper()
-    
     fileprivate let responseHelper: HTTPPayloadHelper = HTTPPayloadHelper()
-    
     fileprivate var didClose: Bool = false
     
     init(incomingSocket: GCDAsyncSocket) {
@@ -73,7 +62,6 @@ class HTTPConnection: NSObject {
     }
     
     func close(note: String) {
-        
         guard !self.didClose else {
             return
         }
@@ -94,7 +82,6 @@ extension HTTPConnection: GCDAsyncSocketDelegate {
     
         if self.requestHeader.method == HTTPMethod.CONNECT {
             /* https */
-            
             let httpVersion: String = self.requestHeader.requestLine?.version ?? "HTTP/1.1"
             let responseData: Data = "\(httpVersion) 200 Connection Established\r\n\r\n".data(using: .ascii)!
             self.incomingSocket.write(
@@ -102,18 +89,14 @@ extension HTTPConnection: GCDAsyncSocketDelegate {
                 withTimeout: 5,
                 tag: writeTag.connectHeader
             )
-            
         } else {
             /* http */
-          
             self.outgoingSocket.write(
                 self.requestHeader.rawData,
                 withTimeout: 5,
                 tag: writeTag.requestHeader
             )
-            
         }
-        
     }
     
     func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
@@ -128,7 +111,6 @@ extension HTTPConnection: GCDAsyncSocketDelegate {
       
         switch tag {
         case readTag.requestHeader:
-            
             assert(sock == self.incomingSocket, "error in sock")
             
             /* get request header */
@@ -247,7 +229,7 @@ extension HTTPConnection: GCDAsyncSocketDelegate {
             }
         case writeTag.requestHeader, writeTag.requestPayload:
             assert(sock == self.outgoingSocket, "error in sock")
-            if self.requestHelper.isEnd { 
+            if self.requestHelper.isEnd {
                 
                 self.outgoingSocket.readData(
                     withTimeout: 5,
@@ -278,7 +260,6 @@ extension HTTPConnection: GCDAsyncSocketDelegate {
 }
 
 // MARK: - Model
-
 enum HTTPMethod: String {
     case OPTIONS = "OPTIONS"
     case GET     = "GET"
@@ -403,7 +384,6 @@ class HTTPHeader {
         }
         return nil
     }
-    
 }
 
 class HTTPRequestHeader: HTTPHeader {
@@ -456,7 +436,6 @@ class HTTPRequestHeader: HTTPHeader {
     
     var host: String?  {
         if let host: String = self.getHeaderValue(with: "Host:") {
-            /* some host has port e.g. xxx.xxx.xxx:80, so remove the `:Port` */
             return host.components(separatedBy: ":").first
         } else {
             return nil

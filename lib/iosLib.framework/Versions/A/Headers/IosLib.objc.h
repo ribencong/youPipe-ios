@@ -20,6 +20,8 @@
 
 FOUNDATION_EXPORT void IosLibDumpPacket(NSData* _Nullable data);
 
+FOUNDATION_EXPORT NSString* _Nonnull IosLibGetDomain(NSString* _Nullable host);
+
 FOUNDATION_EXPORT void IosLibInitVPN(id<IosLibVpnDelegate> _Nullable l, NSString* _Nullable addr);
 
 @class IosLibVpnDelegate;

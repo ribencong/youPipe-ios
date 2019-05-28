@@ -10,6 +10,9 @@
 		420BF1048692DB50D7E94E2A /* Pods_youPipe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AFF1D5A1B1410B9D5E6F16 /* Pods_youPipe.framework */; };
 		48F2AA7A65B20C244B28636E /* Pods_PacketTunel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBDA914573CE82DA33F12527 /* Pods_PacketTunel.framework */; };
 		7C08A548229B828000291CB1 /* iosLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C08A547229B827F00291CB1 /* iosLib.framework */; };
+		7C0BCDDA229D2FE90034821A /* Pipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0BCDD9229D2FE90034821A /* Pipe.swift */; };
+		7C0BCDDC229D38B50034821A /* SimpleHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0BCDDB229D38B50034821A /* SimpleHeader.swift */; };
+		7C0BCDDE229D38EB0034821A /* DomainCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0BCDDD229D38EB0034821A /* DomainCache.swift */; };
 		7C1711EE2296861D00C4637F /* YouPipeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1711ED2296861D00C4637F /* YouPipeError.swift */; };
 		7C244390229562BD00A32598 /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C24438F229562BD00A32598 /* PacketTunnelProvider.swift */; };
 		7C244395229562BD00A32598 /* PacketTunel.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 7C24438D229562BD00A32598 /* PacketTunel.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -59,6 +62,9 @@
 		589E542609B84429E49EC01C /* Pods-youPipe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-youPipe.release.xcconfig"; path = "Target Support Files/Pods-youPipe/Pods-youPipe.release.xcconfig"; sourceTree = "<group>"; };
 		66AFF1D5A1B1410B9D5E6F16 /* Pods_youPipe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_youPipe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C08A547229B827F00291CB1 /* iosLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iosLib.framework; path = lib/iosLib.framework; sourceTree = "<group>"; };
+		7C0BCDD9229D2FE90034821A /* Pipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pipe.swift; sourceTree = "<group>"; };
+		7C0BCDDB229D38B50034821A /* SimpleHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleHeader.swift; sourceTree = "<group>"; };
+		7C0BCDDD229D38EB0034821A /* DomainCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainCache.swift; sourceTree = "<group>"; };
 		7C1711ED2296861D00C4637F /* YouPipeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouPipeError.swift; sourceTree = "<group>"; };
 		7C24438D229562BD00A32598 /* PacketTunel.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PacketTunel.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C24438F229562BD00A32598 /* PacketTunnelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketTunnelProvider.swift; sourceTree = "<group>"; };
@@ -139,6 +145,9 @@
 				7C748953229BDDBA0079ED9A /* data */,
 				7CD14857229AA3A500A47DE5 /* HTTPConnection.swift */,
 				7CD14856229AA3A500A47DE5 /* HTTPProxyServer.swift */,
+				7C0BCDDD229D38EB0034821A /* DomainCache.swift */,
+				7C0BCDDB229D38B50034821A /* SimpleHeader.swift */,
+				7C0BCDD9229D2FE90034821A /* Pipe.swift */,
 				7C24438F229562BD00A32598 /* PacketTunnelProvider.swift */,
 				7C244391229562BD00A32598 /* Info.plist */,
 				7C244392229562BD00A32598 /* PacketTunel.entitlements */,
@@ -407,8 +416,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C0BCDDE229D38EB0034821A /* DomainCache.swift in Sources */,
 				7C244390229562BD00A32598 /* PacketTunnelProvider.swift in Sources */,
+				7C0BCDDA229D2FE90034821A /* Pipe.swift in Sources */,
 				7CD14859229AA3A500A47DE5 /* HTTPConnection.swift in Sources */,
+				7C0BCDDC229D38B50034821A /* SimpleHeader.swift in Sources */,
 				7CD14858229AA3A500A47DE5 /* HTTPProxyServer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
