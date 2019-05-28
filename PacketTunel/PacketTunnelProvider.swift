@@ -8,7 +8,8 @@
 
 import NetworkExtension
 import IosLib
-let proxyPort = 51080
+let proxyPort = 51081
+let socksPort = 51080
 let domainsURL = "https://raw.githubusercontent.com/youpipe/ypctorrent/master/gfw.torrent"
 
 class PacketTunnelProvider: NEPacketTunnelProvider {
@@ -20,7 +21,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
 
                 self.httpProxy = HTTPProxyServer()
                 self.httpProxy!.start(with: "127.0.0.1", port: proxyPort)
-
+                
                 let networkSettings = newPacketTunnelSettings(proxyHost: "127.0.0.1", proxyPort: UInt16(proxyPort))
 
                 setTunnelNetworkSettings(networkSettings){
@@ -61,6 +62,11 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
 }
 
 func newPacketTunnelSettings(proxyHost: String, proxyPort: UInt16) -> NEPacketTunnelNetworkSettings {
+        
+        let url = Bundle.main.resourceURL?.appendingPathComponent("gfw.torrent")
+        
+        DomainCache.shared.LoadFromFile(path: url)
+        
         let settings: NEPacketTunnelNetworkSettings = NEPacketTunnelNetworkSettings(
                 tunnelRemoteAddress: "240.0.0.1"
         )

@@ -6,7 +6,7 @@ class HTTPProxyServer: NSObject {
         let listenSocket: GCDAsyncSocket
         fileprivate var proxyReq: Set<Pipe> = []
         
-    override init() {
+        override init() {
         self.listenSocket = GCDAsyncSocket()
         super.init()
         self.listenSocket.synchronouslySetDelegate(

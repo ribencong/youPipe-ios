@@ -10,14 +10,22 @@ import Foundation
 
 class SimpleHttpHeader{
         
-        let headers: [String]
+        var headers: [String]=[]
+        let rawData: Data
         
         var method: HTTPMethod? = HTTPMethod(rawValue: "Get")
         var url:String?=""
+        var version:String?="HTTP/1.1"
         var port:Int = 80
         var host:String?=""
         
-        init(headStr: String){
+        init?(data: Data){
+                self.rawData = data
+                guard let headStr: String = String.init(data: data, encoding: .ascii) else {
+                        NSLog("data convert to string err:\(data)")
+                        return
+                }
+                
                 self.headers = headStr.components(separatedBy: "\r\n")
                 guard self.headers.count >= 2 else {
                         return
@@ -34,6 +42,9 @@ class SimpleHttpHeader{
                         self.port = 80
                 }else{
                         self.port = Int(uris![1]) ?? 80
+                }
+                if cmds.count > 2{
+                        self.version = cmds[2]
                 }
                 
                 self.host = getHeaderValue(with: "Host:")

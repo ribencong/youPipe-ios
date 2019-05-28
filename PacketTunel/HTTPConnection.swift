@@ -42,7 +42,7 @@ class HTTPConnection: NSObject {
     fileprivate let responseHelper: HTTPPayloadHelper = HTTPPayloadHelper()
     fileprivate var didClose: Bool = false
     
-    init(incomingSocket: GCDAsyncSocket) {
+    init(incomingSocket: GCDAsyncSocket, requestData:Data) {
         self.incomingSocket = incomingSocket
         self.outgoingSocket = GCDAsyncSocket()
         super.init()
@@ -55,10 +55,7 @@ class HTTPConnection: NSObject {
             self,
             delegateQueue: queue
         )
-        self.incomingSocket.readData(
-            withTimeout: 5,
-            tag: readTag.requestHeader
-        )
+        self.parseHttpConn(data: requestData)
     }
     
     func close(note: String) {
@@ -106,39 +103,39 @@ extension HTTPConnection: GCDAsyncSocketDelegate {
             self.close(note: "Remote: \(String(describing: err))")
         }
     }
+        
+        func parseHttpConn(data:Data){
+                /* get request header */
+                guard
+                        let requestHeader: HTTPRequestHeader = HTTPRequestHeader(data: data),
+                        let host: String = requestHeader.host
+                        else
+                {
+                        self.close(note: "error in decoding request header")
+                        return
+                }
+                
+                NSLog("---=>:host:\(host)")
+                
+                /* set request header & request helper */
+                self.requestHeader = requestHeader
+                self.requestHelper.handleHeader(with: requestHeader)
+                
+                /* connect remote */
+                do {
+                        try self.outgoingSocket.connect(
+                                toHost: host,
+                                onPort: requestHeader.port
+                        )
+                } catch {
+                        self.close(note: "\(error)")
+                        return
+                }
+        }
     
     func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
       
         switch tag {
-        case readTag.requestHeader:
-            assert(sock == self.incomingSocket, "error in sock")
-            
-            /* get request header */
-            guard
-                let requestHeader: HTTPRequestHeader = HTTPRequestHeader(data: data),
-                let host: String = requestHeader.host
-                else
-            {
-                self.close(note: "error in decoding request header")
-                return
-            }
-            
-            NSLog("---=>:host:\(host)")
-            
-            /* set request header & request helper */
-            self.requestHeader = requestHeader
-            self.requestHelper.handleHeader(with: requestHeader)
-            
-            /* connect remote */
-            do {
-                try self.outgoingSocket.connect(
-                    toHost: host, 
-                    onPort: requestHeader.port
-                )
-            } catch {
-                self.close(note: "\(error)")
-                return
-            }
             
         case readTag.requestPayload:
             
