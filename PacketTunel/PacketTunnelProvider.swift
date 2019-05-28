@@ -18,10 +18,10 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
 
         override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
 
-//                self.httpProxy = HTTPProxyServer()
-//                self.httpProxy!.start(with: "127.0.0.1", port: proxyPort)
+                self.httpProxy = HTTPProxyServer()
+                self.httpProxy!.start(with: "127.0.0.1", port: proxyPort)
                 
-                IosLibInitVPN(self, "127.0.0.1:\(proxyPort)")
+//                IosLibInitVPN(self, "127.0.0.1:\(proxyPort)")
 
                 let networkSettings = newPacketTunnelSettings(proxyHost: "127.0.0.1", proxyPort: UInt16(proxyPort))
 
@@ -44,9 +44,9 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                 self.packetFlow.readPackets {
                         packets, pro in
                         
-                        for (_, pd) in packets.enumerated(){
-                                IosLibInputPacket(pd)
-                        }
+//                        for (_, pd) in packets.enumerated(){
+//                                IosLibInputPacket(pd)
+//                        }
                         
                         self.handlePackets()
                  }

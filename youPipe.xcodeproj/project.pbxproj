@@ -19,8 +19,6 @@
 		7C89E645229C18B20021CC7E /* gfw.torrent in Resources */ = {isa = PBXBuildFile; fileRef = 7C89E644229C18B20021CC7E /* gfw.torrent */; };
 		7CD14858229AA3A500A47DE5 /* HTTPProxyServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD14856229AA3A500A47DE5 /* HTTPProxyServer.swift */; };
 		7CD14859229AA3A500A47DE5 /* HTTPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD14857229AA3A500A47DE5 /* HTTPConnection.swift */; };
-		7CD1485D229AA40400A47DE5 /* SessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD1485C229AA40400A47DE5 /* SessionModel.swift */; };
-		7CD1485F229ABCEE00A47DE5 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD1485E229ABCEE00A47DE5 /* SessionManager.swift */; };
 		7CF3BBB22283DA5E000D6F4D /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */; };
 		8A446DA5227086A0000BD58D /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A446DA4227086A0000BD58D /* Service.swift */; };
 		8AAAB4182270762100099F3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAAB4172270762100099F3A /* AppDelegate.swift */; };
@@ -71,8 +69,6 @@
 		7C89E644229C18B20021CC7E /* gfw.torrent */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gfw.torrent; sourceTree = "<group>"; };
 		7CD14856229AA3A500A47DE5 /* HTTPProxyServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPProxyServer.swift; sourceTree = "<group>"; };
 		7CD14857229AA3A500A47DE5 /* HTTPConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPConnection.swift; sourceTree = "<group>"; };
-		7CD1485C229AA40400A47DE5 /* SessionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionModel.swift; sourceTree = "<group>"; };
-		7CD1485E229ABCEE00A47DE5 /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		7CF3BBB32283DA5E000D6F4D /* youPipe-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "youPipe-ios.entitlements"; sourceTree = "<group>"; };
 		8A446DA4227086A0000BD58D /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
@@ -141,8 +137,6 @@
 			isa = PBXGroup;
 			children = (
 				7C748953229BDDBA0079ED9A /* data */,
-				7CD1485E229ABCEE00A47DE5 /* SessionManager.swift */,
-				7CD1485C229AA40400A47DE5 /* SessionModel.swift */,
 				7CD14857229AA3A500A47DE5 /* HTTPConnection.swift */,
 				7CD14856229AA3A500A47DE5 /* HTTPProxyServer.swift */,
 				7C24438F229562BD00A32598 /* PacketTunnelProvider.swift */,
@@ -416,8 +410,6 @@
 				7C244390229562BD00A32598 /* PacketTunnelProvider.swift in Sources */,
 				7CD14859229AA3A500A47DE5 /* HTTPConnection.swift in Sources */,
 				7CD14858229AA3A500A47DE5 /* HTTPProxyServer.swift in Sources */,
-				7CD1485F229ABCEE00A47DE5 /* SessionManager.swift in Sources */,
-				7CD1485D229AA40400A47DE5 /* SessionModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
