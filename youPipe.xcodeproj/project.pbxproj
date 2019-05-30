@@ -36,7 +36,6 @@
 		3D3F29E0DE8A67E6D9E264B6 /* Pods-youPipe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-youPipe.debug.xcconfig"; path = "Target Support Files/Pods-youPipe/Pods-youPipe.debug.xcconfig"; sourceTree = "<group>"; };
 		589E542609B84429E49EC01C /* Pods-youPipe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-youPipe.release.xcconfig"; path = "Target Support Files/Pods-youPipe/Pods-youPipe.release.xcconfig"; sourceTree = "<group>"; };
 		66AFF1D5A1B1410B9D5E6F16 /* Pods_youPipe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_youPipe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7C08A547229B827F00291CB1 /* iosLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iosLib.framework; path = lib/iosLib.framework; sourceTree = "<group>"; };
 		7C1711ED2296861D00C4637F /* YouPipeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouPipeError.swift; sourceTree = "<group>"; };
 		7C41D9A6229639F80020DC6C /* VpnManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VpnManager.swift; sourceTree = "<group>"; };
 		7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
@@ -51,7 +50,6 @@
 		8AAAB4252270762700099F3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BBF873CFA4C99F6097E9696E /* Pods-youPipe-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-youPipe-ios.debug.xcconfig"; path = "Target Support Files/Pods-youPipe-ios/Pods-youPipe-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		CA94FCCD2D3861D6605D2318 /* Pods-youPipe-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-youPipe-ios.release.xcconfig"; path = "Target Support Files/Pods-youPipe-ios/Pods-youPipe-ios.release.xcconfig"; sourceTree = "<group>"; };
-		EBDA914573CE82DA33F12527 /* Pods_PacketTunel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PacketTunel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,10 +68,8 @@
 		0BD7E131D3C68EE3F0F2D72C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7C08A547229B827F00291CB1 /* iosLib.framework */,
 				7CF3BBB12283DA5E000D6F4D /* NetworkExtension.framework */,
 				66AFF1D5A1B1410B9D5E6F16 /* Pods_youPipe.framework */,
-				EBDA914573CE82DA33F12527 /* Pods_PacketTunel.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
