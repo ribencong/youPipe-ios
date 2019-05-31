@@ -27,9 +27,9 @@ class HTTPProxyServer: NSObject {
                 )
         }
         
-        func start(with host: String) {
+        func start(with host: String, port:Int) {
                 do {
-                        try self.listenSocket.accept(onInterface: host, port: 0)
+                        try self.listenSocket.accept(onInterface: host, port: UInt16(port))
                 } catch {
                         assertionFailure("\(error)")
                 }

@@ -19,7 +19,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                 Tunnel = self
                 /* http */
                 self.httpProxy = HTTPProxyServer()
-                self.httpProxy!.start(with: "localhost")
+                self.httpProxy!.start(with: "localhost", port: 51080)
                 /* settings */
                 let tunnelSettings: NEPacketTunnelNetworkSettings = self.newPacketTunnelSettings(
                         proxyHost: self.httpProxy!.listenSocket.localHost!,
@@ -89,7 +89,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         
         func newPacketTunnelSettings(proxyHost: String, proxyPort: UInt16) -> NEPacketTunnelNetworkSettings {
                 let settings: NEPacketTunnelNetworkSettings = NEPacketTunnelNetworkSettings(
-                        tunnelRemoteAddress: "240.0.0.1"
+                        tunnelRemoteAddress: "10.8.0.2"
                 )
                 
                 /* proxy settings */
