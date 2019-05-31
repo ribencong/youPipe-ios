@@ -9,11 +9,14 @@
 import NetworkExtension
 
 let proxyPort = 51080
+
 class PacketTunnelProvider: NEPacketTunnelProvider {
-        let PacketQueue = DispatchQueue(label: "com.youpipe.packetqueue", attributes:.concurrent)
+        var proxy:HttpProxy?
         
         override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
                 NSLog("---=>:Tunnel start......")
+                self.proxy = HttpProxy(host: "127.0.0.1", port: Int32(proxyPort))
+                
                 let networkSettings = newPacketTunnelSettings(proxyHost: "127.0.0.1", proxyPort: UInt16(proxyPort))
                 
                 setTunnelNetworkSettings(networkSettings){
@@ -25,12 +28,6 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                         }
                         
                         completionHandler(nil)
-                        
-                        self.PacketQueue.async {
-                                self.handlePackets()
-                        }
-                        
-//                        self.handlePackets()
                         
                         NSLog("---=>:Tunnel start success......")
                 }
@@ -56,7 +53,6 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         }
 }
 
-
 func newPacketTunnelSettings(proxyHost: String, proxyPort: UInt16) -> NEPacketTunnelNetworkSettings {
         
         let settings: NEPacketTunnelNetworkSettings = NEPacketTunnelNetworkSettings(
@@ -67,6 +63,11 @@ func newPacketTunnelSettings(proxyHost: String, proxyPort: UInt16) -> NEPacketTu
         
         /* proxy settings */
         let proxySettings: NEProxySettings = NEProxySettings()
+        
+//        proxySettings.autoProxyConfigurationEnabled = true
+//        proxySettings.proxyAutoConfigurationJavaScript="function FindProxyForURL(url, host) {return \"SOCKS5 127.0.0.1:51080; SOCKS 127.0.0.1:51080; DIRECT;\";}"
+//        proxySettings.excludeSimpleHostnames = true;
+        
         proxySettings.httpServer = NEProxyServer(
                 address: proxyHost,
                 port: Int(proxyPort)
@@ -87,28 +88,8 @@ func newPacketTunnelSettings(proxyHost: String, proxyPort: UInt16) -> NEPacketTu
                 "localhost",
                 "*.local"
         ]
-        
-        proxySettings.matchDomains =  PAC_DOMAINS
-        
-//        proxySettings.matchDomains =  ["weibo.com", "weibo.cn", "baidu.com", "apple.com", "sina.com", "sina.cn"]
-        
-//        let url = Bundle.main.resourceURL?.appendingPathComponent("gfw.torrent")
-//        guard let u = url else{
-//                NSLog("no doamin list found")
-//                exit(EXIT_FAILURE)
-//        }
-//        do {
-//                let str = try String.init(contentsOf: u).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-//                proxySettings.matchDomains = str.components(separatedBy: ",")
-//                NSLog("Size:[\(proxySettings.matchDomains!.count)]")
-//                for item in proxySettings.matchDomains!{
-//                        NSLog("[\(item)]")
-//                }
-//        }catch let err{
-//                NSLog("parse url to str err:\(err.localizedDescription)")
-//                exit(EXIT_FAILURE)
-//        }
-        
+//        let doms = PacDomain.shared.cache
+        proxySettings.matchDomains = [""]
         settings.proxySettings = proxySettings
         
         /* ipv4 settings */
@@ -117,11 +98,11 @@ func newPacketTunnelSettings(proxyHost: String, proxyPort: UInt16) -> NEPacketTu
                 subnetMasks: ["255.255.255.255"]
         )
 //        ipv4Settings.includedRoutes = [NEIPv4Route.default()]
-        ipv4Settings.excludedRoutes = [
-                NEIPv4Route(destinationAddress: "192.168.0.0", subnetMask: "255.255.0.0"),
-                NEIPv4Route(destinationAddress: "10.0.0.0", subnetMask: "255.0.0.0"),
-                NEIPv4Route(destinationAddress: "172.16.0.0", subnetMask: "255.240.0.0")
-        ]
+//        ipv4Settings.excludedRoutes = [
+//                NEIPv4Route(destinationAddress: "192.168.0.0", subnetMask: "255.255.0.0"),
+//                NEIPv4Route(destinationAddress: "10.0.0.0", subnetMask: "255.0.0.0"),
+//                NEIPv4Route(destinationAddress: "172.16.0.0", subnetMask: "255.240.0.0")
+//        ]
         settings.ipv4Settings = ipv4Settings
         
         return settings
