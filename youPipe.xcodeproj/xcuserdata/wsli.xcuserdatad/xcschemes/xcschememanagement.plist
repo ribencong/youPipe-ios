@@ -19,11 +19,6 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
-		<key>ZPTCPIPStack.xcscheme_^#shared#^_</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>8</integer>
-		</dict>
 		<key>youPipe-ios.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
@@ -43,6 +38,11 @@
 			<true/>
 		</dict>
 		<key>7C3A7B3E229F742A00AC53DB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7C5084C022A15243006590C1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
