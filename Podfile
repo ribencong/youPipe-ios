@@ -8,8 +8,7 @@ end
 
 target 'Tun2Pipe' do
   # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
-  
-  pod 'SwiftSocket'
+  use_frameworks! 
+  pod 'CocoaAsyncSocket'
   pod 'TLDExtract'
 end
