@@ -1,8 +1,0 @@
-framework module "IosLib" {
-	header "ref.h"
-    header "IosLib.objc.h"
-    header "Universe.objc.h"
-    header "IosLib.h"
-
-    export *
-}
