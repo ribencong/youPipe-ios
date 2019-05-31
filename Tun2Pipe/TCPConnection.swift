@@ -61,12 +61,7 @@ class TCPConnection: NSObject {
     let remote: GCDAsyncSocket
     
     private(set) weak var server: TCPProxyServer?
-    
-    fileprivate let sessionModel: SessionModel = SessionModel()
-    
-    fileprivate var didClose: Bool = false
-    
-    fileprivate var didAddSessionToManager: Bool = false
+     
     
     init?(index: Int, localSocket: ZPTCPConnection, server: TCPProxyServer) {
         self.index = index
@@ -83,19 +78,6 @@ class TCPConnection: NSObject {
             self,
             delegateQueue: queue
         )
-        
-        /* session */
-        self.sessionModel.date = Date().timeIntervalSince1970
-        self.sessionModel.method = "TCP"
-        self.sessionModel.localIP = self.local.srcAddr
-        self.sessionModel.localPort = Int(self.local.srcPort)
-        self.sessionModel.remoteIP = self.local.destAddr
-        self.sessionModel.remotePort = Int(self.local.destPort)
-        self.sessionModel.url = "\(self.local.destAddr):\(self.local.destPort)"
-        /* session status */
-        self.sessionModel.status = .connect
-        self.addSessionToManager()
-        
         do {
             try self.remote.connect(
                 toHost: self.local.destAddr, 
@@ -119,38 +101,11 @@ class TCPConnection: NSObject {
     }
     
     func close(with note: String) {
-        guard !self.didClose else {
-            return
-        }
-        self.didClose = true
         
         /* close connection */
         self.local.closeAfterWriting()
-        self.remote.disconnectAfterWriting()
-        
-        /* session */
-        self.sessionModel.note = note
-        /* session status */
-        if self.didAddSessionToManager {
-            if note == "EOF" {
-                self.sessionModel.status = .finish
-            } else {
-                self.sessionModel.status = .close
-            }
-        }
-        SessionManager.shared.closedAppend(self.sessionModel)
-        
+        self.remote.disconnectAfterWriting() 
         self.server?.remove(connection: self)
-    }
-    
-    func addSessionToManager() {
-        guard !self.didAddSessionToManager else {
-            return
-        }
-        self.didAddSessionToManager = true
-        if !self.didClose {
-            SessionManager.shared.activeAppend(self.sessionModel)
-        }
     }
     
 }
@@ -158,9 +113,6 @@ class TCPConnection: NSObject {
 extension TCPConnection: ZPTCPConnectionDelegate {
     
     func connection(_ connection: ZPTCPConnection, didRead data: Data) {
-        
-        /* session */
-        self.sessionModel.uploadTraffic += data.count
         
         self.remote.write(
             data,
@@ -198,9 +150,6 @@ extension TCPConnection: GCDAsyncSocketDelegate {
     
     func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port: UInt16) {
         
-        /* session status */
-        self.sessionModel.status = .active
-        
         self.local.readData()
         self.remote.readData(
             withTimeout: -1,
@@ -212,10 +161,7 @@ extension TCPConnection: GCDAsyncSocketDelegate {
         
     }
 
-    func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
-        
-        /* session */
-        self.sessionModel.downloadTraffic += data.count
+    func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) { 
         
         self.local.write(data)
         

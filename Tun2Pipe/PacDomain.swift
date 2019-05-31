@@ -7,12 +7,9 @@
 //
 
 import Foundation
-import TLDExtract
-
 
 class PacDomain {
         static let shared = PacDomain()
-        let extractor = try! TLDExtract()
         private(set) var cache:[String]
         init() {
                 let url = Bundle.main.resourceURL?.appendingPathComponent("gfw.torrent")
@@ -34,10 +31,7 @@ class PacDomain {
         }
         
         func getTLD(urlString:String) -> String? {
-                 guard let result: TLDResult = self.extractor.parse(urlString) else {
-                        return nil
-                }
-                return result.rootDomain
+                return urlString
         }
         
         func Hit(host:String?) ->Bool{
