@@ -105,7 +105,7 @@ class VpnManager{
         
         func connect() throws{
                 guard let m = self.manager else{
-                        throw YouPipeError.NoTunManagerErr
+                       return
                 }
                 
                 m.isEnabled = true
@@ -128,8 +128,9 @@ class VpnManager{
         }
         
         func disconnect()throws{
+                
                 guard let m = self.manager else{
-                        throw YouPipeError.NoTunManagerErr
+                       return
                 }
                 m.connection.stopVPNTunnel()
         }

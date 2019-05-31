@@ -1,18 +1,21 @@
 //
-//  FirstViewController.swift
-//  youPipe-ios
+//  ViewController.swift
+//  YouPipe
 //
-//  Created by Li Wansheng on 2019/4/24.
-//  Copyright © 2019年 ribencong. All rights reserved.
+//  Created by wsli on 2019/6/1.
+//  Copyright © 2019 com.ribencong.youPipe. All rights reserved.
 //
 
 import UIKit
 
-class HomeController: UIViewController {
+class ViewController: UIViewController {
 
         @IBOutlet weak var connectButton: UIButton!
-        
-        
+        override func viewDidLoad() {
+                super.viewDidLoad()
+                // Do any additional setup after loading the view.
+        }
+
         required init?(coder aDecoder: NSCoder) {
                 super.init(coder: aDecoder)
         }
@@ -29,14 +32,11 @@ class HomeController: UIViewController {
         }
         
         func stopObservingStatus() {
-               NotificationCenter.default.removeObserver(self,
-                                                         name: NSNotification.Name.NEVPNStatusDidChange,
-                                                         object: nil)
+                NotificationCenter.default.removeObserver(self,
+                                                          name: NSNotification.Name.NEVPNStatusDidChange,
+                                                          object: nil)
         }
         
-        override func viewDidLoad() {
-                super.viewDidLoad()
-        }
         override func viewWillAppear(_ animated: Bool) {
                 super.viewWillAppear(animated)
                 stopObservingStatus()
@@ -44,18 +44,18 @@ class HomeController: UIViewController {
                 observeStatus()
         }
         
-        @IBAction func ConnectAction(_ sender: UIButton) { 
+        @IBAction func ConnectAction(_ sender: UIButton) {
                 do {
                         try VpnManager.shared.ChangeStatus()
                         
                 }catch let err{
                         
                         let alert = UIAlertController(title: "Error", message: err.localizedDescription, preferredStyle:.alert)
-                       alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
                         
-                       self.present(alert, animated:true)
+                        self.present(alert, animated:true)
                 }
-               
+                
         }
         
         func updateConnectButton(_ noti:Notification){

@@ -1,9 +1,9 @@
 //
 //  AppDelegate.swift
-//  youPipe-ios
+//  YouPipe
 //
-//  Created by Li Wansheng on 2019/4/24.
-//  Copyright © 2019年 ribencong. All rights reserved.
+//  Created by wsli on 2019/6/1.
+//  Copyright © 2019 com.ribencong.youPipe. All rights reserved.
 //
 
 import UIKit
