@@ -23,6 +23,8 @@
 		7C68351222A20F0800343FEE /* ZPTCPIPStack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C68350E22A20E2100343FEE /* ZPTCPIPStack.framework */; };
 		7C68351522A2102600343FEE /* HttpProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68351422A2102600343FEE /* HttpProxy.swift */; };
 		7C68351722A2136C00343FEE /* HTTPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68351622A2136C00343FEE /* HTTPConnection.swift */; };
+		7C68351922A23D8A00343FEE /* TcpProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68351822A23D8A00343FEE /* TcpProxy.swift */; };
+		7C68351B22A23DCA00343FEE /* TCPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68351A22A23DCA00343FEE /* TCPConnection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +70,8 @@
 		7C68350E22A20E2100343FEE /* ZPTCPIPStack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZPTCPIPStack.framework; path = Carthage/Build/iOS/ZPTCPIPStack.framework; sourceTree = "<group>"; };
 		7C68351422A2102600343FEE /* HttpProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpProxy.swift; sourceTree = "<group>"; };
 		7C68351622A2136C00343FEE /* HTTPConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPConnection.swift; sourceTree = "<group>"; };
+		7C68351822A23D8A00343FEE /* TcpProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TcpProxy.swift; sourceTree = "<group>"; };
+		7C68351A22A23DCA00343FEE /* TCPConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCPConnection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +150,8 @@
 				7C40258122A18D170050AB3A /* PacketTunnelProvider.swift */,
 				7C40258322A18D170050AB3A /* Info.plist */,
 				7C40258422A18D170050AB3A /* TunProxy.entitlements */,
+				7C68351822A23D8A00343FEE /* TcpProxy.swift */,
+				7C68351A22A23DCA00343FEE /* TCPConnection.swift */,
 			);
 			path = TunProxy;
 			sourceTree = "<group>";
@@ -304,8 +310,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C68351B22A23DCA00343FEE /* TCPConnection.swift in Sources */,
 				7C68351522A2102600343FEE /* HttpProxy.swift in Sources */,
 				7C68351722A2136C00343FEE /* HTTPConnection.swift in Sources */,
+				7C68351922A23D8A00343FEE /* TcpProxy.swift in Sources */,
 				7C40258222A18D170050AB3A /* PacketTunnelProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -58,6 +58,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                         "localhost",
                         "*.local"
                 ]
+                proxySettings.matchDomains=[""]
                 settings.proxySettings = proxySettings
                 
                 /* ipv4 settings */

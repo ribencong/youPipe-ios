@@ -11,12 +11,10 @@ import CocoaAsyncSocket
 class HttpProxy: NSObject{
         
         static let shared = HttpProxy()
-        
         let listenSocket: GCDAsyncSocket
         let taskQueue:DispatchQueue
-        var connections: Set<HTTPConnection> = []
         
-        override init() {
+        private override init() {
                 self.listenSocket = GCDAsyncSocket()
                 taskQueue = DispatchQueue(label: "com.ribencong.httpserver",  attributes: .concurrent)
                 super.init()
@@ -35,24 +33,14 @@ class HttpProxy: NSObject{
                                 assertionFailure("\(error)")
                         }
                 }
-        }
-        
-        func remove(with connection: HTTPConnection) {
-                 self.connections.remove(connection)
-//                
-//                self.listenSocket.delegateQueue!.async {
-//                       
-//                }
-        }
+        } 
 }
 
 extension HttpProxy: GCDAsyncSocketDelegate {
-        
         func socket(_ sock: GCDAsyncSocket, didAcceptNewSocket newSocket: GCDAsyncSocket) {
-                let conn: HTTPConnection = HTTPConnection(
+                let _: HTTPConnection = HTTPConnection(
                         incomingSocket: newSocket
                 )
-                self.connections.insert(conn)
         }
         
 }

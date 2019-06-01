@@ -10,6 +10,8 @@ import Foundation
 import CocoaAsyncSocket
 
 class HTTPConnection: NSObject {
+        
+        static var connections: Set<HTTPConnection> = []
     
     struct readTag {
         
@@ -50,7 +52,8 @@ class HTTPConnection: NSObject {
     fileprivate let requestHelper: HTTPPayloadHelper = HTTPPayloadHelper()
     
     fileprivate let responseHelper: HTTPPayloadHelper = HTTPPayloadHelper()
-    
+       fileprivate var didClose: Bool = false
+        
     init(incomingSocket: GCDAsyncSocket) {
         self.incomingSocket = incomingSocket
         self.outgoingSocket = GCDAsyncSocket() 
@@ -68,14 +71,21 @@ class HTTPConnection: NSObject {
             withTimeout: 5,
             tag: readTag.requestHeader
         )
+        
+        HTTPConnection.connections.insert(self)
     }
     
     func close(note: String) {
-        
+        guard !self.didClose else {
+                return
+        }
+        self.didClose = true
+        if let removed =  HTTPConnection.connections.remove(self){
+                NSLog("connection removed success:\(removed)")
+        }
         /* disconnect socket */
         self.incomingSocket.disconnectAfterWriting()
-        self.outgoingSocket.disconnectAfterWriting()
-       HttpProxy.shared.remove(with: self)
+        self.outgoingSocket.disconnectAfterWriting() 
     }
     
 }
