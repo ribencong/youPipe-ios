@@ -16,7 +16,7 @@ class HttpProxy: NSObject{
         
         private override init() {
                 self.listenSocket = GCDAsyncSocket()
-                taskQueue = DispatchQueue(label: "com.ribencong.httpserver",  attributes: .concurrent)
+                taskQueue = DispatchQueue(label: "com.ribencong.httpserver")
                 super.init()
                 
                 self.listenSocket.synchronouslySetDelegate(

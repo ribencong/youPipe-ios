@@ -17,7 +17,7 @@ class TCPProxyServer: NSObject {
         
         let server: ZPPacketTunnel
         
-        let queue = DispatchQueue(label: "com.ribencong.tcpserver", attributes:.concurrent)
+        let queue = DispatchQueue(label: "com.ribencong.tcpserver")
      
         override init() {
                 self.server = ZPPacketTunnel.shared()

@@ -57,7 +57,7 @@ class HTTPConnection: NSObject {
         self.incomingSocket = incomingSocket
         self.outgoingSocket = GCDAsyncSocket() 
         super.init()
-        let queue: DispatchQueue = DispatchQueue(label: "com.ribencong.httpserver", attributes:.concurrent)
+        let queue: DispatchQueue = DispatchQueue(label: "com.ribencong.httpserver")
         self.incomingSocket.synchronouslySetDelegate(
             self,
             delegateQueue: queue

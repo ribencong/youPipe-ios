@@ -17,7 +17,7 @@ class TCPConnection:NSObject{
         let remote: GCDAsyncSocket
         static var connections: Set<TCPConnection> = []
         
-        let queue = DispatchQueue(label: "com.ribencong.tcpserver", attributes:.concurrent)
+        let queue = DispatchQueue(label: "com.ribencong.tcpserver")
         init?(localSocket: ZPTCPConnection){
                 self.local = localSocket
                 self.remote = GCDAsyncSocket()
