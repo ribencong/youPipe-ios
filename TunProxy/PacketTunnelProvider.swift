@@ -9,11 +9,27 @@
 import NetworkExtension
 
 class PacketTunnelProvider: NEPacketTunnelProvider {
+        
+        
+        
         override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
         
                 HttpProxy.shared.start(with: "127.0.0.1", port: 51080)
                 
                 let networkSettings = newPacketTunnelSettings(proxyHost: "127.0.0.1", proxyPort: 51080)
+                
+                TCPProxyServer.share.server.ipv4Setting(
+                        withAddress: (networkSettings.ipv4Settings?.addresses[0])!,
+                        netmask: (networkSettings.ipv4Settings?.subnetMasks[0])!)
+                
+                TCPProxyServer.share.server.mtu(networkSettings.mtu!.uint16Value) {
+                        (ds  ,ns) in
+                        guard let data = ds, let nums = ns else{
+                                return
+                        }
+                        
+                        self.packetFlow.writePackets(data, withProtocols: nums)
+                }
                 
                 setTunnelNetworkSettings(networkSettings) {
                         error in

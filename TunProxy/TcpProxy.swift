@@ -16,9 +16,9 @@ class TCPProxyServer: NSObject {
         static let share = TCPProxyServer()
         
         let server: ZPPacketTunnel
-
-        fileprivate var connections: Set<TCPConnection> = []
+        
         let queue = DispatchQueue(label: "com.ribencong.tcpserver", attributes:.concurrent)
+     
         override init() {
                 self.server = ZPPacketTunnel.shared()
                 super.init()
@@ -28,11 +28,12 @@ class TCPProxyServer: NSObject {
                 )
         }
 }
+
 extension TCPProxyServer: ZPPacketTunnelDelegate {
         
         func tunnel(_ tunnel: ZPPacketTunnel, didEstablishNewTCPConnection conn: ZPTCPConnection) {
-                if let tcpConn: TCPConnection = TCPConnection(localSocket: conn) {
-                        self.connections.insert(tcpConn)
+                if let _: TCPConnection = TCPConnection(localSocket: conn) {
+                       NSLog("New Tcp Connection:")
                 }
         }
 }

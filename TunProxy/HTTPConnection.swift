@@ -52,7 +52,6 @@ class HTTPConnection: NSObject {
     fileprivate let requestHelper: HTTPPayloadHelper = HTTPPayloadHelper()
     
     fileprivate let responseHelper: HTTPPayloadHelper = HTTPPayloadHelper()
-       fileprivate var didClose: Bool = false
         
     init(incomingSocket: GCDAsyncSocket) {
         self.incomingSocket = incomingSocket
@@ -76,10 +75,7 @@ class HTTPConnection: NSObject {
     }
     
     func close(note: String) {
-        guard !self.didClose else {
-                return
-        }
-        self.didClose = true
+        
         if let removed =  HTTPConnection.connections.remove(self){
                 NSLog("connection removed success:\(removed)")
         }
