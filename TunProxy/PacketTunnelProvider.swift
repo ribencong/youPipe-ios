@@ -33,11 +33,32 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                 
                 setTunnelNetworkSettings(networkSettings) {
                         error in
+                        
+                        completionHandler(error)
+                        
                         guard error == nil else {
-                                completionHandler(error)
                                 return
                         }
-                        completionHandler(nil)
+                        
+                        self.packetFlow.readPackets() { datas, nums in
+                                self.handlePackets(packets: datas, protocols: nums)
+                        }
+                }
+        }
+        
+        func handlePackets(packets: [Data], protocols: [NSNumber]) {
+                for (index, data) in packets.enumerated() {
+                        switch protocols[index].int32Value {
+                        case AF_INET:
+                                TCPProxyServer.share.server.ipPacketInput(data)
+                        case AF_INET6:
+                                break
+                        default:
+                                fatalError()
+                        }
+                }
+                self.packetFlow.readPackets { datas, numbers in
+                        self.handlePackets(packets: datas, protocols: numbers)
                 }
         }
     
