@@ -7,8 +7,8 @@
 //
 
 import NetworkExtension
-import NEKit
 import SwiftyJSON
+import PipeKit
 
 let ProxyPort = 51080
 
@@ -27,8 +27,8 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
 //
 //                let socks5AF = SOCKS5AdapterFactory(serverHost: "127.0.0.1", serverPort: ProxyPort)
                 
-                let socks5AF = ShadowsocksAdapterFactory(serverHost: "174.7.124.45",
-                                                                 serverPort: 54321,
+                let socks5AF = ShadowsocksAdapterFactory(serverHost: "155.138.201.205",
+                                                                 serverPort: 8388,
                                                                  protocolObfuscaterFactory:obfuscater,
                                                                  cryptorFactory: ShadowsocksAdapter.CryptoStreamProcessor.Factory(password: "rickey.liao", algorithm: algorithm),
                                                                  streamObfuscaterFactory: ShadowsocksAdapter.StreamObfuscater.OriginStreamObfuscater.Factory())
@@ -38,7 +38,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                 let json_str = getRuleConf()
                 let json = JSON.init(parseJSON: json_str)
                 
-                var UserRules:[NEKit.Rule] = []
+                var UserRules:[PipeKit.Rule] = []
                 
                 let arraydom = json["rules"]["DOMAIN"].arrayValue
                 let arrayip = json["rules"]["IP"].arrayValue
@@ -46,7 +46,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                 UserRules.append(DomainListRule(adapterFactory: directAdapterFactory, criteria: dom_direct))
                 
                 let ip_direct = getIPRule(list: arrayip, isDirect: true)
-                var ipdirect:NEKit.Rule!
+                var ipdirect:PipeKit.Rule!
                 do {
                         ipdirect = try IPRangeListRule(adapterFactory: directAdapterFactory, ranges: ip_direct)
                 }catch let error as NSError {
@@ -58,7 +58,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                 UserRules.append(DomainListRule(adapterFactory: socks5AF, criteria: dom_proxy))
                 let ip_proxy = getIPRule(list: arrayip, isDirect: false)
                 
-                var iprule:NEKit.Rule!
+                var iprule:PipeKit.Rule!
                 do {
                         iprule = try IPRangeListRule(adapterFactory: socks5AF, ranges: ip_proxy)
                 }catch let error as NSError {
@@ -89,7 +89,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                         }
                         
                         if !self.started{
-                                self.proxyServer = GCDHTTPProxyServer(address: IPAddress(fromString: "127.0.0.1"), port: NEKit.Port(port: UInt16(ProxyPort)))
+                                self.proxyServer = GCDHTTPProxyServer(address: IPAddress(fromString: "127.0.0.1"), port: PipeKit.Port(port: UInt16(ProxyPort)))
 //                                self.proxyServer = GCDSOCKS5ProxyServer(address: IPAddress(fromString: "127.0.0.1"),
 //                                                                        port: NEKit.Port(port: UInt16(ProxyPort)))
                                 try! self.proxyServer.start()
@@ -181,8 +181,8 @@ extension PacketTunnelProvider{
                 return str
         }
         
-        func getDomRule(list:[JSON],isDirect:Bool) -> [NEKit.DomainListRule.MatchCriterion] {
-                var rule_dom : [NEKit.DomainListRule.MatchCriterion] = []
+        func getDomRule(list:[JSON],isDirect:Bool) -> [PipeKit.DomainListRule.MatchCriterion] {
+                var rule_dom : [PipeKit.DomainListRule.MatchCriterion] = []
                 for item in list {
                         let str = item.stringValue.replacingOccurrences(of: " ", with: "")
                         let components = str.components(separatedBy: ",")
