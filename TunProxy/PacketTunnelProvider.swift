@@ -22,16 +22,16 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         
                 NSLog("开始连接---------------------------------------")
 //
-//                let obfuscater = ShadowsocksAdapter.ProtocolObfuscater.OriginProtocolObfuscater.Factory()
-//                let algorithm:CryptoAlgorithm = .AES256CFB
+                let obfuscater = ShadowsocksAdapter.ProtocolObfuscater.OriginProtocolObfuscater.Factory()
+                let algorithm:CryptoAlgorithm = .AES256CFB
 //
-                let socks5AF = SOCKS5AdapterFactory(serverHost: "127.0.0.1", serverPort: ProxyPort)
+//                let socks5AF = SOCKS5AdapterFactory(serverHost: "127.0.0.1", serverPort: ProxyPort)
                 
-//                let ssAdapterFactory = ShadowsocksAdapterFactory(serverHost: "174.7.124.45",
-//                                                                 serverPort: 54321,
-//                                                                 protocolObfuscaterFactory:obfuscater,
-//                                                                 cryptorFactory: ShadowsocksAdapter.CryptoStreamProcessor.Factory(password: "rickey.liao", algorithm: algorithm),
-//                                                                 streamObfuscaterFactory: ShadowsocksAdapter.StreamObfuscater.OriginStreamObfuscater.Factory())
+                let socks5AF = ShadowsocksAdapterFactory(serverHost: "174.7.124.45",
+                                                                 serverPort: 54321,
+                                                                 protocolObfuscaterFactory:obfuscater,
+                                                                 cryptorFactory: ShadowsocksAdapter.CryptoStreamProcessor.Factory(password: "rickey.liao", algorithm: algorithm),
+                                                                 streamObfuscaterFactory: ShadowsocksAdapter.StreamObfuscater.OriginStreamObfuscater.Factory())
 //
                 let directAdapterFactory = DirectAdapterFactory()
                 
@@ -89,9 +89,9 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                         }
                         
                         if !self.started{
-//                                self.proxyServer = GCDHTTPProxyServer(address: IPAddress(fromString: "127.0.0.1"), port: NEKit.Port(port: UInt16(ProxyPort)))
-                                self.proxyServer = GCDSOCKS5ProxyServer(address: IPAddress(fromString: "127.0.0.1"),
-                                                                        port: NEKit.Port(port: UInt16(ProxyPort)))
+                                self.proxyServer = GCDHTTPProxyServer(address: IPAddress(fromString: "127.0.0.1"), port: NEKit.Port(port: UInt16(ProxyPort)))
+//                                self.proxyServer = GCDSOCKS5ProxyServer(address: IPAddress(fromString: "127.0.0.1"),
+//                                                                        port: NEKit.Port(port: UInt16(ProxyPort)))
                                 try! self.proxyServer.start()
 //                                self.addObserver(self, forKeyPath: "defaultPath", options: .initial, context: nil)
                                 
