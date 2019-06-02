@@ -28,10 +28,10 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
 //                let socks5AF = SOCKS5AdapterFactory(serverHost: "127.0.0.1", serverPort: ProxyPort)
                 
                 let socks5AF = ShadowsocksAdapterFactory(serverHost: "155.138.201.205",
-                                                                 serverPort: 8388,
-                                                                 protocolObfuscaterFactory:obfuscater,
-                                                                 cryptorFactory: ShadowsocksAdapter.CryptoStreamProcessor.Factory(password: "rickey.liao", algorithm: algorithm),
-                                                                 streamObfuscaterFactory: ShadowsocksAdapter.StreamObfuscater.OriginStreamObfuscater.Factory())
+                                                         serverPort: 8388,
+                                                         protocolObfuscaterFactory:obfuscater,
+                                                         cryptorFactory: ShadowsocksAdapter.CryptoStreamProcessor.Factory(password: "rickey.liao", algorithm: algorithm),
+                                                         streamObfuscaterFactory: ShadowsocksAdapter.StreamObfuscater.OriginStreamObfuscater.Factory())
 //
                 let directAdapterFactory = DirectAdapterFactory()
                 
@@ -93,7 +93,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
 //                                self.proxyServer = GCDSOCKS5ProxyServer(address: IPAddress(fromString: "127.0.0.1"),
 //                                                                        port: NEKit.Port(port: UInt16(ProxyPort)))
                                 try! self.proxyServer.start()
-//                                self.addObserver(self, forKeyPath: "defaultPath", options: .initial, context: nil)
+                                self.addObserver(self, forKeyPath: "defaultPath", options: .initial, context: nil)
                                 
                                 self.started = true
                         }else{
@@ -213,7 +213,7 @@ extension PacketTunnelProvider{
                 for item in list {
                         let str = item.stringValue.replacingOccurrences(of: " ", with: "")
                         let components = str.components(separatedBy: ",")
-                        //            let type = components[0]
+                        
                         let value = components[1]
                         let adap = components[2]
                         if isDirect {
@@ -246,10 +246,4 @@ extension PacketTunnelProvider{
                         }
                 }
         }
-}
-//
-//extension PacketTunnelProvider:IosLibVpnDelegateProtocol{
-//        func log(_ str: String?) {
-//                NSLog("---=>:\(str!)")
-//        }
-//}
+} 
