@@ -21,44 +21,46 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
         
                 NSLog("开始连接---------------------------------------")
+//
+//                let obfuscater = ShadowsocksAdapter.ProtocolObfuscater.OriginProtocolObfuscater.Factory()
+//                let algorithm:CryptoAlgorithm = .AES256CFB
+//
+                let socks5AF = SOCKS5AdapterFactory(serverHost: "127.0.0.1", serverPort: ProxyPort)
                 
-                let obfuscater = ShadowsocksAdapter.ProtocolObfuscater.OriginProtocolObfuscater.Factory()
-                let algorithm:CryptoAlgorithm = .AES256CFB
-                
-                let ssAdapterFactory = ShadowsocksAdapterFactory(serverHost: "174.7.124.45",
-                                                                 serverPort: 54321,
-                                                                 protocolObfuscaterFactory:obfuscater,
-                                                                 cryptorFactory: ShadowsocksAdapter.CryptoStreamProcessor.Factory(password: "rickey.liao", algorithm: algorithm),
-                                                                 streamObfuscaterFactory: ShadowsocksAdapter.StreamObfuscater.OriginStreamObfuscater.Factory())
+//                let ssAdapterFactory = ShadowsocksAdapterFactory(serverHost: "174.7.124.45",
+//                                                                 serverPort: 54321,
+//                                                                 protocolObfuscaterFactory:obfuscater,
+//                                                                 cryptorFactory: ShadowsocksAdapter.CryptoStreamProcessor.Factory(password: "rickey.liao", algorithm: algorithm),
+//                                                                 streamObfuscaterFactory: ShadowsocksAdapter.StreamObfuscater.OriginStreamObfuscater.Factory())
+//
                 let directAdapterFactory = DirectAdapterFactory()
                 
                 let json_str = getRuleConf()
                 let json = JSON.init(parseJSON: json_str)
                 
                 var UserRules:[NEKit.Rule] = []
-                var adapter:NEKit.AdapterFactory = directAdapterFactory
+                
                 let arraydom = json["rules"]["DOMAIN"].arrayValue
                 let arrayip = json["rules"]["IP"].arrayValue
                 let dom_direct = getDomRule(list: arraydom, isDirect: true)
-                UserRules.append(DomainListRule(adapterFactory: adapter, criteria: dom_direct))
+                UserRules.append(DomainListRule(adapterFactory: directAdapterFactory, criteria: dom_direct))
                 
                 let ip_direct = getIPRule(list: arrayip, isDirect: true)
                 var ipdirect:NEKit.Rule!
                 do {
-                        ipdirect = try IPRangeListRule(adapterFactory: adapter, ranges: ip_direct)
+                        ipdirect = try IPRangeListRule(adapterFactory: directAdapterFactory, ranges: ip_direct)
                 }catch let error as NSError {
                         NSLog("ip解析:"+error.domain)
                 }
                 UserRules.append(ipdirect)
                 
-                adapter = ssAdapterFactory
                 let dom_proxy = getDomRule(list: arraydom, isDirect: false)
-                UserRules.append(DomainListRule(adapterFactory: adapter, criteria: dom_proxy))
+                UserRules.append(DomainListRule(adapterFactory: socks5AF, criteria: dom_proxy))
                 let ip_proxy = getIPRule(list: arrayip, isDirect: false)
                 
                 var iprule:NEKit.Rule!
                 do {
-                        iprule = try IPRangeListRule(adapterFactory: adapter, ranges: ip_proxy)
+                        iprule = try IPRangeListRule(adapterFactory: socks5AF, ranges: ip_proxy)
                 }catch let error as NSError {
                         NSLog("ip解析:"+error.domain)
                 }
@@ -68,9 +70,9 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                 // Rules
                 let chinaRule = CountryRule(countryCode: "CN", match: true, adapterFactory: directAdapterFactory)
                 let unKnowLoc = CountryRule(countryCode: "--", match: true, adapterFactory: directAdapterFactory)
-                let dnsFailRule = DNSFailRule(adapterFactory: ssAdapterFactory)
+                let dnsFailRule = DNSFailRule(adapterFactory: socks5AF)
                 
-                let allRule = AllRule(adapterFactory: ssAdapterFactory)
+                let allRule = AllRule(adapterFactory: socks5AF)
                 UserRules.append(contentsOf: [chinaRule,unKnowLoc,dnsFailRule,allRule])
                 
                 let manager = RuleManager(fromRules: UserRules, appendDirect: true)
@@ -87,9 +89,11 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                         }
                         
                         if !self.started{
-                                self.proxyServer = GCDHTTPProxyServer(address: IPAddress(fromString: "127.0.0.1"), port: NEKit.Port(port: UInt16(ProxyPort)))
+//                                self.proxyServer = GCDHTTPProxyServer(address: IPAddress(fromString: "127.0.0.1"), port: NEKit.Port(port: UInt16(ProxyPort)))
+                                self.proxyServer = GCDSOCKS5ProxyServer(address: IPAddress(fromString: "127.0.0.1"),
+                                                                        port: NEKit.Port(port: UInt16(ProxyPort)))
                                 try! self.proxyServer.start()
-                                self.addObserver(self, forKeyPath: "defaultPath", options: .initial, context: nil)
+//                                self.addObserver(self, forKeyPath: "defaultPath", options: .initial, context: nil)
                                 
                                 self.started = true
                         }else{
@@ -243,3 +247,9 @@ extension PacketTunnelProvider{
                 }
         }
 }
+//
+//extension PacketTunnelProvider:IosLibVpnDelegateProtocol{
+//        func log(_ str: String?) {
+//                NSLog("---=>:\(str!)")
+//        }
+//}

@@ -551,9 +551,11 @@
 				CODE_SIGN_ENTITLEMENTS = TunProxy/TunProxy.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 7745PS7TY6;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = TunProxy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -576,9 +578,11 @@
 				CODE_SIGN_ENTITLEMENTS = TunProxy/TunProxy.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 7745PS7TY6;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = TunProxy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
