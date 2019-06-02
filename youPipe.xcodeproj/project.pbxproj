@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C283FBF22A34D390053E70D /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C283FBD22A34D390053E70D /* CocoaLumberjack.framework */; };
+		7C283FC022A34D390053E70D /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C283FBE22A34D390053E70D /* CocoaLumberjackSwift.framework */; };
+		7C283FC722A34D4D0053E70D /* MMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C283FC122A34D4D0053E70D /* MMDB.framework */; };
+		7C283FC822A34D4D0053E70D /* lwip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C283FC222A34D4D0053E70D /* lwip.framework */; };
+		7C283FC922A34D4D0053E70D /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C283FC322A34D4D0053E70D /* Sodium.framework */; };
+		7C283FCA22A34D4D0053E70D /* Yaml.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C283FC422A34D4D0053E70D /* Yaml.framework */; };
+		7C283FCB22A34D4D0053E70D /* NEKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C283FC522A34D4D0053E70D /* NEKit.framework */; };
+		7C283FCC22A34D4D0053E70D /* Resolver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C283FC622A34D4D0053E70D /* Resolver.framework */; };
+		7C283FCE22A34D940053E70D /* tun2socks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C283FCD22A34D940053E70D /* tun2socks.framework */; };
+		7C283FD022A3520C0053E70D /* rules.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C283FCF22A3520C0053E70D /* rules.json */; };
+		7C283FD222A352AF0053E70D /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C283FD122A352AF0053E70D /* SwiftyJSON.framework */; };
 		7C40256422A18B200050AB3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C40256322A18B200050AB3A /* AppDelegate.swift */; };
 		7C40256622A18B200050AB3A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C40256522A18B200050AB3A /* ViewController.swift */; };
 		7C40256922A18B200050AB3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C40256722A18B200050AB3A /* Main.storyboard */; };
@@ -18,13 +29,7 @@
 		7C40258722A18D170050AB3A /* TunProxy.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 7C40257F22A18D170050AB3A /* TunProxy.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7C40258C22A190550050AB3A /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C40257922A18C730050AB3A /* NetworkExtension.framework */; };
 		7C68350F22A20E2100343FEE /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C68350D22A20E2100343FEE /* CocoaAsyncSocket.framework */; };
-		7C68351022A20E2100343FEE /* ZPTCPIPStack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C68350E22A20E2100343FEE /* ZPTCPIPStack.framework */; };
 		7C68351122A20F0800343FEE /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C68350D22A20E2100343FEE /* CocoaAsyncSocket.framework */; };
-		7C68351222A20F0800343FEE /* ZPTCPIPStack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C68350E22A20E2100343FEE /* ZPTCPIPStack.framework */; };
-		7C68351522A2102600343FEE /* HttpProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68351422A2102600343FEE /* HttpProxy.swift */; };
-		7C68351722A2136C00343FEE /* HTTPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68351622A2136C00343FEE /* HTTPConnection.swift */; };
-		7C68351922A23D8A00343FEE /* TcpProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68351822A23D8A00343FEE /* TcpProxy.swift */; };
-		7C68351B22A23DCA00343FEE /* TCPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68351A22A23DCA00343FEE /* TCPConnection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +57,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7C283FBD22A34D390053E70D /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Carthage/Build/iOS/CocoaLumberjack.framework; sourceTree = "<group>"; };
+		7C283FBE22A34D390053E70D /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = Carthage/Build/iOS/CocoaLumberjackSwift.framework; sourceTree = "<group>"; };
+		7C283FC122A34D4D0053E70D /* MMDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MMDB.framework; path = Carthage/Build/iOS/MMDB.framework; sourceTree = "<group>"; };
+		7C283FC222A34D4D0053E70D /* lwip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = lwip.framework; path = Carthage/Build/iOS/lwip.framework; sourceTree = "<group>"; };
+		7C283FC322A34D4D0053E70D /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = Carthage/Build/iOS/Sodium.framework; sourceTree = "<group>"; };
+		7C283FC422A34D4D0053E70D /* Yaml.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Yaml.framework; path = Carthage/Build/iOS/Yaml.framework; sourceTree = "<group>"; };
+		7C283FC522A34D4D0053E70D /* NEKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NEKit.framework; path = Carthage/Build/iOS/NEKit.framework; sourceTree = "<group>"; };
+		7C283FC622A34D4D0053E70D /* Resolver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Resolver.framework; path = Carthage/Build/iOS/Resolver.framework; sourceTree = "<group>"; };
+		7C283FCD22A34D940053E70D /* tun2socks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = tun2socks.framework; path = Carthage/Build/iOS/tun2socks.framework; sourceTree = "<group>"; };
+		7C283FCF22A3520C0053E70D /* rules.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = rules.json; sourceTree = "<group>"; };
+		7C283FD122A352AF0053E70D /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		7C40256022A18B1F0050AB3A /* YouPipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouPipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C40256322A18B200050AB3A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7C40256522A18B200050AB3A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -67,11 +83,6 @@
 		7C40258322A18D170050AB3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C40258422A18D170050AB3A /* TunProxy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TunProxy.entitlements; sourceTree = "<group>"; };
 		7C68350D22A20E2100343FEE /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = Carthage/Build/iOS/CocoaAsyncSocket.framework; sourceTree = "<group>"; };
-		7C68350E22A20E2100343FEE /* ZPTCPIPStack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZPTCPIPStack.framework; path = Carthage/Build/iOS/ZPTCPIPStack.framework; sourceTree = "<group>"; };
-		7C68351422A2102600343FEE /* HttpProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpProxy.swift; sourceTree = "<group>"; };
-		7C68351622A2136C00343FEE /* HTTPConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPConnection.swift; sourceTree = "<group>"; };
-		7C68351822A23D8A00343FEE /* TcpProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TcpProxy.swift; sourceTree = "<group>"; };
-		7C68351A22A23DCA00343FEE /* TCPConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCPConnection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +91,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C68350F22A20E2100343FEE /* CocoaAsyncSocket.framework in Frameworks */,
-				7C68351022A20E2100343FEE /* ZPTCPIPStack.framework in Frameworks */,
 				7C40257A22A18C730050AB3A /* NetworkExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -89,9 +99,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C283FCE22A34D940053E70D /* tun2socks.framework in Frameworks */,
+				7C283FC822A34D4D0053E70D /* lwip.framework in Frameworks */,
+				7C283FCB22A34D4D0053E70D /* NEKit.framework in Frameworks */,
+				7C283FC722A34D4D0053E70D /* MMDB.framework in Frameworks */,
+				7C283FC022A34D390053E70D /* CocoaLumberjackSwift.framework in Frameworks */,
+				7C283FC922A34D4D0053E70D /* Sodium.framework in Frameworks */,
 				7C40258C22A190550050AB3A /* NetworkExtension.framework in Frameworks */,
+				7C283FCA22A34D4D0053E70D /* Yaml.framework in Frameworks */,
+				7C283FD222A352AF0053E70D /* SwiftyJSON.framework in Frameworks */,
+				7C283FBF22A34D390053E70D /* CocoaLumberjack.framework in Frameworks */,
+				7C283FCC22A34D4D0053E70D /* Resolver.framework in Frameworks */,
 				7C68351122A20F0800343FEE /* CocoaAsyncSocket.framework in Frameworks */,
-				7C68351222A20F0800343FEE /* ZPTCPIPStack.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,8 +154,17 @@
 		7C40257822A18C730050AB3A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7C283FD122A352AF0053E70D /* SwiftyJSON.framework */,
+				7C283FCD22A34D940053E70D /* tun2socks.framework */,
+				7C283FC222A34D4D0053E70D /* lwip.framework */,
+				7C283FC122A34D4D0053E70D /* MMDB.framework */,
+				7C283FC522A34D4D0053E70D /* NEKit.framework */,
+				7C283FC622A34D4D0053E70D /* Resolver.framework */,
+				7C283FC322A34D4D0053E70D /* Sodium.framework */,
+				7C283FC422A34D4D0053E70D /* Yaml.framework */,
+				7C283FBD22A34D390053E70D /* CocoaLumberjack.framework */,
+				7C283FBE22A34D390053E70D /* CocoaLumberjackSwift.framework */,
 				7C68350D22A20E2100343FEE /* CocoaAsyncSocket.framework */,
-				7C68350E22A20E2100343FEE /* ZPTCPIPStack.framework */,
 				7C40257922A18C730050AB3A /* NetworkExtension.framework */,
 			);
 			name = Frameworks;
@@ -145,13 +173,10 @@
 		7C40258022A18D170050AB3A /* TunProxy */ = {
 			isa = PBXGroup;
 			children = (
-				7C68351422A2102600343FEE /* HttpProxy.swift */,
-				7C68351622A2136C00343FEE /* HTTPConnection.swift */,
+				7C283FCF22A3520C0053E70D /* rules.json */,
 				7C40258122A18D170050AB3A /* PacketTunnelProvider.swift */,
 				7C40258322A18D170050AB3A /* Info.plist */,
 				7C40258422A18D170050AB3A /* TunProxy.entitlements */,
-				7C68351822A23D8A00343FEE /* TcpProxy.swift */,
-				7C68351A22A23DCA00343FEE /* TCPConnection.swift */,
 			);
 			path = TunProxy;
 			sourceTree = "<group>";
@@ -267,6 +292,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C283FD022A3520C0053E70D /* rules.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,7 +308,16 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/CocoaAsyncSocket.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/ZPTCPIPStack.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/CocoaLumberjackSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/lwip.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/MMDB.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/NEKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Sodium.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/tun2socks.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Yaml.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Resolver.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/CocoaLumberjack.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SwiftyJSON.framework",
 			);
 			name = "copy frames";
 			outputFileListPaths = (
@@ -310,10 +345,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C68351B22A23DCA00343FEE /* TCPConnection.swift in Sources */,
-				7C68351522A2102600343FEE /* HttpProxy.swift in Sources */,
-				7C68351722A2136C00343FEE /* HTTPConnection.swift in Sources */,
-				7C68351922A23D8A00343FEE /* TcpProxy.swift in Sources */,
 				7C40258222A18D170050AB3A /* PacketTunnelProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

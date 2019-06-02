@@ -1,2 +1,8 @@
-github "robbiehanson/CocoaAsyncSocket" "master"
-github "zapcannon87/ZPTCPIPStack" "master"
+github "robbiehanson/CocoaAsyncSocket"
+github "CocoaLumberjack/CocoaLumberjack"
+github "lexrus/MMDB-Swift"
+github "zhuhaow/Sodium-framework"
+github "zhuhaow/tun2socks"
+github "zhuhaow/Resolver"
+git "https://github.com/zhuhaow/NEKit"
+github "SwiftyJSON/SwiftyJSON" ~> 4.0

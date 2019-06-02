@@ -1,2 +1,2 @@
 # youPipe-ios
-ios version
+carthage update --platform iOS
