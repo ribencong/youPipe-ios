@@ -172,9 +172,13 @@ public class Tunnel: NSObject, SocketDelegate {
         }
         
         let manager = RuleManager.currentManager
-        let factory = manager.match(session)!
+        guard let factory = manager.match(session)else{
+                NSLog("---(13)--->no adapter for this sesion:\(session.description).....")
+                return
+        }
         adapterSocket = factory.getAdapterFor(session: session)
         adapterSocket!.delegate = self
+        NSLog("---(4)--->open the adapter peer.....")
         adapterSocket!.openSocketWith(session: session)
     }
     
@@ -188,11 +192,14 @@ public class Tunnel: NSObject, SocketDelegate {
         
         defer {
             if let socket = socket as? AdapterSocket {
+                
+                NSLog("---(8)--->proxy response to adapter.....")
                 proxySocket.respondTo(adapter: socket)
             }
         }
         if readySignal == 2 {
             _status = .forwarding
+                NSLog("---(9)--->enter forwarding model.....")
             proxySocket.readData()
             adapterSocket?.readData()
         }
@@ -213,6 +220,7 @@ public class Tunnel: NSObject, SocketDelegate {
             guard !isCancelled else {
                 return
             }
+                NSLog("---(2)--->proxy read success then adapter start to write .....")
             adapterSocket!.write(data: data)
         } else if let socket = socket as? AdapterSocket {
             observer?.signal(.adapterSocketReadData(data, from: socket, on: self))
@@ -220,6 +228,7 @@ public class Tunnel: NSObject, SocketDelegate {
             guard !isCancelled else {
                 return
             }
+                NSLog("---(11)--->write data got from adatper to proxy .....")
             proxySocket.write(data: data)
         }
     }
@@ -240,7 +249,8 @@ public class Tunnel: NSObject, SocketDelegate {
             guard !isCancelled else {
                 return
             }
-            
+                
+            NSLog("---(1)--->adapter write success so proxy reading.....")
             proxySocket.readData()
         }
     }

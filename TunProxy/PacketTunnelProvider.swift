@@ -18,6 +18,48 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         var lastPath:NWPath?
         var httpProxy:HttpProxy!
         
+        
+        func startBySimpleNEkit(completionHandler: @escaping (Error?) -> Void){
+                
+                var UserRules:[PipeKit.Rule] = []
+                let directAdapterFactory = DirectAdapterFactory()
+                
+                
+                var ipdirect:PipeKit.Rule!
+                do {
+                        ipdirect = try IPRangeListRule(adapterFactory: directAdapterFactory, ranges: ["155.138.201.205"])
+                }catch let error as NSError {
+                        NSLog("ip解析:"+error.domain)
+                }
+                UserRules.append(ipdirect)
+                
+                
+                let manager = RuleManager(fromRules: UserRules, appendDirect: true)
+                RuleManager.currentManager = manager
+                
+                let networkSettings = newPacketTunnelSettings(proxyHost: "127.0.0.1", proxyPort: UInt16(ProxyPort))
+                setTunnelNetworkSettings(networkSettings) {
+                        error in
+                        
+                        completionHandler(error)
+                        
+                        guard error == nil else {
+                                return
+                        }
+                        
+                        if !self.started{
+                                self.proxyServer = GCDHTTPProxyServer(address: IPAddress(fromString: "127.0.0.1"), port: PipeKit.Port(port: UInt16(ProxyPort)))
+                                try! self.proxyServer.start()
+                                self.addObserver(self, forKeyPath: "defaultPath", options: .initial, context: nil)
+                                
+                                self.started = true
+                        }else{
+                                self.proxyServer.stop()
+                                try! self.proxyServer.start()
+                        }
+                }
+        }
+        
         func startByNEkit(completionHandler: @escaping (Error?) -> Void){
                 NSLog("开始连接---------------------------------------")
 
@@ -120,9 +162,9 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         
         
         override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
-        
+                startBySimpleNEkit(completionHandler: completionHandler)
 //                startByNEkit(completionHandler: completionHandler)
-                startByYouPipe(completionHandler: completionHandler)
+//                startByYouPipe(completionHandler: completionHandler)
         }
     
         override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {

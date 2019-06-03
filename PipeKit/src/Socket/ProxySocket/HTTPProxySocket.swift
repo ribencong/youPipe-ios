@@ -90,6 +90,7 @@ public class HTTPProxySocket: ProxySocket {
         
         // Return the first header we read when the socket was opened if the proxy command is not CONNECT.
         if readStatus == .pendingFirstHeader {
+                NSLog("---(3)--->http first head pending so read it .....")
             delegate?.didRead(data: currentHeader.toData(), from: self)
             readStatus = .readingContent
             return
@@ -147,7 +148,7 @@ public class HTTPProxySocket: ProxySocket {
             } else {
                 readStatus = .readingContent
             }
-            
+            NSLog("---(12)--->http proxy get first .....")
             session = ConnectSession(host: destinationHost!, port: destinationPort!)
             observer?.signal(.receivedRequest(session!, on: self))
             delegate?.didReceive(session: session!, from: self)

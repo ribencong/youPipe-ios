@@ -18,6 +18,8 @@ public class DirectAdapter: AdapterSocket {
         }
 
         do {
+                
+                NSLog("---(6)--->adapter try to open [\(session.host):\(session.port)].....")
             try socket.connectTo(host: session.host, port: Int(session.port), enableTLS: false, tlsSettings: nil)
         } catch let error {
             observer?.signal(.errorOccured(error, on: self))
@@ -33,11 +35,13 @@ public class DirectAdapter: AdapterSocket {
     override public func didConnectWith(socket: RawTCPSocketProtocol) {
         super.didConnectWith(socket: socket)
         observer?.signal(.readyForForward(self))
+         NSLog("---(7)--->adapter open success.....")
         delegate?.didBecomeReadyToForwardWith(socket: self)
     }
 
     override public func didRead(data: Data, from rawSocket: RawTCPSocketProtocol) {
         super.didRead(data: data, from: rawSocket)
+        NSLog("---(10)--->adapter read response.....")
         delegate?.didRead(data: data, from: self)
     }
 
