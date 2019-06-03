@@ -140,6 +140,7 @@
 		7C68351122A20F0800343FEE /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C68350D22A20E2100343FEE /* CocoaAsyncSocket.framework */; };
 		7C6E563C22A51BBB000DFA75 /* HTTPURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E563A22A51BBA000DFA75 /* HTTPURL.swift */; };
 		7C6E563D22A51BBB000DFA75 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E563B22A51BBB000DFA75 /* HTTPHeader.swift */; };
+		7C6E564622A56AB8000DFA75 /* YPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E564522A56AB8000DFA75 /* YPError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -322,6 +323,7 @@
 		7C68350D22A20E2100343FEE /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = Carthage/Build/iOS/CocoaAsyncSocket.framework; sourceTree = "<group>"; };
 		7C6E563A22A51BBA000DFA75 /* HTTPURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPURL.swift; sourceTree = "<group>"; };
 		7C6E563B22A51BBB000DFA75 /* HTTPHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
+		7C6E564522A56AB8000DFA75 /* YPError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -702,6 +704,7 @@
 				7C40258122A18D170050AB3A /* PacketTunnelProvider.swift */,
 				7C40258322A18D170050AB3A /* Info.plist */,
 				7C40258422A18D170050AB3A /* TunProxy.entitlements */,
+				7C6E564522A56AB8000DFA75 /* YPError.swift */,
 			);
 			path = TunProxy;
 			sourceTree = "<group>";
@@ -1033,6 +1036,7 @@
 				7C0369F422A50BC900F6EB10 /* HttpProxy.swift in Sources */,
 				7C0369F622A50D4B00F6EB10 /* Pipe.swift in Sources */,
 				7C6E563D22A51BBB000DFA75 /* HTTPHeader.swift in Sources */,
+				7C6E564622A56AB8000DFA75 /* YPError.swift in Sources */,
 				7C40258222A18D170050AB3A /* PacketTunnelProvider.swift in Sources */,
 				7C6E563C22A51BBB000DFA75 /* HTTPURL.swift in Sources */,
 			);
