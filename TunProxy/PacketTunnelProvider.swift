@@ -16,23 +16,22 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         var started:Bool = false
         var proxyServer: ProxyServer!
         var lastPath:NWPath?
+        var httpProxy:HttpProxy!
         
-        
-        override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
-        
+        func startByNEkit(completionHandler: @escaping (Error?) -> Void){
                 NSLog("开始连接---------------------------------------")
-//
+
                 let obfuscater = ShadowsocksAdapter.ProtocolObfuscater.OriginProtocolObfuscater.Factory()
                 let algorithm:CryptoAlgorithm = .AES256CFB
-//
+
 //                let socks5AF = SOCKS5AdapterFactory(serverHost: "127.0.0.1", serverPort: ProxyPort)
-                
+
                 let socks5AF = ShadowsocksAdapterFactory(serverHost: "155.138.201.205",
                                                          serverPort: 8388,
                                                          protocolObfuscaterFactory:obfuscater,
                                                          cryptorFactory: ShadowsocksAdapter.CryptoStreamProcessor.Factory(password: "rickey.liao", algorithm: algorithm),
                                                          streamObfuscaterFactory: ShadowsocksAdapter.StreamObfuscater.OriginStreamObfuscater.Factory())
-//
+
                 let directAdapterFactory = DirectAdapterFactory()
                 
                 let json_str = getRuleConf()
@@ -101,6 +100,29 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                                 try! self.proxyServer.start()
                         }
                 }
+        }
+        
+        func startByYouPipe(completionHandler: @escaping (Error?) -> Void){
+                
+                let networkSettings = newPacketTunnelSettings(proxyHost: "127.0.0.1", proxyPort: UInt16(ProxyPort))
+                setTunnelNetworkSettings(networkSettings) {
+                        error in
+                        
+                        completionHandler(error)
+                        
+                        guard error == nil else {
+                                return
+                        }
+                        
+                        self.httpProxy = HttpProxy(host: "127.0.0.1", port: UInt16(ProxyPort))
+                }
+        }
+        
+        
+        override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
+        
+//                startByNEkit(completionHandler: completionHandler)
+                startByYouPipe(completionHandler: completionHandler)
         }
     
         override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
