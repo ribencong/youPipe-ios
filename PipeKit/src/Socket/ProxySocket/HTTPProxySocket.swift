@@ -132,6 +132,10 @@ public class HTTPProxySocket: ProxySocket {
     override public func didRead(data: Data, from: RawTCPSocketProtocol) {
         super.didRead(data: data, from: from)
         
+        if let readStr = String(data: data, encoding: .ascii) {
+                NSLog("------>Http proxy read:\n \(readStr)")
+        }
+        
         let result: HTTPStreamScanner.Result
         do {
             result = try scanner.input(data)

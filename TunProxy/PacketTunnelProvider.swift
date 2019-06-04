@@ -162,9 +162,9 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         
         
         override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
-                startBySimpleNEkit(completionHandler: completionHandler)
+//                startBySimpleNEkit(completionHandler: completionHandler)
 //                startByNEkit(completionHandler: completionHandler)
-//                startByYouPipe(completionHandler: completionHandler)
+                startByYouPipe(completionHandler: completionHandler)
         }
     
         override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {

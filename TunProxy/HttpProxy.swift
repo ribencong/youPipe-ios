@@ -10,6 +10,7 @@ import Foundation
 import CocoaAsyncSocket
 
 class HttpProxy:NSObject{
+        
         fileprivate var listenSocket: GCDAsyncSocket!
         static var TunnelCache:Dictionary<UInt16, Pipe> = [:]
         
@@ -39,6 +40,7 @@ extension HttpProxy:GCDAsyncSocketDelegate{
                 let newTunnel = Pipe(psock: newSocket){
                         HttpProxy.TunnelCache.removeValue(forKey: keyPort)
                 }
+                newTunnel.KeyPort = keyPort
                 
                 HttpProxy.TunnelCache[keyPort] = newTunnel
         }

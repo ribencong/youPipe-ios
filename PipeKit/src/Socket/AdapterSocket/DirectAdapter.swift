@@ -40,6 +40,10 @@ public class DirectAdapter: AdapterSocket {
     }
 
     override public func didRead(data: Data, from rawSocket: RawTCPSocketProtocol) {
+        if let readStr = String(data: data, encoding: .ascii) {
+                NSLog("------>Direct adapter read:\n \(readStr)")
+        }
+        
         super.didRead(data: data, from: rawSocket)
         NSLog("-[\(self.UUID!)]--(10)--->adapter read response[\(data.count)].....")
         delegate?.didRead(data: data, from: self)

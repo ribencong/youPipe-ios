@@ -207,7 +207,7 @@ public class Tunnel: NSObject, SocketDelegate {
         }
         if readySignal == 2 {
             _status = .forwarding
-                NSLog("--[\(self.UUID!)]-(9)--->tunnel enter forwarding model.....")
+                NSLog("--[\(self.UUID!)]-(9)--->tunnel enter forwarding model..proxy read and adapter read too...")
             proxySocket.readData()
             adapterSocket?.readData()
         }
@@ -220,7 +220,7 @@ public class Tunnel: NSObject, SocketDelegate {
         }
         checkStatus()
         
-        NSLog("--[\(self.UUID!)]-(25)--->tunnel didDisconnectWith socket .....")
+        NSLog("--[\(self.UUID!)]-(25-2)--->tunnel didDisconnectWith socket .....")
     }
     
     public func didRead(data: Data, from socket: SocketProtocol) {
