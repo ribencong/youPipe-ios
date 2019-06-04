@@ -78,6 +78,7 @@ public class Tunnel: NSObject, SocketDelegate {
         super.init()
         self.proxySocket.delegate = self
         
+        NSLog("---(29)--->tunnel new.....")
         self.observer = ObserverFactory.currentFactory?.getObserverForTunnel(self)
     }
     
@@ -92,6 +93,7 @@ public class Tunnel: NSObject, SocketDelegate {
         self.proxySocket.openSocket()
         self._status = .readingRequest
         self.observer?.signal(.opened(self))
+        NSLog("---(28)--->tunnel openTunnel.....")
     }
     
     /**
@@ -115,6 +117,7 @@ public class Tunnel: NSObject, SocketDelegate {
                 adapterSocket.disconnect()
             }
         }
+        NSLog("---(27)--->tunnel close.....")
     }
     
     /// Close the tunnel immediately.
@@ -139,6 +142,8 @@ public class Tunnel: NSObject, SocketDelegate {
                 adapterSocket.forceDisconnect()
             }
         }
+        
+        NSLog("---(26)--->tunnel forceClose.....")
     }
     
     public func didReceive(session: ConnectSession, from: ProxySocket) {
@@ -164,6 +169,9 @@ public class Tunnel: NSObject, SocketDelegate {
             session.ipAddress = session.host
             openAdapter(for: session)
         }
+        
+        
+        NSLog("---(25)--->tunnel didReceive session[\(session.description)].....")
     }
     
     fileprivate func openAdapter(for session: ConnectSession) {
@@ -173,12 +181,12 @@ public class Tunnel: NSObject, SocketDelegate {
         
         let manager = RuleManager.currentManager
         guard let factory = manager.match(session)else{
-                NSLog("---(13)--->no adapter for this sesion:\(session.description).....")
+                NSLog("---(13)--->tunnel no adapter for this sesion:\(session.description).....")
                 return
         }
         adapterSocket = factory.getAdapterFor(session: session)
         adapterSocket!.delegate = self
-        NSLog("---(4)--->open the adapter peer.....")
+        NSLog("---(4)--->tunnel open the adapter peer.....")
         adapterSocket!.openSocketWith(session: session)
     }
     
@@ -193,13 +201,13 @@ public class Tunnel: NSObject, SocketDelegate {
         defer {
             if let socket = socket as? AdapterSocket {
                 
-                NSLog("---(8)--->proxy response to adapter.....")
+                NSLog("---(8)--->tunnel proxy response to adapter.....")
                 proxySocket.respondTo(adapter: socket)
             }
         }
         if readySignal == 2 {
             _status = .forwarding
-                NSLog("---(9)--->enter forwarding model.....")
+                NSLog("---(9)--->tunnel enter forwarding model.....")
             proxySocket.readData()
             adapterSocket?.readData()
         }
@@ -211,6 +219,8 @@ public class Tunnel: NSObject, SocketDelegate {
             close()
         }
         checkStatus()
+        
+        NSLog("---(25)--->tunnel didDisconnectWith socket .....")
     }
     
     public func didRead(data: Data, from socket: SocketProtocol) {
@@ -220,7 +230,7 @@ public class Tunnel: NSObject, SocketDelegate {
             guard !isCancelled else {
                 return
             }
-                NSLog("---(2)--->proxy read success then adapter start to write .....")
+                NSLog("---(2)--->tunnel proxy read success then adapter start to write .....")
             adapterSocket!.write(data: data)
         } else if let socket = socket as? AdapterSocket {
             observer?.signal(.adapterSocketReadData(data, from: socket, on: self))
@@ -228,7 +238,7 @@ public class Tunnel: NSObject, SocketDelegate {
             guard !isCancelled else {
                 return
             }
-                NSLog("---(11)--->write data got from adatper to proxy .....")
+                NSLog("---(11)--->tunnel write data got from adatper to proxy .....")
             proxySocket.write(data: data)
         }
     }
@@ -241,6 +251,8 @@ public class Tunnel: NSObject, SocketDelegate {
                 return
             }
             QueueFactory.getQueue().asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.microseconds(Opt.forwardReadInterval)) { [weak self] in
+                
+                NSLog("---(23)--->tunnel received write signal and adatper start to read .....")
                 self?.adapterSocket?.readData()
             }
         } else if let socket = socket as? AdapterSocket {
@@ -250,7 +262,7 @@ public class Tunnel: NSObject, SocketDelegate {
                 return
             }
                 
-            NSLog("---(1)--->adapter write success so proxy reading.....")
+            NSLog("---(1)--->tunnel adapter write success so proxy reading.....")
             proxySocket.readData()
         }
     }
@@ -259,7 +271,7 @@ public class Tunnel: NSObject, SocketDelegate {
         guard !isCancelled else {
             return
         }
-        
+        NSLog("---(24)--->tunnel didConnectWith adatper .....")
         observer?.signal(.connectedToRemote(adapterSocket, on: self))
     }
     

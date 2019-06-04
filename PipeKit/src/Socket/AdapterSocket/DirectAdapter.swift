@@ -47,6 +47,7 @@ public class DirectAdapter: AdapterSocket {
 
     override public func didWrite(data: Data?, by rawSocket: RawTCPSocketProtocol) {
         super.didWrite(data: data, by: rawSocket)
+        NSLog("---(31)--->adapter didWrite .....")
         delegate?.didWrite(data: data, by: self)
     }
 }
