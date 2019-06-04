@@ -85,6 +85,7 @@ open class ProxyServer: NSObject, TunnelDelegate {
         let tunnel = Tunnel(proxySocket: socket)
         tunnel.delegate = self
         tunnels.append(tunnel)
+        tunnel.UUID = GCDHTTPProxyServer.UUID
         tunnel.openTunnel()
     }
 

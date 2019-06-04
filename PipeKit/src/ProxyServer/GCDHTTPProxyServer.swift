@@ -2,6 +2,7 @@ import Foundation
 
 /// The HTTP proxy server.
 public final class GCDHTTPProxyServer: GCDProxyServer {
+        public static var UUID:Int = 1
     /**
      Create an instance of HTTP proxy server.
 
@@ -19,6 +20,8 @@ public final class GCDHTTPProxyServer: GCDProxyServer {
      */
     override public func handleNewGCDSocket(_ socket: GCDTCPSocket) {
         let proxySocket = HTTPProxySocket(socket: socket)
+        GCDHTTPProxyServer.UUID += 1
+        proxySocket.UUID = GCDHTTPProxyServer.UUID
         didAcceptNewSocket(proxySocket)
     }
 }

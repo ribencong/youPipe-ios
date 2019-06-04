@@ -4,7 +4,7 @@ import Foundation
 public class DirectAdapter: AdapterSocket {
     /// If this is set to `false`, then the IP address will be resolved by system.
     var resolveHost = false
-
+        var UUID:Int?=0
     /**
      Connect to remote according to the `ConnectSession`.
 
@@ -19,7 +19,7 @@ public class DirectAdapter: AdapterSocket {
 
         do {
                 
-                NSLog("---(6)--->adapter try to open [\(session.host):\(session.port)].....")
+                NSLog("-[\(self.UUID!)]--(6)--->adapter try to open [\(session.host):\(session.port)].....")
             try socket.connectTo(host: session.host, port: Int(session.port), enableTLS: false, tlsSettings: nil)
         } catch let error {
             observer?.signal(.errorOccured(error, on: self))
@@ -35,19 +35,19 @@ public class DirectAdapter: AdapterSocket {
     override public func didConnectWith(socket: RawTCPSocketProtocol) {
         super.didConnectWith(socket: socket)
         observer?.signal(.readyForForward(self))
-         NSLog("---(7)--->adapter open success.....")
+         NSLog("-[\(self.UUID!)]--(7)--->adapter open success.....")
         delegate?.didBecomeReadyToForwardWith(socket: self)
     }
 
     override public func didRead(data: Data, from rawSocket: RawTCPSocketProtocol) {
         super.didRead(data: data, from: rawSocket)
-        NSLog("---(10)--->adapter read response.....")
+        NSLog("-[\(self.UUID!)]--(10)--->adapter read response[\(data.count)].....")
         delegate?.didRead(data: data, from: self)
     }
 
     override public func didWrite(data: Data?, by rawSocket: RawTCPSocketProtocol) {
         super.didWrite(data: data, by: rawSocket)
-        NSLog("---(31)--->adapter didWrite .....")
+        NSLog("-[\(self.UUID!)]--(31)--->adapter didWrite .....")
         delegate?.didWrite(data: data, by: self)
     }
 }

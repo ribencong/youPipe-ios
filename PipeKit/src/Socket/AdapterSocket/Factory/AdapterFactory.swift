@@ -23,6 +23,7 @@ open class AdapterFactory {
     public func getDirectAdapter() -> AdapterSocket {
         let adapter = DirectAdapter()
         adapter.socket = RawSocketFactory.getRawSocket()
+        adapter.UUID = GCDHTTPProxyServer.UUID
         return adapter
     }
 }

@@ -96,7 +96,7 @@ extension Pipe: GCDAsyncSocketDelegate{
                                                 withTimeout: -1,
                                                 tag: PipeStatus.AdapterWriteOut.rawValue)
                         
-                        self.adapterSock?.readData(withTimeout: -1,
+                        self.proxySock.readData(withTimeout: -1,
                                                    tag: PipeStatus.AdapterWaitResponse.rawValue)
                 }
         }

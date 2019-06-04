@@ -1,6 +1,7 @@
 import Foundation
 
 public class HTTPProxySocket: ProxySocket {
+        var UUID:Int?=0
     enum HTTPProxyReadStatus: CustomStringConvertible {
         case invalid,
         readingFirstHeader,
@@ -82,7 +83,7 @@ public class HTTPProxySocket: ProxySocket {
         readStatus = .readingFirstHeader
         socket.readDataTo(data: Utils.HTTPData.DoubleCRLF)
         
-        NSLog("---(30)--->http proxy openSocket .....")
+        NSLog("-[\(self.UUID!)]--(30)--->http proxy openSocket .....")
     }
     
     override public func readData() {
@@ -92,7 +93,7 @@ public class HTTPProxySocket: ProxySocket {
         
         // Return the first header we read when the socket was opened if the proxy command is not CONNECT.
         if readStatus == .pendingFirstHeader {
-                NSLog("---(3)--->http first head pending so read it .....")
+                NSLog("-[\(self.UUID!)]--(3)--->http first head pending so read it .....")
             delegate?.didRead(data: currentHeader.toData(), from: self)
             readStatus = .readingContent
             return
@@ -101,7 +102,7 @@ public class HTTPProxySocket: ProxySocket {
         switch scanner.nextAction {
         case .readContent(let length):
                 
-                NSLog("---(14)--->http go on reading content \(length) .....")
+                NSLog("-[\(self.UUID!)]--(14)--->http go on reading content \(length) .....")
             readStatus = .readingContent
             if length > 0 {
                 socket.readDataTo(length: length)
@@ -109,11 +110,11 @@ public class HTTPProxySocket: ProxySocket {
                 socket.readData()
             }
         case .readHeader:
-                NSLog("---(15)--->http read header again  .....")
+                NSLog("-[\(self.UUID!)]--(15)--->http read header again  .....")
             readStatus = .readingHeader
             socket.readDataTo(data: Utils.HTTPData.DoubleCRLF)
         case .stop:
-                NSLog("---(16)--->http read stopping .....")
+                NSLog("-[\(self.UUID!)]--(16)--->http read stopping .....")
             readStatus = .stopped
             disconnect()
         }
@@ -154,7 +155,7 @@ public class HTTPProxySocket: ProxySocket {
             } else {
                 readStatus = .readingContent
             }
-            NSLog("---(12)--->http proxy get first  head[\(header.toString())] .....")
+            NSLog("-[\(self.UUID!)]--(12)--->http proxy get first  head[\(header.toString())] .....")
             session = ConnectSession(host: destinationHost!, port: destinationPort!)
             observer?.signal(.receivedRequest(session!, on: self))
             delegate?.didReceive(session: session!, from: self)
@@ -163,10 +164,10 @@ public class HTTPProxySocket: ProxySocket {
             currentHeader.removeProxyHeader()
             currentHeader.rewriteToRelativePath()
             
-            NSLog("---(17)--->http proxy get header again [\(header.toString())] .....")
+            NSLog("-[\(self.UUID!)]--(17)--->http proxy get header again [\(header.toString())] .....")
             delegate?.didRead(data: currentHeader.toData(), from: self)
         case (.readingContent, .content(let content)):
-                NSLog("---(18)--->http proxy get content [\(content.count)] .....")
+                NSLog("-[\(self.UUID!)]--(18)--->http proxy get content [\(content.count)] .....")
             delegate?.didRead(data: content, from: self)
         default:
             return
@@ -187,10 +188,10 @@ public class HTTPProxySocket: ProxySocket {
             writeStatus = .forwarding
             observer?.signal(.readyForForward(self))
             
-            NSLog("---(19)--->http proxy write back connect response .....")
+            NSLog("-[\(self.UUID!)]--(19)--->http proxy write back connect response .....")
             delegate?.didBecomeReadyToForwardWith(socket: self)
         default:
-                NSLog("---22--->http proxy write back for other responses .....")
+                NSLog("-[\(self.UUID!)]--(22)--->http proxy write back for Get responses \(data?.count ?? 0) .....")
             delegate?.didWrite(data: data, by: self)
         }
     }
@@ -210,11 +211,11 @@ public class HTTPProxySocket: ProxySocket {
         if isConnectCommand {
             writeStatus = .sendingConnectResponse
             write(data: Utils.HTTPData.ConnectSuccessResponse)
-                NSLog("---(21)--->http proxy response to Connect action .....")
+                NSLog("-[\(self.UUID!)]--(21)--->http proxy response to Connect action .....")
         } else {
             writeStatus = .forwarding
             observer?.signal(.readyForForward(self))
-                NSLog("---(20)--->http proxy response to Get action .....")
+                NSLog("-[\(self.UUID!)]--(20)--->http proxy response to Get action .....")
             delegate?.didBecomeReadyToForwardWith(socket: self)
         }
     }
