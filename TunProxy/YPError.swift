@@ -8,5 +8,6 @@
 
 import Foundation
 enum YPError:Error{
-        case SystemError, BusinessError
+        case SystemError, BusinessError, NoValidBootNode, NoValidAccount,
+        AccountCreateError,NoValidLicense
 }

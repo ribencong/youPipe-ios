@@ -7,26 +7,129 @@
 //
 
 import Foundation
+import IosLib
+import SwiftyJSON
 
-let DefaultSeedSever:String = "https://raw.githubusercontent.com/ribencong/ypctorrent/master/ypc.torrent"
-//let DefaultSeedSever:String = "https://raw.githubusercontent.com/ribencong/ypctorrent/master/ypc_debug.torrent"
 let KEY_FOR_BOOT_NODE_STR = "KEY_FOR_BOOT_NODE_STR"
+let KEY_FOR_BLOOK_CHAIN_ADDR = "KEY_FOR_BLOOK_CHAIN_ADDR"
+let KEY_FOR_BLOOK_CHAIN_CIPHER = "KEY_FOR_BLOOK_CHAIN_CIPHER"
+let KEY_FOR_YOUPIPE_LICENSE = "KEY_FOR_YOUPIPE_LICENSE"
+
+class WalletParam: NSObject{
+        var Addr:String?
+        var Cipher:String?
+        var License:String?
+        var bootAddr:String?
+        var bootPort:String?
+        
+        override init() {
+                super.init()
+        }
+}
+
+class LicenseObj:NSObject{
+        
+        var start:String?
+        var end:String?
+        var signature:String?
+        var userAddr:String?
+        var rawStr:String
+        init?(data:String) {
+                rawStr = data
+                super.init()
+                do {try parse(RawData: data)}catch{
+                        return nil
+                }
+        }
+        
+        func parse(RawData data:String) throws{
+                let d = data.data(using: String.Encoding.utf8)
+                let json = try JSONSerialization.jsonObject(with: d!, options: .allowFragments) as! [String:Any]
+                print(json)
+                
+                self.signature = json["sig"] as? String
+                self.start = json["start"] as? String
+                self.end = json["end"] as? String
+                self.userAddr = json["user"] as? String
+        }
+}
 
 class YouPipeService:NSObject{
         
         static var shared = YouPipeService()
         var wallet  = WalletParam()
+        var license:LicenseObj?
+        var addr:String?
+        var cipher:String?
         
         override init() {
                 super.init()
         }
         
-        func LoadBestBootNode() -> (String, UInt16) {
-                let nodes:String? = UserDefaults.standard.string(forKey: KEY_FOR_BOOT_NODE_STR)
-                if nodes == nil{
-                        
+        func LoadBestBootNode() throws -> String{
+                var nodeStr:String? = UserDefaults.standard.string(forKey: KEY_FOR_BOOT_NODE_STR)
+                if nodeStr == nil{
+                        nodeStr = IosLibLoadNodes()
+                        UserDefaults.standard.set(nodeStr, forKey: KEY_FOR_BOOT_NODE_STR)
                 }
                 
-                return ("", 80)
+                let bootNode = IosLibFindBestNode(nodeStr)
+                if bootNode == ""{
+                        throw YPError.NoValidBootNode
+                }
+                return bootNode
+        }
+        
+        func LoadBlockChainAccount() throws -> (String, String){
+                guard let addr = UserDefaults.standard.string(forKey: KEY_FOR_BLOOK_CHAIN_ADDR) else{
+                       throw YPError.NoValidAccount
+                }
+                
+                guard let cipher = UserDefaults.standard.string(forKey: KEY_FOR_BLOOK_CHAIN_CIPHER) else{
+                        throw YPError.NoValidAccount
+                }
+                self.addr = addr
+                self.cipher = cipher
+                return (addr, cipher)
+        }
+        
+        func CreateAccount(password:String) throws -> (String, String){
+                
+                let accountInfo = IosLibCreateAccount(password)
+                let acc:[String] = accountInfo.components(separatedBy: "@@@")
+                if acc.count != 2 {
+                        throw YPError.AccountCreateError
+                }
+                
+                UserDefaults.standard.set(acc[0], forKey: KEY_FOR_BLOOK_CHAIN_ADDR)
+                UserDefaults.standard.set(acc[1], forKey: KEY_FOR_BLOOK_CHAIN_CIPHER)
+                self.addr = acc[0]
+                self.cipher = acc[1]
+                return (acc[0], acc[1])
+        }
+        
+        func LoadLicense() throws{
+                guard let licenseStr = UserDefaults.standard.string(forKey: KEY_FOR_YOUPIPE_LICENSE) else{
+                        throw YPError.NoValidLicense
+                }
+                
+                self.license = LicenseObj(data: licenseStr)
+        }
+        
+        func ImportLicense(data:String) throws{
+                if  IosLibVerifyLicense(data) == false{
+                        throw YPError.NoValidLicense
+                }
+                
+                UserDefaults.standard.set(data, forKey: KEY_FOR_YOUPIPE_LICENSE)
+                try LoadLicense()
+        }
+        
+        func PrepareForVpn(password:String) throws -> [String:String]{
+                var param:[String:String] = [:]
+                
+                
+                
+                return param
         }
 }
