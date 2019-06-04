@@ -149,6 +149,8 @@
 		7CA1091F22A65F7B001F1783 /* Wallet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7CA1091722A65F7B001F1783 /* Wallet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7CA1092422A66008001F1783 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1092322A66008001F1783 /* Wallet.swift */; };
 		7CA1092622A66150001F1783 /* PipeWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1092522A66150001F1783 /* PipeWallet.swift */; };
+		7CA1092822A68613001F1783 /* WalletParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1092722A68612001F1783 /* WalletParam.swift */; };
+		7CA1092A22A68BC5001F1783 /* YouPipeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1092922A68BC5001F1783 /* YouPipeService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -348,6 +350,8 @@
 		7CA1091A22A65F7B001F1783 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7CA1092322A66008001F1783 /* Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
 		7CA1092522A66150001F1783 /* PipeWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipeWallet.swift; sourceTree = "<group>"; };
+		7CA1092722A68612001F1783 /* WalletParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletParam.swift; sourceTree = "<group>"; };
+		7CA1092922A68BC5001F1783 /* YouPipeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouPipeService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -707,6 +711,8 @@
 				7C40256A22A18B220050AB3A /* Assets.xcassets */,
 				7C40256C22A18B220050AB3A /* LaunchScreen.storyboard */,
 				7C40256F22A18B220050AB3A /* Info.plist */,
+				7CA1092722A68612001F1783 /* WalletParam.swift */,
+				7CA1092922A68BC5001F1783 /* YouPipeService.swift */,
 			);
 			path = YouPipe;
 			sourceTree = "<group>";
@@ -1119,7 +1125,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C40256622A18B200050AB3A /* ViewController.swift in Sources */,
+				7CA1092A22A68BC5001F1783 /* YouPipeService.swift in Sources */,
 				7C40256422A18B200050AB3A /* AppDelegate.swift in Sources */,
+				7CA1092822A68613001F1783 /* WalletParam.swift in Sources */,
 				7C40257622A18B830050AB3A /* VpnManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

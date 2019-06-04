@@ -120,7 +120,11 @@ class VpnManager{
                                         print("Load again err -=>:", $0!.localizedDescription)
                                         return
                                 }
-                                do {try m.connection.startVPNTunnel()}catch let e1{
+                                do {
+                                        
+                                        try m.connection.startVPNTunnel(options:["walletParam":"" as NSObject])
+                                        
+                                }catch let e1{
                                         print("Start tunnel err-=>:",e1.localizedDescription)
                                 }
                         }                       

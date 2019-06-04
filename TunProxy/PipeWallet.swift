@@ -11,11 +11,14 @@ import CocoaAsyncSocket
 
 class PipeWallet:NSObject{
         static let shared = PipeWallet()
+        
         private override init() {
                 super.init()
         }
         
         func Establish(data:String)->Bool{
+                
+                
                 return true
         }
         
