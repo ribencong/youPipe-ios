@@ -16,7 +16,6 @@ class HttpProxy:NSObject{
         
         static let queue = DispatchQueue(label: "com.ribencong.HttpQueue")
         
-        
         init?(host:String, port:UInt16){
                 super.init()
                 

@@ -55,8 +55,8 @@ class Pipe: NSObject{
         
         func Close() {
                 self.CCB?()
-                self.proxySock.disconnect()
-                self.adapterSock?.disconnect()
+                self.proxySock.disconnectAfterReadingAndWriting()
+                self.adapterSock?.disconnectAfterReadingAndWriting()
         }
 }
 
@@ -64,19 +64,14 @@ extension Pipe: GCDAsyncSocketDelegate{
         
         open func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
                 do {
-                        if let readStr = String(data: data, encoding: .ascii) {
-                                NSLog("---[\(self.KeyPort!)]--->didRead\n \(readStr)")
-                        }
-                        
                         switch (PipeStatus.init(rawValue: tag))!{
                         case .ProxyFirstRequest:
                                 let header = try HTTPHeader(headerData: data)
                                 NSLog("---[\(self.KeyPort!)]---=>:ProxyFirstRequest \(header.toString())......")
                                 try self.OpenAdapter(header: header)
+                                break
                                 
                         case .ProxyReadIn:
-                                let header = try HTTPHeader(headerData: data)
-                                NSLog("---[\(self.KeyPort!)]---=>:ProxyReadIn\n \(header.toString())......")
                                 self.adapterSock?.write(data,
                                                         withTimeout: -1,
                                                         tag: PipeStatus.AdapterWriteOut.rawValue)
@@ -87,7 +82,7 @@ extension Pipe: GCDAsyncSocketDelegate{
                                 self.proxySock.write(data,
                                                      withTimeout: -1,
                                                      tag: PipeStatus.ProxyWriteOut.rawValue)
-                                break;
+                                break
                         default:
                                 NSLog("---[\(self.KeyPort!)]---=>:didRead unknown......")
                                 return
@@ -121,15 +116,28 @@ extension Pipe: GCDAsyncSocketDelegate{
         open func socket(_ sock: GCDAsyncSocket, didWriteDataWithTag tag: Int) {
                 
                 switch (PipeStatus.init(rawValue: tag))! {
+                        
                 case .ProxyConnectResponse:
                         NSLog("---[\(self.KeyPort!)]---=>:ProxyConnectResponse......")
+                        
+                        self.proxySock.readData(withTimeout: -1,
+                                                tag: PipeStatus.ProxyReadIn.rawValue)
+                        
+                        self.adapterSock?.readData(withTimeout: -1,
+                                                   tag: PipeStatus.AdapterReadIn.rawValue)
                         break
                         
                 case .AdapterWriteOut:
                         NSLog("---[\(self.KeyPort!)]---=>:AdapterWriteOut......")
-                        self.proxySock.readData(to: HTTPData.DoubleCRLF,
-                                                withTimeout: -1,
-                                                tag: PipeStatus.ProxyReadIn.rawValue)
+                        if self.isConnect {
+                                self.proxySock.readData(withTimeout: -1,
+                                                        tag: PipeStatus.ProxyReadIn.rawValue)
+                        }else {
+                                self.proxySock.readData(to: HTTPData.DoubleCRLF,
+                                                        withTimeout: -1,
+                                                        tag: PipeStatus.ProxyReadIn.rawValue)
+                        }
+                        
                         break
                         
                 case .ProxyWriteOut:
@@ -153,10 +161,10 @@ extension Pipe {
         
         func OpenAdapter(header:HTTPHeader) throws {
                 
-                if header.isConnect{
-                        NSLog("---[\(self.KeyPort!)]---=>:暂时不处理, 方便测试:\(header.toString())")
-                        throw YPError.SystemError
-                }
+//                if header.isConnect{
+//                        NSLog("---[\(self.KeyPort!)]---=>:暂时不处理, 方便测试:\(header.toString())")
+//                        throw YPError.SystemError
+//                }
                 
                 self.targetAddr = header.host
                 self.targetoPort = UInt16(header.port)

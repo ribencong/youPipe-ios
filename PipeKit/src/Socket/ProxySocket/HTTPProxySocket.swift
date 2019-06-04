@@ -174,6 +174,7 @@ public class HTTPProxySocket: ProxySocket {
                 NSLog("-[\(self.UUID!)]--(18)--->http proxy get content [\(content.count)] .....")
             delegate?.didRead(data: content, from: self)
         default:
+                NSLog("-[\(self.UUID!)]--(40)--->Http proxy didRead unknown case")
             return
         }
     }
