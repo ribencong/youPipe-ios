@@ -39,7 +39,7 @@ class Pipe: NSObject{
         private var pipeStatus: PipeStatus = .invalid
         
         private var proxySock: GCDAsyncSocket
-        private var adapterSock: GCDAsyncSocket?
+        private var adapter: Adapter?
         private var CCB:CloseCallBack?
         
         init(psock:GCDAsyncSocket, callBack:@escaping CloseCallBack) {
@@ -56,7 +56,7 @@ class Pipe: NSObject{
         func Close() {
                 self.CCB?()
                 self.proxySock.disconnectAfterReadingAndWriting()
-                self.adapterSock?.disconnectAfterReadingAndWriting()
+                self.adapter?.byePeer()
         }
 }
 
@@ -67,18 +67,16 @@ extension Pipe: GCDAsyncSocketDelegate{
                         switch (PipeStatus.init(rawValue: tag))!{
                         case .ProxyFirstRequest:
                                 let header = try HTTPHeader(headerData: data)
-                                NSLog("---[\(self.KeyPort!)]---=>:ProxyFirstRequest \(header.toString())......")
+//                                NSLog("---[\(self.KeyPort!)]---=>:ProxyFirstRequest \(header.toString())......")
                                 try self.OpenAdapter(header: header)
                                 break
                                 
                         case .ProxyReadIn:
-                                self.adapterSock?.write(data,
-                                                        withTimeout: -1,
-                                                        tag: PipeStatus.AdapterWriteOut.rawValue)
+                                self.adapter?.write(data: data, tag: PipeStatus.AdapterWriteOut.rawValue)
                                 break
                                 
                         case .AdapterReadIn:
-                                NSLog("---[\(self.KeyPort!)]---=>:AdapterReadIn......\(data.count)")
+//                                NSLog("---[\(self.KeyPort!)]---=>:AdapterReadIn......\(data.count)")
                                 self.proxySock.write(data,
                                                      withTimeout: -1,
                                                      tag: PipeStatus.ProxyWriteOut.rawValue)
@@ -104,12 +102,9 @@ extension Pipe: GCDAsyncSocketDelegate{
                                              withTimeout: -1,
                                              tag: PipeStatus.ProxyConnectResponse.rawValue)
                 }else{
-                        self.adapterSock?.write(self.firstHeaderData!,
-                                                withTimeout: -1,
-                                                tag: PipeStatus.AdapterWriteOut.rawValue)
+                        self.adapter?.write(data: self.firstHeaderData!,  tag: PipeStatus.AdapterWriteOut.rawValue)
                         
-                        self.adapterSock?.readData(withTimeout: -1,
-                                                   tag: PipeStatus.AdapterReadIn.rawValue)
+                        self.adapter?.readData(tag: PipeStatus.AdapterReadIn.rawValue)
                 }
         }
         
@@ -118,17 +113,15 @@ extension Pipe: GCDAsyncSocketDelegate{
                 switch (PipeStatus.init(rawValue: tag))! {
                         
                 case .ProxyConnectResponse:
-                        NSLog("---[\(self.KeyPort!)]---=>:ProxyConnectResponse......")
-                        
+//                        NSLog("---[\(self.KeyPort!)]---=>:ProxyConnectResponse......")
                         self.proxySock.readData(withTimeout: -1,
                                                 tag: PipeStatus.ProxyReadIn.rawValue)
                         
-                        self.adapterSock?.readData(withTimeout: -1,
-                                                   tag: PipeStatus.AdapterReadIn.rawValue)
+                        self.adapter?.readData(tag: PipeStatus.AdapterReadIn.rawValue)
                         break
                         
                 case .AdapterWriteOut:
-                        NSLog("---[\(self.KeyPort!)]---=>:AdapterWriteOut......")
+//                        NSLog("---[\(self.KeyPort!)]---=>:AdapterWriteOut......")
                         if self.isConnect {
                                 self.proxySock.readData(withTimeout: -1,
                                                         tag: PipeStatus.ProxyReadIn.rawValue)
@@ -141,12 +134,11 @@ extension Pipe: GCDAsyncSocketDelegate{
                         break
                         
                 case .ProxyWriteOut:
-                        NSLog("---[\(self.KeyPort!)]---=>:ProxyWriteOut......")
-                        self.adapterSock?.readData(withTimeout: -1,
-                                                   tag: PipeStatus.AdapterReadIn.rawValue)
+//                        NSLog("---[\(self.KeyPort!)]---=>:ProxyWriteOut......")
+                        self.adapter?.readData(tag: PipeStatus.AdapterReadIn.rawValue)
                         break
                 default:
-                        NSLog("---[\(self.KeyPort!)]---=>:didWriteDataWithTag unknown......")
+//                        NSLog("---[\(self.KeyPort!)]---=>:didWriteDataWithTag unknown......")
                         return
                 }
         }
@@ -160,12 +152,7 @@ extension Pipe: GCDAsyncSocketDelegate{
 extension Pipe {
         
         func OpenAdapter(header:HTTPHeader) throws {
-                
-//                if header.isConnect{
-//                        NSLog("---[\(self.KeyPort!)]---=>:暂时不处理, 方便测试:\(header.toString())")
-//                        throw YPError.SystemError
-//                }
-                
+
                 self.targetAddr = header.host
                 self.targetoPort = UInt16(header.port)
                 self.isConnect = header.isConnect
@@ -174,10 +161,6 @@ extension Pipe {
                         self.firstHeaderData = header.rawHeader
                 }
                 
-                self.adapterSock = GCDAsyncSocket(delegate: self, delegateQueue:
-                        HttpProxy.queue, socketQueue: HttpProxy.queue)
-                
-                try self.adapterSock?.connect(toHost: self.targetAddr!,
-                                              onPort: self.targetoPort!)
+                self.adapter = DirectAdapter(targetHost: self.targetAddr!, targetPort: self.targetoPort!, delegae: self)
         }
 }

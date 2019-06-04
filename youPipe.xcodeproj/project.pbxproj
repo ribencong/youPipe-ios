@@ -141,6 +141,14 @@
 		7C6E563C22A51BBB000DFA75 /* HTTPURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E563A22A51BBA000DFA75 /* HTTPURL.swift */; };
 		7C6E563D22A51BBB000DFA75 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E563B22A51BBB000DFA75 /* HTTPHeader.swift */; };
 		7C6E564622A56AB8000DFA75 /* YPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E564522A56AB8000DFA75 /* YPError.swift */; };
+		7CA1090B22A65856001F1783 /* Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1090A22A65856001F1783 /* Adapter.swift */; };
+		7CA1090D22A65894001F1783 /* DirectAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1090C22A65894001F1783 /* DirectAdapter.swift */; };
+		7CA1090F22A658AA001F1783 /* PipeAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1090E22A658AA001F1783 /* PipeAdapter.swift */; };
+		7CA1091B22A65F7B001F1783 /* Wallet.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CA1091922A65F7B001F1783 /* Wallet.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7CA1091E22A65F7B001F1783 /* Wallet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CA1091722A65F7B001F1783 /* Wallet.framework */; };
+		7CA1091F22A65F7B001F1783 /* Wallet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7CA1091722A65F7B001F1783 /* Wallet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7CA1092422A66008001F1783 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1092322A66008001F1783 /* Wallet.swift */; };
+		7CA1092622A66150001F1783 /* PipeWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1092522A66150001F1783 /* PipeWallet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -158,6 +166,13 @@
 			remoteGlobalIDString = 7C40257E22A18D170050AB3A;
 			remoteInfo = TunProxy;
 		};
+		7CA1091C22A65F7B001F1783 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7C40255822A18B1F0050AB3A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7CA1091622A65F7B001F1783;
+			remoteInfo = Wallet;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -168,6 +183,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				7C28402422A3EEBA0053E70D /* PipeKit.framework in Embed Frameworks */,
+				7CA1091F22A65F7B001F1783 /* Wallet.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -324,6 +340,14 @@
 		7C6E563A22A51BBA000DFA75 /* HTTPURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPURL.swift; sourceTree = "<group>"; };
 		7C6E563B22A51BBB000DFA75 /* HTTPHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
 		7C6E564522A56AB8000DFA75 /* YPError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPError.swift; sourceTree = "<group>"; };
+		7CA1090A22A65856001F1783 /* Adapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adapter.swift; sourceTree = "<group>"; };
+		7CA1090C22A65894001F1783 /* DirectAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectAdapter.swift; sourceTree = "<group>"; };
+		7CA1090E22A658AA001F1783 /* PipeAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipeAdapter.swift; sourceTree = "<group>"; };
+		7CA1091722A65F7B001F1783 /* Wallet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Wallet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CA1091922A65F7B001F1783 /* Wallet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Wallet.h; sourceTree = "<group>"; };
+		7CA1091A22A65F7B001F1783 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7CA1092322A66008001F1783 /* Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
+		7CA1092522A66150001F1783 /* PipeWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipeWallet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -340,6 +364,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C68350F22A20E2100343FEE /* CocoaAsyncSocket.framework in Frameworks */,
+				7CA1091E22A65F7B001F1783 /* Wallet.framework in Frameworks */,
 				7C40257A22A18C730050AB3A /* NetworkExtension.framework in Frameworks */,
 				7C28402322A3EEBA0053E70D /* PipeKit.framework in Frameworks */,
 			);
@@ -361,6 +386,13 @@
 				7C283FBF22A34D390053E70D /* CocoaLumberjack.framework in Frameworks */,
 				7C283FCC22A34D4D0053E70D /* Resolver.framework in Frameworks */,
 				7C68351122A20F0800343FEE /* CocoaAsyncSocket.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7CA1091422A65F7B001F1783 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -647,6 +679,7 @@
 				7C40256222A18B200050AB3A /* YouPipe */,
 				7C40258022A18D170050AB3A /* TunProxy */,
 				7C28401D22A3EEBA0053E70D /* PipeKit */,
+				7CA1091822A65F7B001F1783 /* Wallet */,
 				7C40256122A18B1F0050AB3A /* Products */,
 				7C40257822A18C730050AB3A /* Frameworks */,
 			);
@@ -658,6 +691,7 @@
 				7C40256022A18B1F0050AB3A /* YouPipe.app */,
 				7C40257F22A18D170050AB3A /* TunProxy.appex */,
 				7C28401C22A3EEBA0053E70D /* PipeKit.framework */,
+				7CA1091722A65F7B001F1783 /* Wallet.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -698,6 +732,7 @@
 		7C40258022A18D170050AB3A /* TunProxy */ = {
 			isa = PBXGroup;
 			children = (
+				7CA1091122A65A17001F1783 /* Adapter */,
 				7C6E563E22A51BCC000DFA75 /* httpProxy */,
 				7C0369F522A50D4B00F6EB10 /* Pipe.swift */,
 				7C283FCF22A3520C0053E70D /* rules.json */,
@@ -705,6 +740,7 @@
 				7C40258322A18D170050AB3A /* Info.plist */,
 				7C40258422A18D170050AB3A /* TunProxy.entitlements */,
 				7C6E564522A56AB8000DFA75 /* YPError.swift */,
+				7CA1092522A66150001F1783 /* PipeWallet.swift */,
 			);
 			path = TunProxy;
 			sourceTree = "<group>";
@@ -719,6 +755,26 @@
 			name = httpProxy;
 			sourceTree = "<group>";
 		};
+		7CA1091122A65A17001F1783 /* Adapter */ = {
+			isa = PBXGroup;
+			children = (
+				7CA1090A22A65856001F1783 /* Adapter.swift */,
+				7CA1090C22A65894001F1783 /* DirectAdapter.swift */,
+				7CA1090E22A658AA001F1783 /* PipeAdapter.swift */,
+			);
+			name = Adapter;
+			sourceTree = "<group>";
+		};
+		7CA1091822A65F7B001F1783 /* Wallet */ = {
+			isa = PBXGroup;
+			children = (
+				7CA1091922A65F7B001F1783 /* Wallet.h */,
+				7CA1091A22A65F7B001F1783 /* Info.plist */,
+				7CA1092322A66008001F1783 /* Wallet.swift */,
+			);
+			path = Wallet;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -727,6 +783,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C28402022A3EEBA0053E70D /* PipeKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7CA1091222A65F7B001F1783 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CA1091B22A65F7B001F1783 /* Wallet.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -767,6 +831,7 @@
 			dependencies = (
 				7C40258622A18D170050AB3A /* PBXTargetDependency */,
 				7C28402222A3EEBA0053E70D /* PBXTargetDependency */,
+				7CA1091D22A65F7B001F1783 /* PBXTargetDependency */,
 			);
 			name = YouPipe;
 			productName = YouPipe;
@@ -789,6 +854,24 @@
 			productName = TunProxy;
 			productReference = 7C40257F22A18D170050AB3A /* TunProxy.appex */;
 			productType = "com.apple.product-type.app-extension";
+		};
+		7CA1091622A65F7B001F1783 /* Wallet */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7CA1092022A65F7B001F1783 /* Build configuration list for PBXNativeTarget "Wallet" */;
+			buildPhases = (
+				7CA1091222A65F7B001F1783 /* Headers */,
+				7CA1091322A65F7B001F1783 /* Sources */,
+				7CA1091422A65F7B001F1783 /* Frameworks */,
+				7CA1091522A65F7B001F1783 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Wallet;
+			productName = Wallet;
+			productReference = 7CA1091722A65F7B001F1783 /* Wallet.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -828,6 +911,10 @@
 							};
 						};
 					};
+					7CA1091622A65F7B001F1783 = {
+						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1020;
+					};
 				};
 			};
 			buildConfigurationList = 7C40255B22A18B1F0050AB3A /* Build configuration list for PBXProject "YouPipe" */;
@@ -846,6 +933,7 @@
 				7C40255F22A18B1F0050AB3A /* YouPipe */,
 				7C40257E22A18D170050AB3A /* TunProxy */,
 				7C28401B22A3EEBA0053E70D /* PipeKit */,
+				7CA1091622A65F7B001F1783 /* Wallet */,
 			);
 		};
 /* End PBXProject section */
@@ -873,6 +961,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C283FD022A3520C0053E70D /* rules.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7CA1091522A65F7B001F1783 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1035,10 +1130,22 @@
 			files = (
 				7C0369F422A50BC900F6EB10 /* HttpProxy.swift in Sources */,
 				7C0369F622A50D4B00F6EB10 /* Pipe.swift in Sources */,
+				7CA1090D22A65894001F1783 /* DirectAdapter.swift in Sources */,
 				7C6E563D22A51BBB000DFA75 /* HTTPHeader.swift in Sources */,
 				7C6E564622A56AB8000DFA75 /* YPError.swift in Sources */,
 				7C40258222A18D170050AB3A /* PacketTunnelProvider.swift in Sources */,
+				7CA1092622A66150001F1783 /* PipeWallet.swift in Sources */,
 				7C6E563C22A51BBB000DFA75 /* HTTPURL.swift in Sources */,
+				7CA1090F22A658AA001F1783 /* PipeAdapter.swift in Sources */,
+				7CA1090B22A65856001F1783 /* Adapter.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7CA1091322A65F7B001F1783 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CA1092422A66008001F1783 /* Wallet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1054,6 +1161,11 @@
 			isa = PBXTargetDependency;
 			target = 7C40257E22A18D170050AB3A /* TunProxy */;
 			targetProxy = 7C40258522A18D170050AB3A /* PBXContainerItemProxy */;
+		};
+		7CA1091D22A65F7B001F1783 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7CA1091622A65F7B001F1783 /* Wallet */;
+			targetProxy = 7CA1091C22A65F7B001F1783 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1374,6 +1486,65 @@
 			};
 			name = Release;
 		};
+		7CA1092122A65F7B001F1783 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 7745PS7TY6;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Wallet/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe.Wallet;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		7CA1092222A65F7B001F1783 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 7745PS7TY6;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Wallet/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe.Wallet;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1409,6 +1580,15 @@
 			buildConfigurations = (
 				7C40258922A18D170050AB3A /* Debug */,
 				7C40258A22A18D170050AB3A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7CA1092022A65F7B001F1783 /* Build configuration list for PBXNativeTarget "Wallet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7CA1092122A65F7B001F1783 /* Debug */,
+				7CA1092222A65F7B001F1783 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
