@@ -25,14 +25,14 @@
                                     <action selector="ConnectAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1ib-vC-oGH"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tBL-4b-3AA">
+                            <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tBL-4b-3AA">
                                 <rect key="frame" x="20" y="85" width="335" height="30"/>
                                 <color key="backgroundColor" red="0.88554485100000002" green="0.88554485100000002" blue="0.88554485100000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fmh-d0-Uk8">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fmh-d0-Uk8">
                                 <rect key="frame" x="20" y="123" width="335" height="100"/>
                                 <color key="backgroundColor" red="0.88554485103626945" green="0.88554485103626945" blue="0.88554485103626945" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -81,6 +81,9 @@
                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="254" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ge8-PT-r61">
                                 <rect key="frame" x="156.66666666666666" y="239" width="62" height="30"/>
                                 <state key="normal" title="创建地址"/>
+                                <connections>
+                                    <action selector="CreateAccount:" destination="BYZ-38-t0r" eventType="touchUpInside" id="g3v-AO-FvT"/>
+                                </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="License" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Zb9-Gj-6uQ">
                                 <rect key="frame" x="18" y="400" width="339" height="100"/>

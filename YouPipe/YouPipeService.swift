@@ -61,7 +61,7 @@ class YouPipeService:NSObject{
         var addr:String?
         var cipher:String?
         
-        override init() {
+        override private init() {
                 super.init()
         }
         
@@ -116,13 +116,13 @@ class YouPipeService:NSObject{
                 return self.license
         }
         
-        func ImportLicense(data:String) throws{
+        func ImportLicense(data:String) throws -> LicenseObj?{
                 if  IosLibVerifyLicense(data) == false{
                         throw YPError.NoValidLicense
                 }
                 
                 UserDefaults.standard.set(data, forKey: KEY_FOR_YOUPIPE_LICENSE)
-                try LoadLicense()
+                return try LoadLicense()
         }
         
         func PrepareForVpn(password:String) throws -> [String:String]{
