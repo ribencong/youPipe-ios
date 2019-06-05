@@ -20,13 +20,14 @@ class VpnManager{
         deinit {
         }
         
-        func GetVPNStatus() ->(statusStr: String, enabled:Bool){
+        func GetVPNStatus() ->(String, Bool, Bool){
                 if self.manager == nil{
-                        return ("connect", true)
+                        return ("connect", true, false)
                 }
                 
                 var str:String = "connect"
                 var ok:Bool = true
+                var needPassword = false
                 
                 switch self.manager!.connection.status {
                 case .connected:
@@ -41,15 +42,17 @@ class VpnManager{
                         ok = false
                         break
                 case .disconnected, .invalid:
+                        needPassword = true
                         break
                 @unknown default:
                         break
                 }
                 
-                return (str, ok)
+                return (str, ok, needPassword)
         }
         
-        func ChangeStatus() throws{
+        //TODO::refactor this logic
+        func ChangeStatus(param:[String:String]? = nil) throws{
                 
                 if self.manager == nil{
                         createManager()
@@ -60,7 +63,7 @@ class VpnManager{
                 case .connected:
                         try self.disconnect()
                 case .invalid, .disconnected:
-                        try self.connect()
+                        try self.connect(param: param)
                 case .connecting, .reasserting,.disconnecting:
                         break
                 @unknown default:
@@ -103,7 +106,7 @@ class VpnManager{
                 self.manager = newManager
         }
         
-        func connect() throws{
+        func connect(param:[String:String]? = nil) throws{
                 guard let m = self.manager else{
                        return
                 }
@@ -122,7 +125,7 @@ class VpnManager{
                                 }
                                 do {
                                         
-                                        try m.connection.startVPNTunnel(options:["walletParam":"" as NSObject])
+                                        try m.connection.startVPNTunnel(options:param as [String : NSObject]?)
                                         
                                 }catch let e1{
                                         print("Start tunnel err-=>:",e1.localizedDescription)

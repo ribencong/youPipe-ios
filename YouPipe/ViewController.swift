@@ -98,21 +98,29 @@ class ViewController: UIViewController {
         }
         
         @IBAction func ConnectAction(_ sender: UIButton) {
-                do {
-                        try VpnManager.shared.ChangeStatus()
-                        
-                }catch let err{
-                        
-                        let alert = UIAlertController(title: "Error", message: err.localizedDescription, preferredStyle:.alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                        
-                        self.present(alert, animated:true)
+                let (_, _, ok) = VpnManager.shared.GetVPNStatus()
+                if !ok{
+                       do{ try VpnManager.shared.ChangeStatus()}catch let err{
+                                showTips(msg: err.localizedDescription, parent: self)
+                        }
+                        return
+                }
+                
+                showPasswordUI(parent: self){
+                        passwd in
+                        do {
+                                let param = try YouPipeService.shared.PrepareForVpn(password: passwd)
+                                
+                                try VpnManager.shared.ChangeStatus(param: param)
+                        }catch let err{
+                                showTips(msg: err.localizedDescription, parent: self)
+                        }
                 }
                 
         }
         
         func updateConnectButton(_ noti:Notification){
-                let (status, enabled) = VpnManager.shared.GetVPNStatus()
+                let (status, enabled, _) = VpnManager.shared.GetVPNStatus()
                 connectButton.setTitle(status, for: UIControl.State())
                 connectButton.isEnabled = enabled
         }
@@ -125,14 +133,17 @@ class ViewController: UIViewController {
                                 return
                         }
                         do {
-                                
                                 let licObj = try YouPipeService.shared.ImportLicense(data: licStr)
                                 LicenseStartTime.text = licObj?.start
                                 LicenseEndTime.text = licObj?.end
                                 importBtn.tag = 1
+                                showTips(msg: "Import success!", parent: self)
                         } catch{
                                 showTips(msg: "Import license failed", parent: self)
+                                return
                         }
+                        
+                        
                         
                 }else{//Update License
                         

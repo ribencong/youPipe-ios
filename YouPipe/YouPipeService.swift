@@ -126,7 +126,45 @@ class YouPipeService:NSObject{
         }
         
         func PrepareForVpn(password:String) throws -> [String:String]{
-                var param:[String:String] = [:]                 
+                var param:[String:String] = [:]
+                
+                let bootNode = try LoadBestBootNode()
+               
+                let idaddr:[String] = bootNode.components(separatedBy: IosLibSeparator)
+                guard  idaddr.count == 2 else{
+                        throw YPError.NoValidBootNode
+                }
+                let peerId = idaddr[0]
+                let netAddr = idaddr[1]
+                
+                param["bootID"] = peerId
+                let ipPort = netAddr.components(separatedBy: ":")
+                
+                guard ipPort.count == 2 else{
+                        throw YPError.NoValidBootNode
+                }
+                param["bootIP"] = ipPort[0]
+                param["bootPort"] = ipPort[1]
+                
+                guard let ls = self.license else{
+                        throw YPError.NoValidLicense
+                }
+                param["license"] = ls.rawStr
+                
+                guard let addr = self.addr, let cihper = self.cipher else{
+                        throw YPError.NoValidAccount
+                }
+                param["address"] = addr
+                
+                guard let priKey = IosLibOpenPriKey(cihper, addr, password) else{
+                        throw YPError.OpenPrivateKeyErr
+                }
+                param["priKey"] = String.init(data: priKey, encoding: .utf8)
+                
+                guard let aesKey = IosLibGenAesKey(peerId, priKey) else{
+                        throw YPError.GenAesKeyErr
+                }
+                param["aesKey"] = String.init(data: aesKey, encoding: .utf8)
                 
                 return param
         }
