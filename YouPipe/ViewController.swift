@@ -21,8 +21,15 @@ class ViewController: UIViewController {
         
         override func viewDidLoad() {
                 super.viewDidLoad()
+                
+                NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+                
+                let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)) 
+                 view.addGestureRecognizer(tap)
+                
+                
                 do {
-                        createAccountBtn.isHidden = true
                         let (addr, cipher) = try YouPipeService.shared.LoadBlockChainAccount()
                         BlockChainAddress.text = addr
                         BlockChainCipher.text = cipher
@@ -40,6 +47,25 @@ class ViewController: UIViewController {
                         importBtn.tag = 0
                         importBtn.titleLabel?.text="创建license"
                 }catch{
+                }
+        }
+        
+        @objc func dismissKeyboard() {
+                //Causes the view (or one of its embedded text fields) to resign the first responder status.
+                view.endEditing(true)
+        }
+        
+        @objc func keyboardWillShow(notification: NSNotification) {
+                if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+                        if self.view.frame.origin.y == 0 {
+                                self.view.frame.origin.y -= keyboardSize.height
+                        }
+                }
+        }
+        
+        @objc func keyboardWillHide(notification: NSNotification) {
+                if self.view.frame.origin.y != 0 {
+                        self.view.frame.origin.y = 0
                 }
         }
 

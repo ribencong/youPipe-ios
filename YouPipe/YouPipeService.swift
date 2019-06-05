@@ -126,9 +126,7 @@ class YouPipeService:NSObject{
         }
         
         func PrepareForVpn(password:String) throws -> [String:String]{
-                var param:[String:String] = [:]
-                
-                
+                var param:[String:String] = [:]                 
                 
                 return param
         }
