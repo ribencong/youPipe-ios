@@ -107,12 +107,13 @@ class YouPipeService:NSObject{
                 return (acc[0], acc[1])
         }
         
-        func LoadLicense() throws{
+        func LoadLicense() throws -> LicenseObj?{
                 guard let licenseStr = UserDefaults.standard.string(forKey: KEY_FOR_YOUPIPE_LICENSE) else{
                         throw YPError.NoValidLicense
                 }
                 
                 self.license = LicenseObj(data: licenseStr)
+                return self.license
         }
         
         func ImportLicense(data:String) throws{

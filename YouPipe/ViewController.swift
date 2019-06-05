@@ -10,10 +10,27 @@ import UIKit
 
 class ViewController: UIViewController {
 
+        @IBOutlet weak var BlockChainAddress: UITextField!
+        @IBOutlet weak var BlockChainCipher: UITextView!
         @IBOutlet weak var connectButton: UIButton!
+        @IBOutlet weak var createAccountBtn: UIButton!
+        @IBOutlet weak var LicenseStartTime: UITextField!
+        @IBOutlet weak var LicenseEndTime: UITextField!
+        @IBOutlet weak var LicenseArea: UITextView!
+        @IBOutlet weak var importBtn: UIButton!
+        
         override func viewDidLoad() {
                 super.viewDidLoad()
-                // Do any additional setup after loading the view.
+                do {
+                        createAccountBtn.isHidden = true
+                        let (addr, cipher) = try YouPipeService.shared.LoadBlockChainAccount()
+                        BlockChainAddress.text = addr
+                        BlockChainCipher.text = cipher
+                }catch{
+                        createAccountBtn.isHidden = false
+                }
+                
+                
         }
 
         required init?(coder aDecoder: NSCoder) {
@@ -63,5 +80,9 @@ class ViewController: UIViewController {
                 connectButton.setTitle(status, for: UIControl.State())
                 connectButton.isEnabled = enabled
         }
+        
+        @IBAction func importLicense(_ sender: Any) {
+        }
+        
 }
 
