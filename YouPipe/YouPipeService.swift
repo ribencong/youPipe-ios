@@ -7,8 +7,7 @@
 //
 
 import Foundation
-import IosLib
-import SwiftyJSON
+import IosLib 
 
 let KEY_FOR_BOOT_NODE_STR = "KEY_FOR_BOOT_NODE_STR"
 let KEY_FOR_BLOOK_CHAIN_ADDR = "KEY_FOR_BLOOK_CHAIN_ADDR"

@@ -7,142 +7,13 @@
 //
 
 import NetworkExtension
-import SwiftyJSON
-import PipeKit
 
 let ProxyPort = 51080
 
 class PacketTunnelProvider: NEPacketTunnelProvider {
-        var started:Bool = false
-        var proxyServer: ProxyServer!
-        var lastPath:NWPath?
+        var started:Bool = false  
         var httpProxy:HttpProxy!
         
-        
-        func startBySimpleNEkit(completionHandler: @escaping (Error?) -> Void){
-                
-                var UserRules:[PipeKit.Rule] = []
-                let directAdapterFactory = DirectAdapterFactory()
-                
-                
-                var ipdirect:PipeKit.Rule!
-                do {
-                        ipdirect = try IPRangeListRule(adapterFactory: directAdapterFactory, ranges: ["155.138.201.205"])
-                }catch let error as NSError {
-                        NSLog("ip解析:"+error.domain)
-                }
-                UserRules.append(ipdirect)
-                
-                
-                let manager = RuleManager(fromRules: UserRules, appendDirect: true)
-                RuleManager.currentManager = manager
-                
-                let networkSettings = newPacketTunnelSettings(proxyHost: "127.0.0.1", proxyPort: UInt16(ProxyPort))
-                setTunnelNetworkSettings(networkSettings) {
-                        error in
-                        
-                        completionHandler(error)
-                        
-                        guard error == nil else {
-                                return
-                        }
-                        
-                        if !self.started{
-                                self.proxyServer = GCDHTTPProxyServer(address: IPAddress(fromString: "127.0.0.1"), port: PipeKit.Port(port: UInt16(ProxyPort)))
-                                try! self.proxyServer.start()
-                                self.addObserver(self, forKeyPath: "defaultPath", options: .initial, context: nil)
-                                
-                                self.started = true
-                        }else{
-                                self.proxyServer.stop()
-                                try! self.proxyServer.start()
-                        }
-                }
-        }
-        
-        func startByNEkit(completionHandler: @escaping (Error?) -> Void){
-                NSLog("开始连接---------------------------------------")
-
-                let obfuscater = ShadowsocksAdapter.ProtocolObfuscater.OriginProtocolObfuscater.Factory()
-                let algorithm:CryptoAlgorithm = .AES256CFB
-
-//                let socks5AF = SOCKS5AdapterFactory(serverHost: "127.0.0.1", serverPort: ProxyPort)
-
-                let socks5AF = ShadowsocksAdapterFactory(serverHost: "155.138.201.205",
-                                                         serverPort: 8388,
-                                                         protocolObfuscaterFactory:obfuscater,
-                                                         cryptorFactory: ShadowsocksAdapter.CryptoStreamProcessor.Factory(password: "rickey.liao", algorithm: algorithm),
-                                                         streamObfuscaterFactory: ShadowsocksAdapter.StreamObfuscater.OriginStreamObfuscater.Factory())
-
-                let directAdapterFactory = DirectAdapterFactory()
-                
-                let json_str = getRuleConf()
-                let json = JSON.init(parseJSON: json_str)
-                
-                var UserRules:[PipeKit.Rule] = []
-                
-                let arraydom = json["rules"]["DOMAIN"].arrayValue
-                let arrayip = json["rules"]["IP"].arrayValue
-                let dom_direct = getDomRule(list: arraydom, isDirect: true)
-                UserRules.append(DomainListRule(adapterFactory: directAdapterFactory, criteria: dom_direct))
-                
-                let ip_direct = getIPRule(list: arrayip, isDirect: true)
-                var ipdirect:PipeKit.Rule!
-                do {
-                        ipdirect = try IPRangeListRule(adapterFactory: directAdapterFactory, ranges: ip_direct)
-                }catch let error as NSError {
-                        NSLog("ip解析:"+error.domain)
-                }
-                UserRules.append(ipdirect)
-                
-                let dom_proxy = getDomRule(list: arraydom, isDirect: false)
-                UserRules.append(DomainListRule(adapterFactory: socks5AF, criteria: dom_proxy))
-                let ip_proxy = getIPRule(list: arrayip, isDirect: false)
-                
-                var iprule:PipeKit.Rule!
-                do {
-                        iprule = try IPRangeListRule(adapterFactory: socks5AF, ranges: ip_proxy)
-                }catch let error as NSError {
-                        NSLog("ip解析:"+error.domain)
-                }
-                UserRules.append(iprule)
-                
-                
-                // Rules
-                let chinaRule = CountryRule(countryCode: "CN", match: true, adapterFactory: directAdapterFactory)
-                let unKnowLoc = CountryRule(countryCode: "--", match: true, adapterFactory: directAdapterFactory)
-                let dnsFailRule = DNSFailRule(adapterFactory: socks5AF)
-                
-                let allRule = AllRule(adapterFactory: socks5AF)
-                UserRules.append(contentsOf: [chinaRule,unKnowLoc,dnsFailRule,allRule])
-                
-                let manager = RuleManager(fromRules: UserRules, appendDirect: true)
-                RuleManager.currentManager = manager
-                
-                let networkSettings = newPacketTunnelSettings(proxyHost: "127.0.0.1", proxyPort: UInt16(ProxyPort))
-                setTunnelNetworkSettings(networkSettings) {
-                        error in
-                        
-                        completionHandler(error)
-                        
-                        guard error == nil else {
-                                return
-                        }
-                        
-                        if !self.started{
-                                self.proxyServer = GCDHTTPProxyServer(address: IPAddress(fromString: "127.0.0.1"), port: PipeKit.Port(port: UInt16(ProxyPort)))
-//                                self.proxyServer = GCDSOCKS5ProxyServer(address: IPAddress(fromString: "127.0.0.1"),
-//                                                                        port: NEKit.Port(port: UInt16(ProxyPort)))
-                                try! self.proxyServer.start()
-                                self.addObserver(self, forKeyPath: "defaultPath", options: .initial, context: nil)
-                                
-                                self.started = true
-                        }else{
-                                self.proxyServer.stop()
-                                try! self.proxyServer.start()
-                        }
-                }
-        }
         
         func startByYouPipe(completionHandler: @escaping (Error?) -> Void){
                 
@@ -162,19 +33,10 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         
         
         override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
-//                startBySimpleNEkit(completionHandler: completionHandler)
-//                startByNEkit(completionHandler: completionHandler)
                 startByYouPipe(completionHandler: completionHandler)
         }
     
         override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
-                
-                if(proxyServer != nil){
-                        proxyServer.stop()
-                        proxyServer = nil
-                        RawSocketFactory.TunnelProvider = nil
-                }
-                
                 completionHandler()
                 exit(EXIT_SUCCESS)
         }
@@ -234,80 +96,5 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                 settings.mtu = NSNumber(value: UINT16_MAX)
                 
                 return settings
-        }
-}
-
-extension PacketTunnelProvider{
-        fileprivate func getRuleConf() -> String{
-                let Path = Bundle.main.path(forResource: "rules", ofType: "json")
-                let Data = try? Foundation.Data(contentsOf: URL(fileURLWithPath: Path!))
-                let str = String(data: Data!, encoding: String.Encoding.utf8)!
-                return str
-        }
-        
-        func getDomRule(list:[JSON],isDirect:Bool) -> [PipeKit.DomainListRule.MatchCriterion] {
-                var rule_dom : [PipeKit.DomainListRule.MatchCriterion] = []
-                for item in list {
-                        let str = item.stringValue.replacingOccurrences(of: " ", with: "")
-                        let components = str.components(separatedBy: ",")
-                        let type = components[0]
-                        let value = components[1]
-                        let adap = components[2]
-                        if isDirect {
-                                if type=="DOMAIN-SUFFIX" && adap=="DIRECT" {
-                                        rule_dom.append(DomainListRule.MatchCriterion.suffix(value))
-                                }
-                                if type=="DOMAIN-KEYWORD" && adap=="DIRECT" {
-                                        rule_dom.append(DomainListRule.MatchCriterion.suffix(value))
-                                }
-                        }else{
-                                if type=="DOMAIN-SUFFIX" && adap=="PROXY" {
-                                        rule_dom.append(DomainListRule.MatchCriterion.suffix(value))
-                                }
-                                if type=="DOMAIN-KEYWORD" && adap=="PROXY" {
-                                        rule_dom.append(DomainListRule.MatchCriterion.suffix(value))
-                                }
-                        }
-                }
-                return rule_dom
-        }
-        
-        func getIPRule(list:[JSON],isDirect:Bool) -> [String] {
-                var rule_ip : [String] = []
-                for item in list {
-                        let str = item.stringValue.replacingOccurrences(of: " ", with: "")
-                        let components = str.components(separatedBy: ",")
-                        
-                        let value = components[1]
-                        let adap = components[2]
-                        if isDirect {
-                                if adap=="DIRECT" {
-                                        rule_ip.append(value)
-                                }
-                        }else{
-                                if adap=="PROXY" {
-                                        rule_ip.append(value)
-                                }
-                        }
-                }
-                return rule_ip
-        }
-        
-        override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-                if keyPath == "defaultPath" {
-                        if self.defaultPath?.status == .satisfied{
-                                if(lastPath == nil){
-                                        NSLog("lastPath == nil")
-                                        lastPath = self.defaultPath
-                                }
-                                NSLog("收到网络变更通知")
-                                DispatchQueue.main.asyncAfter(deadline: .now()+1) {
-                                        self.startTunnel(options: nil){_ in}
-                                }
-                        }else{
-                                NSLog("lastPath = defaultPath")
-                                lastPath = defaultPath
-                        }
-                }
         }
 } 
