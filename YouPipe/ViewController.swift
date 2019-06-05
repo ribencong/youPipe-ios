@@ -9,8 +9,8 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-        @IBOutlet weak var BlockChainAddress: UITextField!
+ 
+        @IBOutlet weak var BlockChainAddress: UITextView!
         @IBOutlet weak var BlockChainCipher: UITextView!
         @IBOutlet weak var connectButton: UIButton!
         @IBOutlet weak var createAccountBtn: UIButton!
@@ -125,6 +125,7 @@ class ViewController: UIViewController {
                                 return
                         }
                         do {
+                                
                                 let licObj = try YouPipeService.shared.ImportLicense(data: licStr)
                                 LicenseStartTime.text = licObj?.start
                                 LicenseEndTime.text = licObj?.end

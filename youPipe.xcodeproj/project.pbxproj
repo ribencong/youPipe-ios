@@ -33,9 +33,9 @@
 		7CA1091F22A65F7B001F1783 /* Wallet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7CA1091722A65F7B001F1783 /* Wallet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7CA1092422A66008001F1783 /* Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1092322A66008001F1783 /* Wallet.swift */; };
 		7CA1092A22A68BC5001F1783 /* YouPipeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1092922A68BC5001F1783 /* YouPipeService.swift */; };
-		7CA1092E22A6A058001F1783 /* iosLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CA1092D22A6A058001F1783 /* iosLib.framework */; };
 		7CA1092F22A6A74B001F1783 /* YPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E564522A56AB8000DFA75 /* YPError.swift */; };
 		7CA1093122A6B520001F1783 /* PipeWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1093022A6B51F001F1783 /* PipeWallet.swift */; };
+		7CA1093422A7F3EA001F1783 /* iosLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CA1093322A7F3EA001F1783 /* iosLib.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,8 +110,8 @@
 		7CA1091A22A65F7B001F1783 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7CA1092322A66008001F1783 /* Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallet.swift; sourceTree = "<group>"; };
 		7CA1092922A68BC5001F1783 /* YouPipeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouPipeService.swift; sourceTree = "<group>"; };
-		7CA1092D22A6A058001F1783 /* iosLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iosLib.framework; sourceTree = "<group>"; };
 		7CA1093022A6B51F001F1783 /* PipeWallet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipeWallet.swift; sourceTree = "<group>"; };
+		7CA1093322A7F3EA001F1783 /* iosLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iosLib.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,9 +119,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7CA1092E22A6A058001F1783 /* iosLib.framework in Frameworks */,
 				7C68350F22A20E2100343FEE /* CocoaAsyncSocket.framework in Frameworks */,
 				7CA1091E22A65F7B001F1783 /* Wallet.framework in Frameworks */,
+				7CA1093422A7F3EA001F1783 /* iosLib.framework in Frameworks */,
 				7C40257A22A18C730050AB3A /* NetworkExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -185,7 +185,7 @@
 		7C40257822A18C730050AB3A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7CA1092D22A6A058001F1783 /* iosLib.framework */,
+				7CA1093322A7F3EA001F1783 /* iosLib.framework */,
 				7C68350D22A20E2100343FEE /* CocoaAsyncSocket.framework */,
 				7C40257922A18C730050AB3A /* NetworkExtension.framework */,
 			);
@@ -350,7 +350,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7C40255B22A18B1F0050AB3A /* Build configuration list for PBXProject "youPipe" */;
+			buildConfigurationList = 7C40255B22A18B1F0050AB3A /* Build configuration list for PBXProject "YouPipe" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -785,7 +785,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7C40255B22A18B1F0050AB3A /* Build configuration list for PBXProject "youPipe" */ = {
+		7C40255B22A18B1F0050AB3A /* Build configuration list for PBXProject "YouPipe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7C40257022A18B220050AB3A /* Debug */,
