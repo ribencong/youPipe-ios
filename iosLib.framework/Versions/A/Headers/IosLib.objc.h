@@ -17,11 +17,9 @@ FOUNDATION_EXPORT NSString* _Nonnull IosLibCreateAccount(NSString* _Nullable pas
 
 FOUNDATION_EXPORT NSString* _Nonnull IosLibFindBestNode(NSString* _Nullable nodesStr);
 
-FOUNDATION_EXPORT NSData* _Nullable IosLibGenAesKey(NSString* _Nullable peerAddr, NSData* _Nullable priKey);
-
 FOUNDATION_EXPORT NSString* _Nonnull IosLibLoadNodes(void);
 
-FOUNDATION_EXPORT NSData* _Nullable IosLibOpenPriKey(NSString* _Nullable cipherTxt, NSString* _Nullable address, NSString* _Nullable password);
+FOUNDATION_EXPORT NSString* _Nonnull IosLibSigWithKey(NSString* _Nullable cipherTxt, NSString* _Nullable address, NSString* _Nullable password, NSString* _Nullable license, NSString* _Nullable minerID);
 
 FOUNDATION_EXPORT BOOL IosLibVerifyAccount(NSString* _Nullable cipherTxt, NSString* _Nullable address, NSString* _Nullable password);
 

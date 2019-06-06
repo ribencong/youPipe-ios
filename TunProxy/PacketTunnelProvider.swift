@@ -33,6 +33,12 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         
         
         override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
+                if let opts = options{
+                        for (key, val) in opts as! [String: String]{
+                                NSLog("------>k[\(key)]=v[\(val)]")
+                        }
+                }
+                
                 startByYouPipe(completionHandler: completionHandler)
         }
     

@@ -156,15 +156,14 @@ class YouPipeService:NSObject{
                 }
                 param["address"] = addr
                 
-                guard let priKey = IosLibOpenPriKey(cihper, addr, password) else{
+                let signAndKey = IosLibSigWithKey(cihper, addr, password, ls.rawStr, peerId)
+                let sd = signAndKey.components(separatedBy:IosLibSeparator)
+                guard sd.count == 2 else{
                         throw YPError.OpenPrivateKeyErr
                 }
-                param["priKey"] = String.init(data: priKey, encoding: .utf8)
                 
-                guard let aesKey = IosLibGenAesKey(peerId, priKey) else{
-                        throw YPError.GenAesKeyErr
-                }
-                param["aesKey"] = String.init(data: aesKey, encoding: .utf8)
+                param["licSig"] = sd[0]
+                param["aesKey"] = sd[1]
                 
                 return param
         }
