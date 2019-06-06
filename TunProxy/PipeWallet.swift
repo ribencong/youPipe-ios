@@ -8,6 +8,7 @@
 
 import Foundation
 import CocoaAsyncSocket
+import TweetNacl
 
 class FlowCounter: NSObject{
         
@@ -69,13 +70,6 @@ class PipeWallet:NSObject{
                 return true
         }
 }
-//
-//class JsonSocket:GCDAsyncSocket{
-//        self.
-//        init(socket:GCDAsyncSocket){
-//
-//        }
-//}
 
 extension PipeWallet: GCDAsyncSocketDelegate{
         
@@ -135,8 +129,12 @@ extension PipeWallet: GCDAsyncSocketDelegate{
 extension PipeWallet{
         
         func handShakeData()throws -> Data{
+//                let s = ECKeyPair.init(coder: NSCoder)
+//                let licSig = Ed25519.sign(self.License?.data(using: .utf8), with: ECKeyPair!)
+//
                 let jsonbody : [String : Any] = [
                         "CmdType" : 1,
+//                        "Sig":licSig,
                         "Lic" : self.License as Any,
                         ]
                 
