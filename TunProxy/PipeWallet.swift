@@ -33,9 +33,9 @@ class PipeWallet:NSObject{
                 WaitBill
         }
         
-        var MinerID:String?
-        var MinerIP:String?
-        var MinerPort:UInt16?
+        var MinerAddr:Data?
+//        var MinerIP:String?
+//        var MinerPort:UInt16?
         var License:String?
         var priKey:Data?
         var aesKey:Data?
@@ -47,26 +47,32 @@ class PipeWallet:NSObject{
                 super.init()
         }
         
-        func Establish(conf:[String:NSObject])->Bool{
-              do {
-                        self.MinerID = conf["bootID"] as? String
-                        self.MinerIP = conf["bootIP"] as? String
-                        self.MinerPort = conf["bootPort"] as? UInt16
-                        self.License = conf["license"] as? String
-                        self.priKey = conf["priKey"] as? Data
+        func Establish(conf:[String:NSObject]) throws{
                 
-                        self.PayConn = GCDAsyncSocket(delegate: self, delegateQueue:
-                                PipeWallet.queue, socketQueue: PipeWallet.queue)
+                guard let MinerId = conf["bootID"] as? String else{
+                        throw YPError.NoValidBootNode
+                }
+                self.MinerAddr = Base58.bytesFromBase58(String(MinerId.dropFirst(2)))
                 
-                        try self.PayConn?.connect(toHost: self.MinerIP!, onPort:
-                                self.MinerPort!, withTimeout:5)
-                
-                } catch let err {
-                        NSLog("Open wallet conn err:\(err.localizedDescription)")
-                        return false
+                guard let ip = conf["bootIP"] as? String,
+                        let port = conf["bootPort"] as? UInt16 else{
+                                throw YPError.NoValidBootNode
+                }
+                guard let lic = conf["license"] as? String else{
+                        throw YPError.NoValidLicense
+                }
+                guard let pk = conf["priKey"] as? Data else{
+                        throw YPError.OpenPrivateKeyErr
                 }
                 
-                return true
+                self.License = lic
+                self.priKey = pk
+                
+                
+                self.PayConn = GCDAsyncSocket(delegate: self, delegateQueue:
+                        PipeWallet.queue, socketQueue: PipeWallet.queue)
+        
+                try self.PayConn?.connect(toHost: ip, onPort:port, withTimeout:5)
         }
 }
 

@@ -14,18 +14,6 @@ let KEY_FOR_BLOOK_CHAIN_ADDR = "KEY_FOR_BLOOK_CHAIN_ADDR"
 let KEY_FOR_BLOOK_CHAIN_CIPHER = "KEY_FOR_BLOOK_CHAIN_CIPHER"
 let KEY_FOR_YOUPIPE_LICENSE = "KEY_FOR_YOUPIPE_LICENSE"
 
-class WalletParam: NSObject{
-        var Addr:String?
-        var Cipher:String?
-        var License:String?
-        var bootAddr:String?
-        var bootPort:String?
-        
-        override init() {
-                super.init()
-        }
-}
-
 class LicenseObj:NSObject{
         
         var start:String?
@@ -56,7 +44,6 @@ class LicenseObj:NSObject{
 class YouPipeService:NSObject{
         
         static var shared = YouPipeService()
-        var wallet  = WalletParam()
         var license:LicenseObj?
         var addr:String?
         var cipher:String?
