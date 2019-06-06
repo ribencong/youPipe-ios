@@ -36,7 +36,7 @@ class PipeWallet:NSObject{
         var MinerIP:String?
         var MinerPort:UInt16?
         var License:String?
-        var licSig:String?
+        var priKey:String?
         var aesKey:String?
         var Eastablish:Bool = false
         
@@ -52,7 +52,7 @@ class PipeWallet:NSObject{
                         self.MinerIP = conf["bootIP"]
                         self.MinerPort = UInt16(conf["bootPort"]!)
                         self.License = conf["license"]
-                        self.licSig = conf["licSig"]
+                        self.priKey = conf["priKey"]
                         self.aesKey = conf["aesKey"]
                 
                         self.PayConn = GCDAsyncSocket(delegate: self, delegateQueue:
@@ -67,10 +67,6 @@ class PipeWallet:NSObject{
                 }
                 
                 return true
-        }
-        
-        func SetUpPipe()->GCDAsyncSocket?{
-                return nil
         }
 }
 //
@@ -141,7 +137,6 @@ extension PipeWallet{
         func handShakeData()throws -> Data{
                 let jsonbody : [String : Any] = [
                         "CmdType" : 1,
-                        "Sig" : self.licSig as Any,
                         "Lic" : self.License as Any,
                         ]
                 

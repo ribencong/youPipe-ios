@@ -9,19 +9,19 @@
 import Foundation
 import CocoaAsyncSocket
 
-class PipeAdapter: Adapter{
+class PipeAdapter: NSObject, Adapter{
         
         private var sock:GCDAsyncSocket
         private var tgtAddr:String
         
         
-        init?(targetHost: String, targetPort: UInt16, delegae:GCDAsyncSocketDelegate){
+        init(targetHost: String, targetPort: UInt16, delegae:GCDAsyncSocketDelegate){
                 tgtAddr = "\(targetHost):\(targetPort)"
                 
-                guard let s = PipeWallet.shared.SetUpPipe() else{
-                        return nil
-                }
-                sock = s
+                sock = GCDAsyncSocket(delegate: nil,
+                                delegateQueue: PipeWallet.queue, socketQueue:PipeWallet.queue)
+                super.init()
+                sock.synchronouslySetDelegate(self)
         }
         
         func readData(tag: Int) {
@@ -35,6 +35,10 @@ class PipeAdapter: Adapter{
         func byePeer() {
                 
         }
-        
-        
+}
+
+extension PipeAdapter: GCDAsyncSocketDelegate{
+        open func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port: UInt16) {
+                
+        }
 }
