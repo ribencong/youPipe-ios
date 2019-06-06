@@ -34,12 +34,11 @@ class PipeWallet:NSObject{
         }
         
         var MinerAddr:Data?
-//        var MinerIP:String?
-//        var MinerPort:UInt16?
         var License:String?
         var priKey:Data?
+        var pubKey:Data?
         var aesKey:Data?
-        var Eastablish:Bool = false
+        var Eastablished:Bool = false
         
         var PayConn:GCDAsyncSocket?
         
@@ -64,10 +63,16 @@ class PipeWallet:NSObject{
                 guard let pk = conf["priKey"] as? Data else{
                         throw YPError.OpenPrivateKeyErr
                 }
+                guard let ak = conf["aesKey"] as? Data else{
+                        throw YPError.OpenPrivateKeyErr
+                }
                 
                 self.License = lic
                 self.priKey = pk
+                self.aesKey = ak
+                (self.pubKey!, _) = try NaclSign.KeyPair.keyPair(fromSecretKey: pk)
                 
+                NSLog("must be equal the address of this account YP\(Base58.base58FromBytes(self.pubKey!))")
                 
                 self.PayConn = GCDAsyncSocket(delegate: self, delegateQueue:
                         PipeWallet.queue, socketQueue: PipeWallet.queue)
@@ -116,7 +121,7 @@ extension PipeWallet: GCDAsyncSocketDelegate{
                                 NSLog("pay channel hand shake err:\(json?["Message"] ?? "---")")
                                 self.Close()
                         }
-                        self.Eastablish = true
+                        self.Eastablished = true
                         self.PayConn?.readData(withTimeout: 5, tag: PayChanState.WaitBill.rawValue)
                         break
                         
@@ -134,14 +139,16 @@ extension PipeWallet: GCDAsyncSocketDelegate{
 extension PipeWallet{
         
         func handShakeData()throws -> Data{
-//                let s = ECKeyPair.init(coder: NSCoder)
-//                let licSig = Ed25519.sign(self.License?.data(using: .utf8), with: ECKeyPair!)
-//
+                
+                guard let licData = self.License?.data(using: .utf8) else{
+                        throw YPError.NoValidLicense
+                }
+                
+                let sig = try NaclSign.signDetached(message: licData, secretKey: self.priKey!)
                 let jsonbody : [String : Any] = [
                         "CmdType" : 1,
-//                        "Sig":licSig,
-                        "Lic" : self.License as Any,
-                        ]
+                        "Sig":sig,
+                        "Lic" : self.License as Any, ]
                 
                 let data = try JSONSerialization.data(withJSONObject: jsonbody, options: .prettyPrinted)
                 return data
@@ -149,6 +156,6 @@ extension PipeWallet{
         
         func Close(){
                 self.PayConn?.disconnectAfterReadingAndWriting()
-                self.Eastablish = false
+                self.Eastablished = false
         }
 }

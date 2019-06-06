@@ -9,13 +9,13 @@
 import Foundation
 enum YPError:Error{
         case SystemError, BusinessError, NoValidBootNode, NoValidAccount,
-        AccountCreateError,NoValidLicense, OpenPrivateKeyErr, GenAesKeyErr
+        AccountCreateError,NoValidLicense, OpenPrivateKeyErr, GenAesKeyErr,
+        ED25519SignErr,VPNParamLost
 }
 
 extension YPError: LocalizedError {
         public var errorDescription: String? {
-                switch self {
-                        
+                switch self { 
                 case .SystemError:
                         return NSLocalizedString("System error".localized, comment: "System Error")
                 case .BusinessError:
@@ -32,6 +32,10 @@ extension YPError: LocalizedError {
                         return NSLocalizedString("Failed to open self account".localized, comment: "Pipe Error")
                 case .GenAesKeyErr:
                         return NSLocalizedString("Failed to generate aes key with peer address".localized, comment: "Pipe Error")
+                case .ED25519SignErr:
+                        return NSLocalizedString("Failed to sign data by ed25519 private key".localized, comment: "Pipe Error")
+                case .VPNParamLost:
+                        return NSLocalizedString("Not enough parameter to connecto miner node".localized, comment: "Pipe Error")
                 }
         }
 }

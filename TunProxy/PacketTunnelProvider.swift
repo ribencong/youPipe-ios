@@ -33,12 +33,24 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         
         
         override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
-                if let opts = options{
-                        for (key, val) in opts{
-                                NSLog("------>k[\(key)]=v[\(val)]")
-                        }
+                guard let opts = options else{
+                        completionHandler(YPError.VPNParamLost)
+                        NSLog(YPError.VPNParamLost.localizedDescription)
+                        return
                 }
                 
+                for (key, val) in opts{
+                        NSLog("------>k[\(key)]=v[\(val)]")
+                }
+                
+                do {
+                        try  PipeWallet.shared.Establish(conf: opts)
+                }catch let err{
+                        completionHandler(err)
+                        NSLog("establish connection to miner err:\(err.localizedDescription)")
+                        return
+                }
+               
                 startByYouPipe(completionHandler: completionHandler)
         }
     
