@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20649CAB74B70FBFB5C7A1AC /* Pods_TunProxy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1BDA2F7765974A8D472D3B0 /* Pods_TunProxy.framework */; };
 		7C0369F422A50BC900F6EB10 /* HttpProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0369F322A50BC900F6EB10 /* HttpProxy.swift */; };
 		7C0369F622A50D4B00F6EB10 /* Pipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0369F522A50D4B00F6EB10 /* Pipe.swift */; };
 		7C283FD022A3520C0053E70D /* rules.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C283FCF22A3520C0053E70D /* rules.json */; };
@@ -36,6 +37,7 @@
 		7CA1092F22A6A74B001F1783 /* YPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E564522A56AB8000DFA75 /* YPError.swift */; };
 		7CA1093122A6B520001F1783 /* PipeWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1093022A6B51F001F1783 /* PipeWallet.swift */; };
 		7CA1093422A7F3EA001F1783 /* iosLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CA1093322A7F3EA001F1783 /* iosLib.framework */; };
+		DA4549E2D919F2F2DD03958E /* Pods_YouPipe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40A505A2175D0B7A52FFD45 /* Pods_YouPipe.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +83,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		15F6A66BCEE9A30B6CC158D3 /* Pods-TunProxy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TunProxy.release.xcconfig"; path = "Target Support Files/Pods-TunProxy/Pods-TunProxy.release.xcconfig"; sourceTree = "<group>"; };
 		7C0369F322A50BC900F6EB10 /* HttpProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpProxy.swift; sourceTree = "<group>"; };
 		7C0369F522A50D4B00F6EB10 /* Pipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pipe.swift; sourceTree = "<group>"; };
 		7C283FCF22A3520C0053E70D /* rules.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = rules.json; sourceTree = "<group>"; };
@@ -112,6 +115,11 @@
 		7CA1092922A68BC5001F1783 /* YouPipeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouPipeService.swift; sourceTree = "<group>"; };
 		7CA1093022A6B51F001F1783 /* PipeWallet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipeWallet.swift; sourceTree = "<group>"; };
 		7CA1093322A7F3EA001F1783 /* iosLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iosLib.framework; sourceTree = "<group>"; };
+		A7F66EAA3E504B7FF918FE83 /* Pods-YouPipe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YouPipe.release.xcconfig"; path = "Target Support Files/Pods-YouPipe/Pods-YouPipe.release.xcconfig"; sourceTree = "<group>"; };
+		B1BDA2F7765974A8D472D3B0 /* Pods_TunProxy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TunProxy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B40A505A2175D0B7A52FFD45 /* Pods_YouPipe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YouPipe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C99589A5DABD3EA8BDC63D98 /* Pods-TunProxy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TunProxy.debug.xcconfig"; path = "Target Support Files/Pods-TunProxy/Pods-TunProxy.debug.xcconfig"; sourceTree = "<group>"; };
+		DAEF2295E9293123FD44A644 /* Pods-YouPipe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YouPipe.debug.xcconfig"; path = "Target Support Files/Pods-YouPipe/Pods-YouPipe.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +131,7 @@
 				7CA1091E22A65F7B001F1783 /* Wallet.framework in Frameworks */,
 				7CA1093422A7F3EA001F1783 /* iosLib.framework in Frameworks */,
 				7C40257A22A18C730050AB3A /* NetworkExtension.framework in Frameworks */,
+				DA4549E2D919F2F2DD03958E /* Pods_YouPipe.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,6 +141,7 @@
 			files = (
 				7C40258C22A190550050AB3A /* NetworkExtension.framework in Frameworks */,
 				7C68351122A20F0800343FEE /* CocoaAsyncSocket.framework in Frameworks */,
+				20649CAB74B70FBFB5C7A1AC /* Pods_TunProxy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,6 +163,7 @@
 				7CA1091822A65F7B001F1783 /* Wallet */,
 				7C40256122A18B1F0050AB3A /* Products */,
 				7C40257822A18C730050AB3A /* Frameworks */,
+				BE6A5A068C3173DDFDD78C50 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -188,6 +199,8 @@
 				7CA1093322A7F3EA001F1783 /* iosLib.framework */,
 				7C68350D22A20E2100343FEE /* CocoaAsyncSocket.framework */,
 				7C40257922A18C730050AB3A /* NetworkExtension.framework */,
+				B1BDA2F7765974A8D472D3B0 /* Pods_TunProxy.framework */,
+				B40A505A2175D0B7A52FFD45 /* Pods_YouPipe.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -238,6 +251,18 @@
 			path = Wallet;
 			sourceTree = "<group>";
 		};
+		BE6A5A068C3173DDFDD78C50 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C99589A5DABD3EA8BDC63D98 /* Pods-TunProxy.debug.xcconfig */,
+				15F6A66BCEE9A30B6CC158D3 /* Pods-TunProxy.release.xcconfig */,
+				DAEF2295E9293123FD44A644 /* Pods-YouPipe.debug.xcconfig */,
+				A7F66EAA3E504B7FF918FE83 /* Pods-YouPipe.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -256,12 +281,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7C40257222A18B220050AB3A /* Build configuration list for PBXNativeTarget "YouPipe" */;
 			buildPhases = (
+				F775D3F5B8E0FEA79AF3BEFC /* [CP] Check Pods Manifest.lock */,
 				7C40255C22A18B1F0050AB3A /* Sources */,
 				7C40255D22A18B1F0050AB3A /* Frameworks */,
 				7C40255E22A18B1F0050AB3A /* Resources */,
 				7C40258B22A18D170050AB3A /* Embed App Extensions */,
 				7C68351322A20F1300343FEE /* copy frames */,
 				7C28402822A3EEBA0053E70D /* Embed Frameworks */,
+				22984F3C64256507E22DC050 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -278,6 +305,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7C40258822A18D170050AB3A /* Build configuration list for PBXNativeTarget "TunProxy" */;
 			buildPhases = (
+				AC10122A82E34EC0D22C4926 /* [CP] Check Pods Manifest.lock */,
 				7C40257B22A18D170050AB3A /* Sources */,
 				7C40257C22A18D170050AB3A /* Frameworks */,
 				7C40257D22A18D170050AB3A /* Resources */,
@@ -399,6 +427,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		22984F3C64256507E22DC050 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-YouPipe/Pods-YouPipe-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-YouPipe/Pods-YouPipe-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-YouPipe/Pods-YouPipe-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		7C68351322A20F1300343FEE /* copy frames */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -417,6 +462,50 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/usr/local/bin/carthage copy-frameworks\n";
+		};
+		AC10122A82E34EC0D22C4926 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TunProxy-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F775D3F5B8E0FEA79AF3BEFC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-YouPipe-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -611,6 +700,7 @@
 		};
 		7C40257322A18B220050AB3A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DAEF2295E9293123FD44A644 /* Pods-YouPipe.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -639,6 +729,7 @@
 		};
 		7C40257422A18B220050AB3A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A7F66EAA3E504B7FF918FE83 /* Pods-YouPipe.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -667,6 +758,7 @@
 		};
 		7C40258922A18D170050AB3A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C99589A5DABD3EA8BDC63D98 /* Pods-TunProxy.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = TunProxy/TunProxy.entitlements;
 				CODE_SIGN_STYLE = Manual;
@@ -695,6 +787,7 @@
 		};
 		7C40258A22A18D170050AB3A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 15F6A66BCEE9A30B6CC158D3 /* Pods-TunProxy.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = TunProxy/TunProxy.entitlements;
 				CODE_SIGN_STYLE = Manual;
