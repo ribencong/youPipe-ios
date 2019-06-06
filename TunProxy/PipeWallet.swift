@@ -37,8 +37,8 @@ class PipeWallet:NSObject{
         var MinerIP:String?
         var MinerPort:UInt16?
         var License:String?
-        var priKey:String?
-        var aesKey:String?
+        var priKey:Data?
+        var aesKey:Data?
         var Eastablish:Bool = false
         
         var PayConn:GCDAsyncSocket?
@@ -47,14 +47,13 @@ class PipeWallet:NSObject{
                 super.init()
         }
         
-        func Establish(conf:[String:String])->Bool{
+        func Establish(conf:[String:NSObject])->Bool{
               do {
-                        self.MinerID = conf["bootID"]
-                        self.MinerIP = conf["bootIP"]
-                        self.MinerPort = UInt16(conf["bootPort"]!)
-                        self.License = conf["license"]
-                        self.priKey = conf["priKey"]
-                        self.aesKey = conf["aesKey"]
+                        self.MinerID = conf["bootID"] as? String
+                        self.MinerIP = conf["bootIP"] as? String
+                        self.MinerPort = conf["bootPort"] as? UInt16
+                        self.License = conf["license"] as? String
+                        self.priKey = conf["priKey"] as? Data
                 
                         self.PayConn = GCDAsyncSocket(delegate: self, delegateQueue:
                                 PipeWallet.queue, socketQueue: PipeWallet.queue)

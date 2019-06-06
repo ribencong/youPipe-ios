@@ -52,7 +52,7 @@ class VpnManager{
         }
         
         //TODO::refactor this logic
-        func ChangeStatus(param:[String:String]? = nil) throws{
+        func ChangeStatus(param:[String:NSObject]? = nil) throws{
                 
                 if self.manager == nil{
                         createManager()
@@ -106,7 +106,7 @@ class VpnManager{
                 self.manager = newManager
         }
         
-        func connect(param:[String:String]? = nil) throws{
+        func connect(param:[String:NSObject]? = nil) throws{
                 guard let m = self.manager else{
                        return
                 }
@@ -125,7 +125,7 @@ class VpnManager{
                                 }
                                 do {
                                         
-                                        try m.connection.startVPNTunnel(options:param as [String : NSObject]?)
+                                        try m.connection.startVPNTunnel(options:param)
                                         
                                 }catch let e1{
                                         print("Start tunnel err-=>:",e1.localizedDescription)

@@ -125,8 +125,8 @@ class YouPipeService:NSObject{
                 return try LoadLicense()
         }
         
-        func PrepareForVpn(password:String) throws -> [String:String]{
-                var param:[String:String] = [:]
+        func PrepareForVpn(password:String) throws -> [String:NSObject]{
+                var param:[String:NSObject] = [:]
                 
                 let bootNode = try LoadBestBootNode()
                
@@ -137,34 +137,30 @@ class YouPipeService:NSObject{
                 let peerId = idaddr[0]
                 let netAddr = idaddr[1]
                 
-                param["bootID"] = peerId
+                param["bootID"] = peerId as NSObject
                 let ipPort = netAddr.components(separatedBy: ":")
                 
                 guard ipPort.count == 2 else{
                         throw YPError.NoValidBootNode
                 }
-                param["bootIP"] = ipPort[0]
-                param["bootPort"] = ipPort[1]
+                param["bootIP"] = ipPort[0] as NSObject
+                param["bootPort"] = UInt16(ipPort[1])! as NSObject
                 
                 guard let ls = self.license else{
                         throw YPError.NoValidLicense
                 }
-                param["license"] = ls.rawStr
+                param["license"] = ls.rawStr as NSObject
                 
                 guard let addr = self.addr, let cihper = self.cipher else{
                         throw YPError.NoValidAccount
                 }
-                param["address"] = addr
+                param["address"] = addr as NSObject
                 
-                let signAndKey = IosLibGenKeys(cihper, addr, password, peerId)
-                let sd = signAndKey.components(separatedBy:IosLibSeparator)
-                guard sd.count == 2 else{
+                guard let priKey = IosLibGenPriKey(cihper, addr, password) else{
                         throw YPError.OpenPrivateKeyErr
                 }
                 
-                param["priKey"] = sd[0]
-                param["aesKey"] = sd[1]
-                
+                param["priKey"] = priKey as NSObject
                 return param
         }
 }
