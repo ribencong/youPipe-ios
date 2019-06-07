@@ -34,7 +34,7 @@ class PipeWallet:NSObject{
         }
         
         var MinerAddr:Data?
-        var License:String?
+        var License:LicenseBean?
         var priKey:Data?
         var pubKey:Data?
         var aesKey:Data?
@@ -67,7 +67,7 @@ class PipeWallet:NSObject{
                         throw YPError.OpenPrivateKeyErr
                 }
                 
-                self.License = lic
+                self.License = LicenseBean(data: lic)
                 self.priKey = pk
                 self.aesKey = ak
                 
@@ -108,7 +108,7 @@ extension PipeWallet: GCDAsyncSocketDelegate{
                 
                 switch (PayChanState.init(rawValue: tag))! {
                 case .SynHand:
-                        NSLog("Send Sync Handshake success")
+                        NSLog("---PipeWallet--=>:Send Sync Handshake success")
                         self.PayConn?.readData(withTimeout: 5, tag: PayChanState.WaitAck.rawValue)
                         break
                 default:
@@ -123,17 +123,19 @@ extension PipeWallet: GCDAsyncSocketDelegate{
                         let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String : Any]
                         let success = json?["Success"] as! Bool
                         if !success{
-                                NSLog("pay channel hand shake err:\(json?["Message"] ?? "---")")
+                                NSLog("---PipeWallet--=>:pay channel hand shake err:\(json?["Message"] ?? "---")")
                                 self.Close()
                         }
+                        NSLog("---PipeWallet--=>: Create Payment channel success!")
                         self.Eastablished = true
-                        self.PayConn?.readData(withTimeout: 5, tag: PayChanState.WaitBill.rawValue)
+                        self.PayConn?.readData(withTimeout: -1, tag: PayChanState.WaitBill.rawValue)
                         break
                         
                 case .WaitBill:
                         let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String : Any]
-                        NSLog("bill:[\(String(describing: json))]")
+                        NSLog("---PipeWallet--=>:Got bill:[\(String(describing: json))]")
                         break
+                        
                 default:
                         break
                 }
@@ -144,16 +146,18 @@ extension PipeWallet: GCDAsyncSocketDelegate{
 extension PipeWallet{
         
         func handShakeData()throws -> Data{
+                let sig = try self.License!.Sign(secretKey: self.priKey!)
                 
-                guard let licData = self.License?.data(using: .utf8) else{
-                        throw YPError.NoValidLicense
-                }
+                let licBody : [String:String] = [
+                        "sig":self.License!.signature!,
+                        "start":self.License!.start!,
+                        "end":self.License!.end!,
+                        "user":self.License!.userAddr!]
                 
-                let sig = try NaclSign.signDetached(message: licData, secretKey: self.priKey!)
                 let jsonbody : [String : Any] = [
                         "CmdType" : 1,
                         "Sig":sig,
-                        "Lic" : self.License as Any, ]
+                        "Lic" :licBody]
                 
                 let data = try JSONSerialization.data(withJSONObject: jsonbody, options: .prettyPrinted)
                 return data

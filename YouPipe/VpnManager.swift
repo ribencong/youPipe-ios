@@ -123,8 +123,7 @@ class VpnManager{
                                         print("Load again err -=>:", $0!.localizedDescription)
                                         return
                                 }
-                                do {
-                                        
+                                do { 
                                         try m.connection.startVPNTunnel(options:param)
                                         
                                 }catch let e1{

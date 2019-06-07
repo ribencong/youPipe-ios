@@ -39,10 +39,6 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                         return
                 }
                 
-                for (key, val) in opts{
-                        NSLog("------>k[\(key)]=v[\(val)]")
-                }
-                
                 do {
                         try  PipeWallet.shared.Establish(conf: opts)
                 }catch let err{

@@ -14,37 +14,11 @@ let KEY_FOR_BLOOK_CHAIN_ADDR = "KEY_FOR_BLOOK_CHAIN_ADDR"
 let KEY_FOR_BLOOK_CHAIN_CIPHER = "KEY_FOR_BLOOK_CHAIN_CIPHER"
 let KEY_FOR_YOUPIPE_LICENSE = "KEY_FOR_YOUPIPE_LICENSE"
 
-class LicenseObj:NSObject{
-        
-        var start:String?
-        var end:String?
-        var signature:String?
-        var userAddr:String?
-        var rawStr:String
-        init?(data:String) {
-                rawStr = data
-                super.init()
-                do {try parse(RawData: data)}catch{
-                        return nil
-                }
-        }
-        
-        func parse(RawData data:String) throws{
-                let d = data.data(using: String.Encoding.utf8)
-                let json = try JSONSerialization.jsonObject(with: d!, options: .allowFragments) as! [String:Any]
-                print(json)
-                
-                self.signature = json["sig"] as? String
-                self.start = json["start"] as? String
-                self.end = json["end"] as? String
-                self.userAddr = json["user"] as? String
-        }
-}
 
 class YouPipeService:NSObject{
         
         static var shared = YouPipeService()
-        var license:LicenseObj?
+        var license:LicenseBean?
         var addr:String?
         var cipher:String?
         
@@ -94,16 +68,16 @@ class YouPipeService:NSObject{
                 return (acc[0], acc[1])
         }
         
-        func LoadLicense() throws -> LicenseObj?{
+        func LoadLicense() throws -> LicenseBean?{
                 guard let licenseStr = UserDefaults.standard.string(forKey: KEY_FOR_YOUPIPE_LICENSE) else{
                         throw YPError.NoValidLicense
                 }
                 
-                self.license = LicenseObj(data: licenseStr)
+                self.license = LicenseBean(data: licenseStr)
                 return self.license
         }
         
-        func ImportLicense(data:String) throws -> LicenseObj?{
+        func ImportLicense(data:String) throws -> LicenseBean?{
                 if  IosLibVerifyLicense(data) == false{
                         throw YPError.NoValidLicense
                 }
@@ -136,7 +110,7 @@ class YouPipeService:NSObject{
                 guard let ls = self.license else{
                         throw YPError.NoValidLicense
                 }
-                param["license"] = ls.rawStr as NSObject
+                param["license"] = ls.rawData as NSObject
                 
                 guard let addr = self.addr, let cihper = self.cipher else{
                         throw YPError.NoValidAccount

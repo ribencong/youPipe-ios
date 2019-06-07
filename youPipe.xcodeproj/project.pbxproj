@@ -39,6 +39,8 @@
 		BBF3CA8A22A91F97000DFAB8 /* TweetNacl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBF3CA8922A91F96000DFAB8 /* TweetNacl.framework */; };
 		BBF3CA8B22A91F97000DFAB8 /* TweetNacl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBF3CA8922A91F96000DFAB8 /* TweetNacl.framework */; };
 		BBF3CA8D22A92F6F000DFAB8 /* base58.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF3CA8C22A92F6F000DFAB8 /* base58.swift */; };
+		BBF3CA8F22AA0B8E000DFAB8 /* LicenseBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF3CA8E22AA0B8E000DFAB8 /* LicenseBean.swift */; };
+		BBF3CA9022AA0B8E000DFAB8 /* LicenseBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF3CA8E22AA0B8E000DFAB8 /* LicenseBean.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +119,7 @@
 		7CA1093322A7F3EA001F1783 /* iosLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iosLib.framework; sourceTree = "<group>"; };
 		BBF3CA8922A91F96000DFAB8 /* TweetNacl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TweetNacl.framework; path = Carthage/Build/iOS/TweetNacl.framework; sourceTree = "<group>"; };
 		BBF3CA8C22A92F6F000DFAB8 /* base58.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = base58.swift; sourceTree = "<group>"; };
+		BBF3CA8E22AA0B8E000DFAB8 /* LicenseBean.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseBean.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +188,7 @@
 				7C40256C22A18B220050AB3A /* LaunchScreen.storyboard */,
 				7C40256F22A18B220050AB3A /* Info.plist */,
 				7CA1092922A68BC5001F1783 /* YouPipeService.swift */,
+				BBF3CA8E22AA0B8E000DFAB8 /* LicenseBean.swift */,
 			);
 			path = YouPipe;
 			sourceTree = "<group>";
@@ -436,6 +440,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7CA1092F22A6A74B001F1783 /* YPError.swift in Sources */,
+				BBF3CA8F22AA0B8E000DFAB8 /* LicenseBean.swift in Sources */,
 				7C40256622A18B200050AB3A /* ViewController.swift in Sources */,
 				7CA1092A22A68BC5001F1783 /* YouPipeService.swift in Sources */,
 				7C40256422A18B200050AB3A /* AppDelegate.swift in Sources */,
@@ -448,6 +453,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C0369F422A50BC900F6EB10 /* HttpProxy.swift in Sources */,
+				BBF3CA9022AA0B8E000DFAB8 /* LicenseBean.swift in Sources */,
 				BBF3CA8D22A92F6F000DFAB8 /* base58.swift in Sources */,
 				7C0369F622A50D4B00F6EB10 /* Pipe.swift in Sources */,
 				7CA1090D22A65894001F1783 /* DirectAdapter.swift in Sources */,
