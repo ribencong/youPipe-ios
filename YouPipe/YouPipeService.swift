@@ -122,6 +122,9 @@ class YouPipeService:NSObject{
                 }
                 param["priKey"] = priKey as NSObject
                 
+                let signStr = try YouPipeService.shared.license?.Sign(secretKey: priKey)
+                print(signStr!)
+                
                 guard let aesKey = IosLibGenAesKey(priKey, peerId) else{
                         throw YPError.OpenPrivateKeyErr
                 }

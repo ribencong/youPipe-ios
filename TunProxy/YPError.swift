@@ -10,7 +10,7 @@ import Foundation
 enum YPError:Error{
         case SystemError, BusinessError, NoValidBootNode, NoValidAccount,
         AccountCreateError,NoValidLicense, OpenPrivateKeyErr, GenAesKeyErr,
-        ED25519SignErr,VPNParamLost
+        ED25519SignErr, VPNParamLost, JsonEncodeErr
 }
 
 extension YPError: LocalizedError {
@@ -36,6 +36,8 @@ extension YPError: LocalizedError {
                         return NSLocalizedString("Failed to sign data by ed25519 private key".localized, comment: "Pipe Error")
                 case .VPNParamLost:
                         return NSLocalizedString("Not enough parameter to connecto miner node".localized, comment: "Pipe Error")
+                case .JsonEncodeErr:
+                        return NSLocalizedString("Packet Json array error".localized, comment: "Pipe Error")
                 }
         }
 }

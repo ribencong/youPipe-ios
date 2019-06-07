@@ -89,7 +89,7 @@ class PipeWallet:NSObject{
 extension PipeWallet: GCDAsyncSocketDelegate{
         
         open func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port: UInt16) {
-                
+                NSLog("Connect to \(host):\(port) success")
                 do{
                         let d = try self.handShakeData()
                         self.PayConn?.write(d, withTimeout: 5, tag: PayChanState.SynHand.rawValue)
@@ -109,7 +109,8 @@ extension PipeWallet: GCDAsyncSocketDelegate{
                 switch (PayChanState.init(rawValue: tag))! {
                 case .SynHand:
                         NSLog("---PipeWallet--=>:Send Sync Handshake success")
-                        self.PayConn?.readData(withTimeout: 5, tag: PayChanState.WaitAck.rawValue)
+                        self.PayConn?.readData(withTimeout: -1,
+                                               tag: PayChanState.WaitAck.rawValue)
                         break
                 default:
                         break
@@ -142,12 +143,11 @@ extension PipeWallet: GCDAsyncSocketDelegate{
         }
 }
 
-
 extension PipeWallet{
         
         func handShakeData()throws -> Data{
                 let sig = try self.License!.Sign(secretKey: self.priKey!)
-                
+                NSLog(sig)
                 let licBody : [String:String] = [
                         "sig":self.License!.signature!,
                         "start":self.License!.start!,
@@ -159,7 +159,9 @@ extension PipeWallet{
                         "Sig":sig,
                         "Lic" :licBody]
                 
-                let data = try JSONSerialization.data(withJSONObject: jsonbody, options: .prettyPrinted)
+                guard let data = jsonbody.description.data(using: .utf8) else{
+                        throw YPError.JsonEncodeErr
+                }
                 return data
         }
         

@@ -18,6 +18,7 @@ class LicenseBean:NSObject{
         var rawData:String
         init?(data:String) {
                 self.rawData = data
+                print(data)
                 super.init()
                 do {try parse(RawData: data)}catch{
                         return nil
@@ -35,9 +36,10 @@ class LicenseBean:NSObject{
                 self.userAddr = json["user"] as? String
         }
         
-        func Sign(secretKey:Data)throws ->[UInt8]{
+        func Sign(secretKey:Data)throws ->String{
                 let data = self.rawData.data(using: .utf8)
                 let signData =  try NaclSign.signDetached(message: data!, secretKey: secretKey)
-                return [UInt8](signData)
+                return signData.base64EncodedString(options: NSData.Base64EncodingOptions.endLineWithCarriageReturn)
         }
 }
+//let base64Data = NSData(base64Encoded:base64String!, options:NSData.Base64DecodingOptions(rawValue: 0))
