@@ -109,7 +109,7 @@ extension PipeWallet: GCDAsyncSocketDelegate{
                 switch (PayChanState.init(rawValue: tag))! {
                 case .SynHand:
                         NSLog("---PipeWallet--=>:Send Sync Handshake success")
-                        self.PayConn?.readData(withTimeout: -1,
+                        self.PayConn?.readData(withTimeout: 5,
                                                tag: PayChanState.WaitAck.rawValue)
                         break
                 default:
@@ -155,14 +155,13 @@ extension PipeWallet{
                         "user":self.License!.userAddr!]
                 
                 let jsonbody : [String : Any] = [
-                        "CmdType" : 1,
+                        "CmdType" : 2,
                         "Sig":sig,
                         "Lic" :licBody]
-                
-                guard let data = jsonbody.description.data(using: .utf8) else{
-                        throw YPError.JsonEncodeErr
-                }
-                return data
+
+                let data = try JSONSerialization.data(withJSONObject: jsonbody, options: .prettyPrinted)
+                let cleanStr = String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\\", with: "")
+                return (cleanStr?.data(using: .utf8))!
         }
         
         func Close(){

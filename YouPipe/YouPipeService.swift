@@ -89,8 +89,10 @@ class YouPipeService:NSObject{
         func PrepareForVpn(password:String) throws -> [String:NSObject]{
                 var param:[String:NSObject] = [:]
                 
-                let bootNode = try LoadBestBootNode()
+//                let bootNode = try LoadBestBootNode()
                
+                let bootNode = "YPBysFiWhobpkFtiw6n1UeUhg8c8stmHJbKWDfad5NhDrZ@@@192.168.103.101:53526"
+                
                 let idaddr:[String] = bootNode.components(separatedBy: IosLibSeparator)
                 guard  idaddr.count == 2 else{
                         throw YPError.NoValidBootNode
@@ -121,9 +123,6 @@ class YouPipeService:NSObject{
                         throw YPError.OpenPrivateKeyErr
                 }
                 param["priKey"] = priKey as NSObject
-                
-                let signStr = try YouPipeService.shared.license?.Sign(secretKey: priKey)
-                print(signStr!)
                 
                 guard let aesKey = IosLibGenAesKey(priKey, peerId) else{
                         throw YPError.OpenPrivateKeyErr
