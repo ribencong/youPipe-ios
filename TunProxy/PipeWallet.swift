@@ -70,7 +70,12 @@ class PipeWallet:NSObject{
                 self.License = lic
                 self.priKey = pk
                 self.aesKey = ak
-                (self.pubKey!, _) = try NaclSign.KeyPair.keyPair(fromSecretKey: pk)
+                
+                let (pbk, priData) = try NaclSign.KeyPair.keyPair(fromSecretKey: pk)
+                guard priData.elementsEqual(pk) else{
+                        throw YPError.OpenPrivateKeyErr
+                }
+                self.pubKey = pbk
                 
                 NSLog("must be equal the address of this account YP\(Base58.base58FromBytes(self.pubKey!))")
                 
