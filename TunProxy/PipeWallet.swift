@@ -37,7 +37,7 @@ class PipeWallet:NSObject{
         var License:LicenseBean?
         var priKey:Data?
         var pubKey:Data?
-        var aesKey:Data?
+        var AesKey:Data?
         var Eastablished:Bool = false
         
         var PayConn:GCDAsyncSocket?
@@ -46,43 +46,18 @@ class PipeWallet:NSObject{
                 super.init()
         }
         
-        func Establish(conf:[String:NSObject]) throws{
-                
-                guard let MinerId = conf["bootID"] as? String else{
-                        throw YPError.NoValidBootNode
-                }
-                self.MinerAddr = Base58.bytesFromBase58(String(MinerId.dropFirst(2)))
-                
-                guard let ip = conf["bootIP"] as? String,
-                        let port = conf["bootPort"] as? UInt16 else{
-                                throw YPError.NoValidBootNode
-                }
-                guard let lic = conf["license"] as? String else{
-                        throw YPError.NoValidLicense
-                }
-                guard let pk = conf["priKey"] as? Data else{
-                        throw YPError.OpenPrivateKeyErr
-                }
-                guard let ak = conf["aesKey"] as? Data else{
-                        throw YPError.OpenPrivateKeyErr
+        func Establish(conf:[String:NSObject], completionHandler: @escaping (Error?) -> Void) {
+                do {
+                       try self.connectToServer(conf: conf)
+                }catch let err{
+                        completionHandler(err)
                 }
                 
-                self.License = LicenseBean(data: lic)
-                self.priKey = pk
-                self.aesKey = ak
-                
-                let (pbk, priData) = try NaclSign.KeyPair.keyPair(fromSecretKey: pk)
-                guard priData.elementsEqual(pk) else{
-                        throw YPError.OpenPrivateKeyErr
-                }
-                self.pubKey = pbk
-                
-                NSLog("must be equal the address of this account YP\(Base58.base58FromBytes(self.pubKey!))")
-                
-                self.PayConn = GCDAsyncSocket(delegate: self, delegateQueue:
-                        PipeWallet.queue, socketQueue: PipeWallet.queue)
+        }
         
-                try self.PayConn?.connect(toHost: ip, onPort:port, withTimeout:5)
+        func Close(){
+                self.PayConn?.disconnectAfterReadingAndWriting()
+                self.Eastablished = false
         }
 }
 
@@ -164,8 +139,42 @@ extension PipeWallet{
                 return (cleanStr?.data(using: .utf8))!
         }
         
-        func Close(){
-                self.PayConn?.disconnectAfterReadingAndWriting()
-                self.Eastablished = false
+        func connectToServer(conf:[String:NSObject]) throws{
+                
+                guard let MinerId = conf["bootID"] as? String else{
+                        throw YPError.NoValidBootNode
+                }
+                self.MinerAddr = Base58.bytesFromBase58(String(MinerId.dropFirst(2)))
+                
+                guard let ip = conf["bootIP"] as? String,
+                        let port = conf["bootPort"] as? UInt16 else{
+                                throw YPError.NoValidBootNode
+                }
+                guard let lic = conf["license"] as? String else{
+                        throw YPError.NoValidLicense
+                }
+                guard let pk = conf["priKey"] as? Data else{
+                        throw YPError.OpenPrivateKeyErr
+                }
+                guard let ak = conf["aesKey"] as? Data else{
+                        throw YPError.OpenPrivateKeyErr
+                }
+                
+                self.License = LicenseBean(data: lic)
+                self.priKey = pk
+                self.AesKey = ak
+                
+                let (pbk, priData) = try NaclSign.KeyPair.keyPair(fromSecretKey: pk)
+                guard priData.elementsEqual(pk) else{
+                        throw YPError.OpenPrivateKeyErr
+                }
+                self.pubKey = pbk
+                
+                NSLog("must be equal the address of this account YP\(Base58.base58FromBytes(self.pubKey!))")
+                
+                self.PayConn = GCDAsyncSocket(delegate: self, delegateQueue:
+                        PipeWallet.queue, socketQueue: PipeWallet.queue)
+                
+                try self.PayConn?.connect(toHost: ip, onPort:port, withTimeout:5)
         }
 }

@@ -28,6 +28,10 @@ class HttpProxy:NSObject{
                         exit(EXIT_FAILURE)
                 }
         }
+        
+        func Close(){
+                self.listenSocket.disconnect()
+        }
 }
 
 extension HttpProxy:GCDAsyncSocketDelegate{

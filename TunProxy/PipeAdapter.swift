@@ -25,7 +25,6 @@ class PipeAdapter: NSObject, Adapter{
         }
         
         func readData(tag: Int) {
-                
         }
         
         func write(data: Data, tag: Int) {
@@ -38,7 +37,8 @@ class PipeAdapter: NSObject, Adapter{
 }
 
 extension PipeAdapter: GCDAsyncSocketDelegate{
+        
         open func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port: UInt16) {
-                
+                NSLog("Pipe Adapter connect to sock5 proxy[\(host):\(port)]")
         }
 }
