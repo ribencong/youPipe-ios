@@ -25,6 +25,9 @@
 		7C6E563C22A51BBB000DFA75 /* HTTPURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E563A22A51BBA000DFA75 /* HTTPURL.swift */; };
 		7C6E563D22A51BBB000DFA75 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E563B22A51BBB000DFA75 /* HTTPHeader.swift */; };
 		7C6E564622A56AB8000DFA75 /* YPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E564522A56AB8000DFA75 /* YPError.swift */; };
+		7C8E506022AB791000D401AA /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8E505F22AB791000D401AA /* Common.swift */; };
+		7C8E506222AB8EA100D401AA /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C8E506122AB8EA100D401AA /* CryptoSwift.framework */; };
+		7C8E506322AB8EA100D401AA /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C8E506122AB8EA100D401AA /* CryptoSwift.framework */; };
 		7CA1090B22A65856001F1783 /* Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1090A22A65856001F1783 /* Adapter.swift */; };
 		7CA1090D22A65894001F1783 /* DirectAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1090C22A65894001F1783 /* DirectAdapter.swift */; };
 		7CA1090F22A658AA001F1783 /* PipeAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1090E22A658AA001F1783 /* PipeAdapter.swift */; };
@@ -107,6 +110,8 @@
 		7C6E563A22A51BBA000DFA75 /* HTTPURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPURL.swift; sourceTree = "<group>"; };
 		7C6E563B22A51BBB000DFA75 /* HTTPHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
 		7C6E564522A56AB8000DFA75 /* YPError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPError.swift; sourceTree = "<group>"; };
+		7C8E505F22AB791000D401AA /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		7C8E506122AB8EA100D401AA /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Carthage/Build/iOS/CryptoSwift.framework; sourceTree = "<group>"; };
 		7CA1090A22A65856001F1783 /* Adapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adapter.swift; sourceTree = "<group>"; };
 		7CA1090C22A65894001F1783 /* DirectAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectAdapter.swift; sourceTree = "<group>"; };
 		7CA1090E22A658AA001F1783 /* PipeAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipeAdapter.swift; sourceTree = "<group>"; };
@@ -130,6 +135,7 @@
 				BBF3CA8A22A91F97000DFAB8 /* TweetNacl.framework in Frameworks */,
 				7C68350F22A20E2100343FEE /* CocoaAsyncSocket.framework in Frameworks */,
 				7CA1091E22A65F7B001F1783 /* Wallet.framework in Frameworks */,
+				7C8E506222AB8EA100D401AA /* CryptoSwift.framework in Frameworks */,
 				7CA1093422A7F3EA001F1783 /* iosLib.framework in Frameworks */,
 				7C40257A22A18C730050AB3A /* NetworkExtension.framework in Frameworks */,
 			);
@@ -142,6 +148,7 @@
 				7C40258C22A190550050AB3A /* NetworkExtension.framework in Frameworks */,
 				7C68351122A20F0800343FEE /* CocoaAsyncSocket.framework in Frameworks */,
 				BBF3CA8B22A91F97000DFAB8 /* TweetNacl.framework in Frameworks */,
+				7C8E506322AB8EA100D401AA /* CryptoSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,6 +203,7 @@
 		7C40257822A18C730050AB3A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7C8E506122AB8EA100D401AA /* CryptoSwift.framework */,
 				BBF3CA8922A91F96000DFAB8 /* TweetNacl.framework */,
 				7CA1093322A7F3EA001F1783 /* iosLib.framework */,
 				7C68350D22A20E2100343FEE /* CocoaAsyncSocket.framework */,
@@ -217,6 +225,7 @@
 				7C6E564522A56AB8000DFA75 /* YPError.swift */,
 				7CA1093022A6B51F001F1783 /* PipeWallet.swift */,
 				BBF3CA8C22A92F6F000DFAB8 /* Base58.swift */,
+				7C8E505F22AB791000D401AA /* Common.swift */,
 			);
 			path = TunProxy;
 			sourceTree = "<group>";
@@ -363,7 +372,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7C40255B22A18B1F0050AB3A /* Build configuration list for PBXProject "youPipe" */;
+			buildConfigurationList = 7C40255B22A18B1F0050AB3A /* Build configuration list for PBXProject "YouPipe" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -422,6 +431,7 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/CocoaAsyncSocket.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/TweetNacl.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/CryptoSwift.framework",
 			);
 			name = "copy frames";
 			outputFileListPaths = (
@@ -454,6 +464,7 @@
 			files = (
 				7C0369F422A50BC900F6EB10 /* HttpProxy.swift in Sources */,
 				BBF3CA9022AA0B8E000DFAB8 /* LicenseBean.swift in Sources */,
+				7C8E506022AB791000D401AA /* Common.swift in Sources */,
 				BBF3CA8D22A92F6F000DFAB8 /* Base58.swift in Sources */,
 				7C0369F622A50D4B00F6EB10 /* Pipe.swift in Sources */,
 				7CA1090D22A65894001F1783 /* DirectAdapter.swift in Sources */,
@@ -802,7 +813,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7C40255B22A18B1F0050AB3A /* Build configuration list for PBXProject "youPipe" */ = {
+		7C40255B22A18B1F0050AB3A /* Build configuration list for PBXProject "YouPipe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7C40257022A18B220050AB3A /* Debug */,

@@ -34,7 +34,7 @@ class Pipe: NSObject{
         
         private var targetAddr:String?
         private var targetoPort:UInt16?
-        private var isConnect:Bool = false
+        private var isConnCmd:Bool = false
         var firstHeaderData:Data? 
         private var pipeStatus: PipeStatus = .invalid
         
@@ -97,7 +97,7 @@ extension Pipe: GCDAsyncSocketDelegate{
                 
                 NSLog("---[\(self.KeyPort!)]--->Pipe:didConnectToHost:\(host):\(port)")
 
-                if self.isConnect{
+                if self.isConnCmd{
                         self.proxySock.write(HTTPData.ConnectSuccessResponse,
                                              withTimeout: -1,
                                              tag: PipeStatus.ProxyConnectResponse.rawValue)
@@ -122,7 +122,7 @@ extension Pipe: GCDAsyncSocketDelegate{
                         
                 case .AdapterWriteOut:
 //                        NSLog("---[\(self.KeyPort!)]---=>:AdapterWriteOut......")
-                        if self.isConnect {
+                        if self.isConnCmd {
                                 self.proxySock.readData(withTimeout: -1,
                                                         tag: PipeStatus.ProxyReadIn.rawValue)
                         }else {
@@ -155,9 +155,9 @@ extension Pipe {
 
                 self.targetAddr = header.host
                 self.targetoPort = UInt16(header.port)
-                self.isConnect = header.isConnect
+                self.isConnCmd = header.isConnect
                 
-                if !self.isConnect{
+                if !self.isConnCmd{
                         self.firstHeaderData = header.rawHeader
                 }
                 

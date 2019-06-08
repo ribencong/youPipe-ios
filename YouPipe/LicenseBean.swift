@@ -39,7 +39,7 @@ class LicenseBean:NSObject{
         func Sign(secretKey:Data)throws ->String{
                 let data = self.rawData.data(using: .utf8)
                 let signData =  try NaclSign.signDetached(message: data!, secretKey: secretKey)
-                return signData.base64EncodedString(options: NSData.Base64EncodingOptions.endLineWithCarriageReturn)
+                return signData.base64EncodedString()
         }
 }
 //let base64Data = NSData(base64Encoded:base64String!, options:NSData.Base64DecodingOptions(rawValue: 0))

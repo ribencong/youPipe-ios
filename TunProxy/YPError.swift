@@ -7,10 +7,20 @@
 //
 
 import Foundation
-enum YPError:Error{
-        case SystemError, BusinessError, NoValidBootNode, NoValidAccount,
-        AccountCreateError,NoValidLicense, OpenPrivateKeyErr, GenAesKeyErr,
-        ED25519SignErr, VPNParamLost, HttpProxyFailed
+enum YPError: Error{
+        case SystemError,
+        BusinessError,
+        NoValidBootNode,
+        NoValidAccount,
+        AccountCreateError,
+        NoValidLicense,
+        OpenPrivateKeyErr,
+        GenAesKeyErr,
+        ED25519SignErr,
+        VPNParamLost,
+        HttpProxyFailed,
+        JsonPackError,
+        HandShakeErr
 }
 
 extension YPError: LocalizedError {
@@ -38,6 +48,10 @@ extension YPError: LocalizedError {
                         return NSLocalizedString("Not enough parameter to connecto miner node".localized, comment: "Pipe Error")
                 case .HttpProxyFailed:
                         return NSLocalizedString("Failed to start http proxy server".localized, comment: "Pipe Error")
+                case .JsonPackError:
+                         return NSLocalizedString("Pack Json array to data failed".localized, comment: "Pipe Error")
+                case .HandShakeErr:
+                        return NSLocalizedString("Hand shake with socks server err".localized, comment: "Pipe Error")
                 }
         }
 }

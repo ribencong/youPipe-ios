@@ -38,6 +38,7 @@ class PipeWallet:NSObject{
         var priKey:Data?
         var pubKey:Data?
         var AesKey:Data?
+        var Address:String?
         var Eastablished:Bool = false
         
         var PayConn:GCDAsyncSocket?
@@ -88,6 +89,7 @@ extension PipeWallet: GCDAsyncSocketDelegate{
                                                tag: PayChanState.WaitAck.rawValue)
                         break
                 default:
+                        //TODO::
                         break
                 }
         }
@@ -113,6 +115,7 @@ extension PipeWallet: GCDAsyncSocketDelegate{
                         break
                         
                 default:
+                        //TODO::
                         break
                 }
         }
@@ -129,14 +132,15 @@ extension PipeWallet{
                         "end":self.License!.end!,
                         "user":self.License!.userAddr!]
                 
-                let jsonbody : [String : Any] = [
-                        "CmdType" : 2,
+                let jsonbody : JSONArray = [
+                        "CmdType" : "\(CmdType.CmdPayChanel)",
                         "Sig":sig,
                         "Lic" :licBody]
 
-                let data = try JSONSerialization.data(withJSONObject: jsonbody, options: .prettyPrinted)
-                let cleanStr = String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\\", with: "")
-                return (cleanStr?.data(using: .utf8))!
+                guard let data = jsonbody.ToData() else{
+                        throw YPError.JsonPackError
+                }
+                return data
         }
         
         func connectToServer(conf:[String:NSObject]) throws{
@@ -145,6 +149,8 @@ extension PipeWallet{
                         throw YPError.NoValidBootNode
                 }
                 self.MinerAddr = Base58.bytesFromBase58(String(MinerId.dropFirst(2)))
+                
+                self.Address = conf["address"] as? String
                 
                 guard let ip = conf["bootIP"] as? String,
                         let port = conf["bootPort"] as? UInt16 else{
