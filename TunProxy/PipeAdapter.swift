@@ -26,7 +26,7 @@ class PipeAdapter: NSObject{
         private var encryptor:(Cryptor & Updatable)
         private var decryptor:(Cryptor & Updatable)
         
-        var delegae:GCDAsyncSocketDelegate?
+        var delegate:GCDAsyncSocketDelegate?
         
         init?(targetHost: String, targetPort: UInt16,
              delegae:GCDAsyncSocketDelegate){
@@ -37,7 +37,7 @@ class PipeAdapter: NSObject{
                         sock = GCDAsyncSocket(delegate: nil,
                                         delegateQueue: PipeWallet.queue,
                                         socketQueue:PipeWallet.queue)
-                        self.delegae = delegae
+                        self.delegate = delegae
                 
                         let iv: Array<UInt8> = AES.randomIV(AES.blockSize)
                         self.salt = Data.init(iv)
@@ -95,8 +95,9 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
                         
                 default:
                         do {
-                        let rawData = try self.decryptor.finish(withBytes: data.bytes)
-                        self.delegae?.socket?(sock, didRead: Data.init(rawData), withTag: tag)
+                                let rawData = try self.decryptor.finish(withBytes: data.bytes)
+                                self.delegate?.socket?(sock, didRead: Data.init(rawData), withTag: tag)
+                                FlowCounter.shared.Consume(used: data.count)
                         }catch let err{
                                 NSLog("---PipeAdapter--=>: read from socks server err:\(err.localizedDescription)")
                         }
@@ -112,12 +113,16 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
                         break
                 case .SendSalt:
                         NSLog("---PipeAdapter--=>:Send salt success")
-                        self.delegae?.socket?(self.sock, didConnectToHost: self.tgtHost, port: self.tgtPort)
+                        self.delegate?.socket?(self.sock, didConnectToHost: self.tgtHost, port: self.tgtPort)
                         break
                 default:
-                        //TODO::
+                        self.delegate?.socket?(sock, didWriteDataWithTag: tag)
                         break
                 }
+        }
+        
+        open func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
+                self.delegate?.socketDidDisconnect?(sock, withError: err)
         }
 }
 
@@ -142,7 +147,7 @@ extension PipeAdapter{
         }
         
         func Close(error:Error?){
-                self.delegae?.socketDidDisconnect?(self.sock, withError: error)
+                self.delegate?.socketDidDisconnect?(self.sock, withError: error)
         }
 }
 

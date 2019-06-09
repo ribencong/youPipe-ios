@@ -13,13 +13,19 @@ import TweetNacl
 class FlowCounter: NSObject{
         
         static let  shared = FlowCounter()
-        
-        var totalUsed:Double
-        var unsigned:Double
+        let queue = DispatchQueue(label: "com.ribencong.flowcounter")
+        var totalUsed:Int
+        var unsigned:Int
         
         override private init() {
-                totalUsed = 0.0
-                unsigned = 0.0
+                totalUsed = 0
+                unsigned = 0
+        }
+        
+        func Consume(used:Int){
+                queue.sync {
+                        self.unsigned += used
+                }
         }
 }
 
