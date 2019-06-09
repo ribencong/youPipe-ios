@@ -19,7 +19,8 @@ class PipeWallet:NSObject{
         public enum PayChanState:Int{
                 case SynHand = 1,
                 WaitAck,
-                WaitBill
+                WaitBill,
+                ProofBill
         }
         
         var MinerAddr:Data?
@@ -45,6 +46,7 @@ class PipeWallet:NSObject{
                 
         }
         
+        //TODO::Check the wallet user when payment channel closed
         func Close(){
                 self.PayConn?.disconnectAfterReadingAndWriting()
                 self.Eastablished = false
@@ -77,6 +79,11 @@ extension PipeWallet: GCDAsyncSocketDelegate{
                         self.PayConn?.readData(withTimeout: 5,
                                                tag: PayChanState.WaitAck.rawValue)
                         break
+                        
+                case .ProofBill:
+                        NSLog("---PipeWallet--=>:Send Bill Proof success")
+                        break
+                        
                 default:
                         //TODO::
                         break
@@ -102,7 +109,9 @@ extension PipeWallet: GCDAsyncSocketDelegate{
                         let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String : Any]
                         NSLog("---PipeWallet--=>:Got bill:[\(String(describing: json))]")
                         do {
-                        try self.SignTheBill(bill:json)
+                                let proofData = try self.SignTheBill(bill:json)
+                                self.PayConn?.write(proofData, withTimeout: 5,
+                                                    tag: PayChanState.ProofBill.rawValue)
                         }catch let err{
                                 NSLog("Sign bill err:\(err.localizedDescription)")
                                 self.Close()
@@ -180,13 +189,17 @@ extension PipeWallet{
                 try self.PayConn?.connect(toHost: ip, onPort:port, withTimeout:5)
         }
         
-        func SignTheBill(bill:[String:Any]?) throws{
+        func SignTheBill(bill:[String:Any]?) throws -> Data{
                 guard let billData = bill else{
                         throw YPError.InvalidSignBill
                 }
                 
                 let bilObj = try FlowBill(billData: billData as JSONArray)
                 
-                let proof = FlowCounter.shared.PayBill(bill: bilObj)
+                guard let proof = try FlowCounter.shared.SignPayBill(bill: bilObj) else{
+                        throw YPError.SignBillProofErr
+                }
+                
+                return proof
         }
 }

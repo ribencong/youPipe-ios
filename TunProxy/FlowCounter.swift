@@ -15,10 +15,12 @@ class FlowCounter: NSObject{
         let queue = DispatchQueue(label: "com.ribencong.flowcounter")
         var totalUsed:Int
         var unsigned:Int
+        var PayChannelClosed:Bool
         
         override private init() {
                 totalUsed = 0
                 unsigned = 0
+                PayChannelClosed = false
         }
         
         func Consume(used:Int){
@@ -27,8 +29,31 @@ class FlowCounter: NSObject{
                 }
         }
         
-        func PayBill(bill:FlowBill) -> FlowProof {
-                return FlowProof()
+        func CloseCounter(){
+                queue.sync {
+                        self.PayChannelClosed = true
+                }
+        }
+        
+        func SignPayBill(bill:FlowBill) throws-> Data? {
+                var rawBill = bill.rawData
+               
+                try queue.sync {
+                        
+                        if self.PayChannelClosed{
+                                throw YPError.PayChannelHasClosed
+                        }
+                        
+                        if self.unsigned < bill.BandWidthInBill{
+                                throw YPError.BillOverFlowUsed
+                        }
+                        
+                        let priKey = PipeWallet.shared.priKey!
+                        let sig = rawBill.ToSignString(priKey: priKey)
+                        rawBill["ConsumerSig"] = sig
+                }
+                
+                return rawBill.ToData()
         }
 }
 
@@ -83,11 +108,5 @@ class FlowBill: NSObject{
         
         func verify(pubKey:Data) throws ->Bool{
                 return  try NaclSign.signDetachedVerify(message: self.Mineral, sig: SigData, publicKey:pubKey)
-        }
-}
-
-class FlowProof: NSObject{
-        override init() {
-                super.init()
         }
 }

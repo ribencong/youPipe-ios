@@ -25,7 +25,10 @@ enum YPError: Error{
         InvalidSignBill,
         InvalidSign,
         InvalidMineral,
-        SignBillVerifyFailed
+        SignBillVerifyFailed,
+        BillOverFlowUsed,
+        SignBillProofErr,
+        PayChannelHasClosed
 }
 
 extension YPError: LocalizedError {
@@ -67,6 +70,12 @@ extension YPError: LocalizedError {
                         return NSLocalizedString("Mineral data in bill is invalid".localized, comment: "Pipe Error")
                 case .SignBillVerifyFailed:
                         return NSLocalizedString("Sign bill verfiy failed".localized, comment: "Pipe Error")
+                case .BillOverFlowUsed:
+                        return NSLocalizedString("Flow amount in bill is over flow of record".localized, comment: "Pipe Error")
+                case .SignBillProofErr:
+                        return NSLocalizedString("Generate proof of floww bill failed".localized, comment: "Pipe Error")
+                case .PayChannelHasClosed:
+                        return NSLocalizedString("Payment channel has been closed".localized, comment: "Pipe Error")
                 }
         }
 }
