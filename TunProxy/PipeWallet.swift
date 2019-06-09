@@ -39,7 +39,7 @@ class PipeWallet:NSObject{
         
         func Establish(conf:[String:NSObject], completionHandler: @escaping (Error?) -> Void) {
                 do {
-                        Domains.shared.InitCache(data: conf["doamins"] as! [String])
+                        try Domains.shared.InitCache(data: conf["doamins"] as! [String])
                         try self.connectToServer(conf: conf)
                 }catch let err{
                         completionHandler(err)
@@ -138,7 +138,7 @@ extension PipeWallet{
                         "user":self.License!.userAddr!]
                 
                 let jsonbody : JSONArray = [
-                        "CmdType" : "\(CmdType.CmdPayChanel)",
+                        "CmdType" : "\(CmdType.CmdPayChanel.rawValue)",
                         "Sig":sig,
                         "Lic" :licBody]
 

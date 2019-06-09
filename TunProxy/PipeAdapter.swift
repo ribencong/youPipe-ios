@@ -138,7 +138,7 @@ extension PipeAdapter{
                 let (sig, _) = request.ToSignString(priKey: pk)
                 
                 let handShake : JSONArray = [
-                        "CmdType": "\(CmdType.CmdPipe)",
+                        "CmdType": "\(CmdType.CmdPipe.rawValue)",
                         "Sig":sig as Any,
                         "Pipe":request,
                 ]
