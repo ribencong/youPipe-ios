@@ -20,7 +20,8 @@ enum YPError: Error{
         VPNParamLost,
         HttpProxyFailed,
         JsonPackError,
-        HandShakeErr
+        HandShakeErr,
+        InvalidAesKeyErr
 }
 
 extension YPError: LocalizedError {
@@ -52,6 +53,8 @@ extension YPError: LocalizedError {
                          return NSLocalizedString("Pack Json array to data failed".localized, comment: "Pipe Error")
                 case .HandShakeErr:
                         return NSLocalizedString("Hand shake with socks server err".localized, comment: "Pipe Error")
+                case .InvalidAesKeyErr:
+                        return NSLocalizedString("Aes key invalid".localized, comment: "Pipe Error")
                 }
         }
 }

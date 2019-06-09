@@ -22,21 +22,38 @@ class PipeAdapter: NSObject{
         private var sock:GCDAsyncSocket
         private var tgtHost:String
         private var tgtPort:UInt16
+        private var salt:Data
+        private var encryptor:(Cryptor & Updatable)
+        private var decryptor:(Cryptor & Updatable)
         
         var delegae:GCDAsyncSocketDelegate?
         
         init?(targetHost: String, targetPort: UInt16,
              delegae:GCDAsyncSocketDelegate){
-                tgtHost = targetHost
-                tgtPort = targetPort
-                
-                sock = GCDAsyncSocket(delegate: nil,
-                                delegateQueue: PipeWallet.queue, socketQueue:PipeWallet.queue)
-                self.delegae = delegae
-                super.init()
-                self.sock.synchronouslySetDelegate(self)
-                
                 do {
+                        tgtHost = targetHost
+                        tgtPort = targetPort
+                
+                        sock = GCDAsyncSocket(delegate: nil,
+                                        delegateQueue: PipeWallet.queue,
+                                        socketQueue:PipeWallet.queue)
+                        self.delegae = delegae
+                
+                        let iv: Array<UInt8> = AES.randomIV(AES.blockSize)
+                        self.salt = Data.init(iv)
+                
+                        guard let aesKey = PipeWallet.shared.AesKey?.bytes else{
+                                throw YPError.InvalidAesKeyErr
+                        }
+                
+                        let aes = try AES(key: aesKey, blockMode: CFB.init(iv: iv))
+                        self.decryptor = try aes.makeDecryptor()
+                        self.encryptor = try aes.makeEncryptor()
+                
+                        super.init()
+                        self.sock.synchronouslySetDelegate(self)
+                
+                
                         try sock.connect(toHost: targetHost,
                                          onPort: targetPort)
                 } catch let err {
@@ -71,14 +88,18 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
                         }
                         NSLog("---PipeAdapter--=>: Create Pipe[\(self.tgtHost):\(self.tgtPort)]  success!")
                         
-                        let saltData = self.GenPipeSalt()
-                        self.sock.write(saltData,
+                        self.sock.write(self.salt,
                                         withTimeout: PipeCmdTime,
                                         tag: PipeChanState.SendSalt.rawValue)
                         break
                         
                 default:
-                        //TODO::
+                        do {
+                        let rawData = try self.decryptor.finish(withBytes: data.bytes)
+                        self.delegae?.socket?(sock, didRead: Data.init(rawData), withTag: tag)
+                        }catch let err{
+                                NSLog("---PipeAdapter--=>: read from socks server err:\(err.localizedDescription)")
+                        }
                         break
                 }
         }
@@ -123,11 +144,6 @@ extension PipeAdapter{
         func Close(error:Error?){
                 self.delegae?.socketDidDisconnect?(self.sock, withError: error)
         }
-        
-        func GenPipeSalt() ->Data{
-                let iv: Array<UInt8> = AES.randomIV(AES.blockSize)
-                return Data.init(iv)
-        }
 }
 
 extension PipeAdapter:Adapter{
@@ -137,7 +153,12 @@ extension PipeAdapter:Adapter{
         }
         
         func write(data: Data, tag: Int) {
-                self.sock.write(data, withTimeout: -1, tag: tag)
+                do {
+                        let cipher = try self.encryptor.finish(withBytes: data.bytes)
+                        self.sock.write(Data.init(cipher), withTimeout: -1, tag: tag)
+                }catch let err{
+                        NSLog("Encrypt data to sock server err:\(err.localizedDescription)")
+                }
         }
         
         func byePeer() {
