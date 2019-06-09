@@ -130,7 +130,7 @@ extension PipeAdapter{
         
         func handShake() -> Data?{
                 let request : JSONArray = [
-                        "Addr":PipeWallet.shared.Address!,
+                        "Addr":PipeWallet.shared.MyAddr!,
                         "Target":"\(self.tgtHost):\(self.tgtPort)",
                 ]
                 

@@ -21,7 +21,11 @@ enum YPError: Error{
         HttpProxyFailed,
         JsonPackError,
         HandShakeErr,
-        InvalidAesKeyErr
+        InvalidAesKeyErr,
+        InvalidSignBill,
+        InvalidSign,
+        InvalidMineral,
+        SignBillVerifyFailed
 }
 
 extension YPError: LocalizedError {
@@ -55,6 +59,14 @@ extension YPError: LocalizedError {
                         return NSLocalizedString("Hand shake with socks server err".localized, comment: "Pipe Error")
                 case .InvalidAesKeyErr:
                         return NSLocalizedString("Aes key invalid".localized, comment: "Pipe Error")
+                case .InvalidSignBill:
+                        return NSLocalizedString("Invalid Sign Bill".localized, comment: "Pipe Error")
+                case .InvalidSign:
+                        return NSLocalizedString("Signature invalid".localized, comment: "Pipe Error")
+                case .InvalidMineral:
+                        return NSLocalizedString("Mineral data in bill is invalid".localized, comment: "Pipe Error")
+                case .SignBillVerifyFailed:
+                        return NSLocalizedString("Sign bill verfiy failed".localized, comment: "Pipe Error")
                 }
         }
 }

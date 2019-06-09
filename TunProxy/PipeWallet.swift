@@ -10,24 +10,7 @@ import Foundation
 import CocoaAsyncSocket
 import TweetNacl
 
-class FlowCounter: NSObject{
-        
-        static let  shared = FlowCounter()
-        let queue = DispatchQueue(label: "com.ribencong.flowcounter")
-        var totalUsed:Int
-        var unsigned:Int
-        
-        override private init() {
-                totalUsed = 0
-                unsigned = 0
-        }
-        
-        func Consume(used:Int){
-                queue.sync {
-                        self.unsigned += used
-                }
-        }
-}
+
 
 class PipeWallet:NSObject{
         static let shared = PipeWallet()
@@ -44,7 +27,7 @@ class PipeWallet:NSObject{
         var priKey:Data?
         var pubKey:Data?
         var AesKey:Data?
-        var Address:String?
+        var MyAddr:String?
         var Eastablished:Bool = false
         
         var PayConn:GCDAsyncSocket?
@@ -118,6 +101,13 @@ extension PipeWallet: GCDAsyncSocketDelegate{
                 case .WaitBill:
                         let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String : Any]
                         NSLog("---PipeWallet--=>:Got bill:[\(String(describing: json))]")
+                        do {
+                        try self.SignTheBill(bill:json)
+                        }catch let err{
+                                NSLog("Sign bill err:\(err.localizedDescription)")
+                                self.Close()
+                                PipeWallet.shared.Close()
+                        }
                         break
                         
                 default:
@@ -156,7 +146,7 @@ extension PipeWallet{
                 }
                 self.MinerAddr = Base58.bytesFromBase58(String(MinerId.dropFirst(2)))
                 
-                self.Address = conf["address"] as? String
+                self.MyAddr = conf["address"] as? String
                 
                 guard let ip = conf["bootIP"] as? String,
                         let port = conf["bootPort"] as? UInt16 else{
@@ -188,5 +178,15 @@ extension PipeWallet{
                         PipeWallet.queue, socketQueue: PipeWallet.queue)
                 
                 try self.PayConn?.connect(toHost: ip, onPort:port, withTimeout:5)
+        }
+        
+        func SignTheBill(bill:[String:Any]?) throws{
+                guard let billData = bill else{
+                        throw YPError.InvalidSignBill
+                }
+                
+                let bilObj = try FlowBill(billData: billData as JSONArray)
+                
+                let proof = FlowCounter.shared.PayBill(bill: bilObj)
         }
 }
