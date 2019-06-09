@@ -13,7 +13,9 @@ let KEY_FOR_BOOT_NODE_STR = "KEY_FOR_BOOT_NODE_STR"
 let KEY_FOR_BLOOK_CHAIN_ADDR = "KEY_FOR_BLOOK_CHAIN_ADDR"
 let KEY_FOR_BLOOK_CHAIN_CIPHER = "KEY_FOR_BLOOK_CHAIN_CIPHER"
 let KEY_FOR_YOUPIPE_LICENSE = "KEY_FOR_YOUPIPE_LICENSE"
+let KEY_FOR_YOUPIPE_DOMAINDATA = "KEY_FOR_YOUPIPE_DOMAINDATA"
 
+let DEFAULT_DOMAIN_DATA_URL = "https://raw.githubusercontent.com/youpipe/ypctorrent/master/gfw.torrent"
 
 class YouPipeService:NSObject{
         
@@ -86,12 +88,29 @@ class YouPipeService:NSObject{
                 return try LoadLicense()
         }
         
+        func LoadDomain() throws ->[String]{
+                
+                var domainStr:String? = UserDefaults.standard.string(forKey: KEY_FOR_YOUPIPE_DOMAINDATA)
+                if domainStr == nil{
+                        domainStr = IosLibLoadDomain(DEFAULT_DOMAIN_DATA_URL)
+                        UserDefaults.standard.set(domainStr, forKey: KEY_FOR_YOUPIPE_DOMAINDATA)
+                }
+                guard let domains = domainStr?.components(separatedBy: ","),
+                        domains.count > 0 else {
+                                throw YPError.NoDomains
+                }
+                return domains
+        }
+        
         func PrepareForVpn(password:String) throws -> [String:NSObject]{
                 var param:[String:NSObject] = [:]
                 
 //                let bootNode = try LoadBestBootNode()
                
                 let bootNode = "YPBzFaBFv8ZjkPQxtozNQe1c9CvrGXYg4tytuWjo9jiaZx@@@192.168.1.108:61948"
+                
+                let domains = try LoadDomain()
+                param["doamins"] = domains as NSObject
                 
                 let idaddr:[String] = bootNode.components(separatedBy: IosLibSeparator)
                 guard  idaddr.count == 2 else{

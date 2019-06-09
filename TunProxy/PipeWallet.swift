@@ -39,11 +39,11 @@ class PipeWallet:NSObject{
         
         func Establish(conf:[String:NSObject], completionHandler: @escaping (Error?) -> Void) {
                 do {
-                       try self.connectToServer(conf: conf)
+                        Domains.shared.InitCache(data: conf["doamins"] as! [String])
+                        try self.connectToServer(conf: conf)
                 }catch let err{
                         completionHandler(err)
                 }
-                
         }
         
         //TODO::Check the wallet user when payment channel closed

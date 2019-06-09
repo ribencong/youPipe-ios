@@ -160,7 +160,14 @@ extension Pipe {
                 if !self.isConnCmd{
                         self.firstHeaderData = header.rawHeader
                 }
-                
-                self.adapter = DirectAdapter(targetHost: self.targetAddr!, targetPort: self.targetoPort!, delegae: self)
+                if Domains.shared.Hit(host: header.host){
+                        self.adapter = PipeAdapter(targetHost: self.targetAddr!,
+                                                   targetPort: self.targetoPort!,
+                                                   delegae: self)
+                }else{
+                        self.adapter = DirectAdapter(targetHost: self.targetAddr!,
+                                             targetPort: self.targetoPort!,
+                                             delegae: self)
+                }
         }
 }

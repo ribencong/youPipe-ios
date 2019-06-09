@@ -11,6 +11,7 @@
 #include "Universe.objc.h"
 
 
+FOUNDATION_EXPORT NSString* _Nonnull const IosLibDefaultDomainUrl;
 FOUNDATION_EXPORT NSString* _Nonnull const IosLibSeparator;
 
 FOUNDATION_EXPORT NSString* _Nonnull IosLibCreateAccount(NSString* _Nullable password);
@@ -20,6 +21,8 @@ FOUNDATION_EXPORT NSString* _Nonnull IosLibFindBestNode(NSString* _Nullable node
 FOUNDATION_EXPORT NSData* _Nullable IosLibGenAesKey(NSData* _Nullable priKey, NSString* _Nullable peerID);
 
 FOUNDATION_EXPORT NSData* _Nullable IosLibGenPriKey(NSString* _Nullable cipherTxt, NSString* _Nullable address, NSString* _Nullable password);
+
+FOUNDATION_EXPORT NSString* _Nonnull IosLibLoadDomain(NSString* _Nullable url);
 
 FOUNDATION_EXPORT NSString* _Nonnull IosLibLoadNodes(void);
 
