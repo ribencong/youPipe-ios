@@ -94,8 +94,7 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
                 
                 switch cmd {
                 case .WaitAck:
-                        do{
-                                let json = try JSON(data:data)
+                        do{ let json = try JSON(data:data)
                                 if let success = json["Success"].bool, !success {
                                         NSLog("---PipeAdapter--=>:Pipe[\(self.tgtHost):\(self.tgtPort)] hand shake err:\(json["Message"] )")
                                         self.Close(error: nil)
@@ -155,8 +154,7 @@ struct HandShake:Codable{
         let Pipe:PipeSig
 }
 
-extension PipeAdapter{
-        
+extension PipeAdapter{ 
         func handShake() -> Data?{do{
                 let encoder = JSONEncoder()
                 let request = PipeSig(Addr: PipeWallet.shared.MyAddr!,

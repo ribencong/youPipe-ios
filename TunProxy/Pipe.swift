@@ -113,7 +113,7 @@ extension Pipe: GCDAsyncSocketDelegate{
                 switch (PipeStatus.init(rawValue: tag))! {
                         
                 case .ProxyConnectResponse:
-                        NSLog("---[\(self.KeyPort!)]---=>:ProxyConnectResponse......")
+                        NSLog("---Pipe[\(self.KeyPort!)]---=>:ProxyConnectResponse......")
                         self.proxySock.readData(withTimeout: -1,
                                                 tag: PipeStatus.ProxyReadIn.rawValue)
                         
