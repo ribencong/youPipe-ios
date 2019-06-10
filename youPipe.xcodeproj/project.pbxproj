@@ -11,18 +11,18 @@
 		7C0369F622A50D4B00F6EB10 /* Pipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0369F522A50D4B00F6EB10 /* Pipe.swift */; };
 		7C0F1C3322ACE19500F6F72A /* FlowCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0F1C3222ACE19500F6F72A /* FlowCounter.swift */; };
 		7C0F1C3522AD07B600F6F72A /* Domains.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0F1C3422AD07B600F6F72A /* Domains.swift */; };
-		7C0F1C5522AD3A7000F6F72A /* DomainParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C0F1C5322AD3A7000F6F72A /* DomainParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7C0F1C5822AD3A7000F6F72A /* DomainParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C0F1C5122AD3A7000F6F72A /* DomainParser.framework */; };
 		7C0F1C5922AD3A7000F6F72A /* DomainParser.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7C0F1C5122AD3A7000F6F72A /* DomainParser.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		7C0F1C6522AD3ACB00F6F72A /* RulesParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0F1C5D22AD3AC900F6F72A /* RulesParser.swift */; };
-		7C0F1C6622AD3ACB00F6F72A /* ParsedHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0F1C5E22AD3AC900F6F72A /* ParsedHost.swift */; };
-		7C0F1C6722AD3ACB00F6F72A /* BasicRulesParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0F1C5F22AD3AC900F6F72A /* BasicRulesParser.swift */; };
-		7C0F1C6822AD3ACB00F6F72A /* DomainParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0F1C6022AD3AC900F6F72A /* DomainParser.swift */; };
-		7C0F1C6922AD3ACB00F6F72A /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0F1C6122AD3ACA00F6F72A /* Constant.swift */; };
-		7C0F1C6A22AD3ACB00F6F72A /* RuleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0F1C6322AD3ACA00F6F72A /* RuleLabel.swift */; };
-		7C0F1C6B22AD3ACB00F6F72A /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0F1C6422AD3ACA00F6F72A /* Rule.swift */; };
 		7C0F1C6C22AD3AE800F6F72A /* DomainParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C0F1C5122AD3A7000F6F72A /* DomainParser.framework */; };
 		7C0F1C6E22AD3CD600F6F72A /* public_suffix_list.dat in Resources */ = {isa = PBXBuildFile; fileRef = 7C0F1C6D22AD3CD600F6F72A /* public_suffix_list.dat */; };
+		7C3418F622ADEA11008DCA58 /* DomainParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3418ED22ADEA11008DCA58 /* DomainParser.swift */; };
+		7C3418F722ADEA11008DCA58 /* RulesParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3418EE22ADEA11008DCA58 /* RulesParser.swift */; };
+		7C3418F822ADEA11008DCA58 /* ParsedHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3418EF22ADEA11008DCA58 /* ParsedHost.swift */; };
+		7C3418F922ADEA11008DCA58 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3418F022ADEA11008DCA58 /* Constant.swift */; };
+		7C3418FA22ADEA11008DCA58 /* RuleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3418F222ADEA11008DCA58 /* RuleLabel.swift */; };
+		7C3418FB22ADEA11008DCA58 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3418F322ADEA11008DCA58 /* Rule.swift */; };
+		7C3418FC22ADEA11008DCA58 /* BasicRulesParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3418F422ADEA11008DCA58 /* BasicRulesParser.swift */; };
+		7C3418FD22ADEA11008DCA58 /* DomainParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C3418F522ADEA11008DCA58 /* DomainParser.h */; };
 		7C40256422A18B200050AB3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C40256322A18B200050AB3A /* AppDelegate.swift */; };
 		7C40256622A18B200050AB3A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C40256522A18B200050AB3A /* ViewController.swift */; };
 		7C40256922A18B200050AB3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C40256722A18B200050AB3A /* Main.storyboard */; };
@@ -102,16 +102,16 @@
 		7C0F1C3422AD07B600F6F72A /* Domains.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Domains.swift; sourceTree = "<group>"; };
 		7C0F1C3822AD27C100F6F72A /* TweetNacl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TweetNacl.framework; path = Carthage/Build/iOS/TweetNacl.framework; sourceTree = "<group>"; };
 		7C0F1C5122AD3A7000F6F72A /* DomainParser.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DomainParser.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7C0F1C5322AD3A7000F6F72A /* DomainParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DomainParser.h; sourceTree = "<group>"; };
 		7C0F1C5422AD3A7000F6F72A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7C0F1C5D22AD3AC900F6F72A /* RulesParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RulesParser.swift; path = ../../SwiftDomainParser/DomainParser/DomainParser/RulesParser.swift; sourceTree = "<group>"; };
-		7C0F1C5E22AD3AC900F6F72A /* ParsedHost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParsedHost.swift; path = ../../SwiftDomainParser/DomainParser/DomainParser/ParsedHost.swift; sourceTree = "<group>"; };
-		7C0F1C5F22AD3AC900F6F72A /* BasicRulesParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BasicRulesParser.swift; path = ../../SwiftDomainParser/DomainParser/DomainParser/BasicRulesParser.swift; sourceTree = "<group>"; };
-		7C0F1C6022AD3AC900F6F72A /* DomainParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DomainParser.swift; path = ../../SwiftDomainParser/DomainParser/DomainParser/DomainParser.swift; sourceTree = "<group>"; };
-		7C0F1C6122AD3ACA00F6F72A /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constant.swift; path = ../../SwiftDomainParser/DomainParser/DomainParser/Constant.swift; sourceTree = "<group>"; };
-		7C0F1C6322AD3ACA00F6F72A /* RuleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RuleLabel.swift; sourceTree = "<group>"; };
-		7C0F1C6422AD3ACA00F6F72A /* Rule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
 		7C0F1C6D22AD3CD600F6F72A /* public_suffix_list.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = public_suffix_list.dat; sourceTree = "<group>"; };
+		7C3418ED22ADEA11008DCA58 /* DomainParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomainParser.swift; sourceTree = "<group>"; };
+		7C3418EE22ADEA11008DCA58 /* RulesParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RulesParser.swift; sourceTree = "<group>"; };
+		7C3418EF22ADEA11008DCA58 /* ParsedHost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsedHost.swift; sourceTree = "<group>"; };
+		7C3418F022ADEA11008DCA58 /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		7C3418F222ADEA11008DCA58 /* RuleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RuleLabel.swift; sourceTree = "<group>"; };
+		7C3418F322ADEA11008DCA58 /* Rule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
+		7C3418F422ADEA11008DCA58 /* BasicRulesParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicRulesParser.swift; sourceTree = "<group>"; };
+		7C3418F522ADEA11008DCA58 /* DomainParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DomainParser.h; sourceTree = "<group>"; };
 		7C40256022A18B1F0050AB3A /* YouPipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouPipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C40256322A18B200050AB3A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7C40256522A18B200050AB3A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -179,27 +179,26 @@
 		7C0F1C5222AD3A7000F6F72A /* DomainParser */ = {
 			isa = PBXGroup;
 			children = (
+				7C3418F422ADEA11008DCA58 /* BasicRulesParser.swift */,
+				7C3418F022ADEA11008DCA58 /* Constant.swift */,
+				7C3418F522ADEA11008DCA58 /* DomainParser.h */,
+				7C3418ED22ADEA11008DCA58 /* DomainParser.swift */,
+				7C3418F122ADEA11008DCA58 /* Model */,
+				7C3418EF22ADEA11008DCA58 /* ParsedHost.swift */,
+				7C3418EE22ADEA11008DCA58 /* RulesParser.swift */,
 				7C0F1C6D22AD3CD600F6F72A /* public_suffix_list.dat */,
-				7C0F1C5F22AD3AC900F6F72A /* BasicRulesParser.swift */,
-				7C0F1C6122AD3ACA00F6F72A /* Constant.swift */,
-				7C0F1C6022AD3AC900F6F72A /* DomainParser.swift */,
-				7C0F1C6222AD3ACA00F6F72A /* Model */,
-				7C0F1C5E22AD3AC900F6F72A /* ParsedHost.swift */,
-				7C0F1C5D22AD3AC900F6F72A /* RulesParser.swift */,
-				7C0F1C5322AD3A7000F6F72A /* DomainParser.h */,
 				7C0F1C5422AD3A7000F6F72A /* Info.plist */,
 			);
 			path = DomainParser;
 			sourceTree = "<group>";
 		};
-		7C0F1C6222AD3ACA00F6F72A /* Model */ = {
+		7C3418F122ADEA11008DCA58 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				7C0F1C6322AD3ACA00F6F72A /* RuleLabel.swift */,
-				7C0F1C6422AD3ACA00F6F72A /* Rule.swift */,
+				7C3418F222ADEA11008DCA58 /* RuleLabel.swift */,
+				7C3418F322ADEA11008DCA58 /* Rule.swift */,
 			);
-			name = Model;
-			path = ../../SwiftDomainParser/DomainParser/DomainParser/Model;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		7C40255722A18B1F0050AB3A = {
@@ -298,7 +297,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C0F1C5522AD3A7000F6F72A /* DomainParser.h in Headers */,
+				7C3418FD22ADEA11008DCA58 /* DomainParser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,13 +479,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C0F1C6622AD3ACB00F6F72A /* ParsedHost.swift in Sources */,
-				7C0F1C6522AD3ACB00F6F72A /* RulesParser.swift in Sources */,
-				7C0F1C6A22AD3ACB00F6F72A /* RuleLabel.swift in Sources */,
-				7C0F1C6922AD3ACB00F6F72A /* Constant.swift in Sources */,
-				7C0F1C6822AD3ACB00F6F72A /* DomainParser.swift in Sources */,
-				7C0F1C6722AD3ACB00F6F72A /* BasicRulesParser.swift in Sources */,
-				7C0F1C6B22AD3ACB00F6F72A /* Rule.swift in Sources */,
+				7C3418F722ADEA11008DCA58 /* RulesParser.swift in Sources */,
+				7C3418F822ADEA11008DCA58 /* ParsedHost.swift in Sources */,
+				7C3418FC22ADEA11008DCA58 /* BasicRulesParser.swift in Sources */,
+				7C3418F622ADEA11008DCA58 /* DomainParser.swift in Sources */,
+				7C3418FB22ADEA11008DCA58 /* Rule.swift in Sources */,
+				7C3418F922ADEA11008DCA58 /* Constant.swift in Sources */,
+				7C3418FA22ADEA11008DCA58 /* RuleLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
