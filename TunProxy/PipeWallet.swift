@@ -71,11 +71,8 @@ extension PipeWallet: GCDAsyncSocketDelegate{
                         let d = try self.handShakeData()
                         self.PayConn?.write(d, withTimeout: 5, tag: PayChanState.SynHand.rawValue)
                         
-                        self.ConnectCallBack?(nil)
-                        self.ConnectCallBack = nil
-                        
                 }catch let err{
-                        NSLog("Failed to create payment channel:\(err.localizedDescription)")
+                        NSLog("---PipeWallet--=>:Failed to create payment channel:\(err.localizedDescription)")
                 }
         }
         
@@ -98,7 +95,6 @@ extension PipeWallet: GCDAsyncSocketDelegate{
                 case .ProofBill:
                         NSLog("---PipeWallet--=>:Send Bill Proof success")
                         break
-                        
                 default:
                         //TODO::
                         break
@@ -116,6 +112,8 @@ extension PipeWallet: GCDAsyncSocketDelegate{
                                 self.Close()
                         }
                         NSLog("---PipeWallet--=>: Create Payment channel success!")
+                        self.ConnectCallBack?(nil)
+                        self.ConnectCallBack = nil
                         self.Eastablished = true
                         self.PayConn?.readData(withTimeout: -1, tag: PayChanState.WaitBill.rawValue)
                         break
@@ -128,7 +126,7 @@ extension PipeWallet: GCDAsyncSocketDelegate{
                                 self.PayConn?.write(proofData, withTimeout: 5,
                                                     tag: PayChanState.ProofBill.rawValue)
                         }catch let err{
-                                NSLog("Sign bill err:\(err.localizedDescription)")
+                                NSLog("---PipeWallet--=>:Sign bill err:\(err.localizedDescription)")
                                 self.Close()
                                 PipeWallet.shared.Close()
                         }
@@ -153,7 +151,7 @@ extension PipeWallet{
                         "user":self.License!.userAddr!]
                 
                 let jsonbody : JSONArray = [
-                        "CmdType" : "\(CmdType.CmdPayChanel.rawValue)",
+                        "CmdType" :  CmdType.CmdPayChanel.rawValue,
                         "Sig":sig,
                         "Lic" :licBody]
 
