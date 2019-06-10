@@ -99,10 +99,6 @@ class FlowBill: NSObject{
                         throw YPError.InvalidMineral
                 }
                 self.Mineral = minerData
-                
-                
-                
-                
                 super.init()
         }
         

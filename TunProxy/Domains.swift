@@ -29,6 +29,7 @@ class Domains: NSObject {
                         return false
                 }
                 
+                //TODO:: Tmp Test
                 if domain == "baidu.com"{
                         return true
                 }

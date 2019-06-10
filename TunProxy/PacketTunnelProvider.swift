@@ -35,7 +35,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                         guard err == nil else {
                                 self.ReleaseResource()
                                 completionHandler(err)
-                                NSLog("establish connection to miner err:\(err!.localizedDescription)")
+                                NSLog("---(Tunnel)---=>:establish connection to miner err:\(err!.localizedDescription)")
                                 return
                         }
                         

@@ -67,7 +67,7 @@ extension Pipe: GCDAsyncSocketDelegate{
                         switch (PipeStatus.init(rawValue: tag))!{
                         case .ProxyFirstRequest:
                                 let header = try HTTPHeader(headerData: data)
-//                                NSLog("---[\(self.KeyPort!)]---=>:ProxyFirstRequest \(header.toString())......")
+//                                NSLog("---Pipe[\(self.KeyPort!)]---=>:ProxyFirstRequest \(header.toString())......")
                                 try self.OpenAdapter(header: header)
                                 break
                                 
@@ -76,18 +76,18 @@ extension Pipe: GCDAsyncSocketDelegate{
                                 break
                                 
                         case .AdapterReadIn:
-//                                NSLog("---[\(self.KeyPort!)]---=>:AdapterReadIn......\(data.count)")
+//                                NSLog("---Pipe[\(self.KeyPort!)]---=>:AdapterReadIn......\(data.count)")
                                 self.proxySock.write(data,
                                                      withTimeout: -1,
                                                      tag: PipeStatus.ProxyWriteOut.rawValue)
                                 break
                         default:
-                                NSLog("---[\(self.KeyPort!)]---=>:didRead unknown......")
+                                NSLog("---Pipe[\(self.KeyPort!)]---=>:didRead unknown......")
                                 return
                         }
                         
                 } catch let error {
-                        NSLog("---[\(self.KeyPort!)]---=>:data len=\(data.count) err=\(error.localizedDescription)")
+                        NSLog("---Pipe[\(self.KeyPort!)]---=>:data len=\(data.count) err=\(error.localizedDescription)")
                         Close()
                         return
                 }
@@ -95,7 +95,7 @@ extension Pipe: GCDAsyncSocketDelegate{
         
         open func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port: UInt16) {
                 
-                NSLog("---[\(self.KeyPort!)]--->Pipe:didConnectToHost:\(host):\(port)")
+                NSLog("---Pipe[\(self.KeyPort!)]--->Pipe:didConnectToHost:\(host):\(port)")
 
                 if self.isConnCmd{
                         self.proxySock.write(HTTPData.ConnectSuccessResponse,
@@ -134,18 +134,18 @@ extension Pipe: GCDAsyncSocketDelegate{
                         break
                         
                 case .ProxyWriteOut:
-//                        NSLog("---[\(self.KeyPort!)]---=>:ProxyWriteOut......")
+//                        NSLog("---Pipe[\(self.KeyPort!)]---=>:ProxyWriteOut......")
                         self.adapter?.readData(tag: PipeStatus.AdapterReadIn.rawValue)
                         break
                 default:
-//                        NSLog("---[\(self.KeyPort!)]---=>:didWriteDataWithTag unknown......")
+//                        NSLog("---Pipe[\(self.KeyPort!)]---=>:didWriteDataWithTag unknown......")
                         return
                 }
         }
         
         open func socketDidDisconnect(_ socket: GCDAsyncSocket, withError err: Error?) {
                 self.Close()
-                NSLog("---[\(self.KeyPort!)]---=>:socketDidDisconnect......\(err.debugDescription)")
+                NSLog("---Pipe[\(self.KeyPort!)]---=>:socketDidDisconnect......\(err.debugDescription)")
         }
 }
 

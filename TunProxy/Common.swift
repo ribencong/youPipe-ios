@@ -19,7 +19,7 @@ extension Dictionary where Key: ExpressibleByStringLiteral, Value: Any{
                         let cleanStr = String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\\", with: "")
                         return (cleanStr?.data(using: .utf8))!
                 }catch let err{
-                        NSLog("JSON Array toData err:\(err.localizedDescription)")
+                        NSLog("--(JSONArray)---=>:JSON Array toData err:\(err.localizedDescription)")
                         return nil
                 }
         }
