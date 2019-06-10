@@ -25,10 +25,11 @@ class Domains: NSObject {
         
         func Hit(host:String) -> Bool{
                 
-                guard let domain = self.domainParse?.parse(host: "awesome.dashlane.com")?.domain else{
+                guard let domain = self.domainParse?.parse(host: host)?.domain else{
                         return false
                 }
                 
+                NSLog("---Domains---=>:domain=\(domain) host=\(host)")
                 //TODO:: Tmp Test
                 if domain == "baidu.com"{
                         return true

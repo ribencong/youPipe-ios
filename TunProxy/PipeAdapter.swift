@@ -54,8 +54,8 @@ class PipeAdapter: NSObject{
                         self.sock.synchronouslySetDelegate(self)
                 
                 
-                        try sock.connect(toHost: targetHost,
-                                         onPort: targetPort)
+                        try sock.connect(toHost: PipeWallet.shared.SockSrvIp!,
+                                         onPort: PipeWallet.shared.SockSrvPort!)
                 } catch let err {
                         NSLog("Open direct adapter err:\(err.localizedDescription)")
                         return nil
@@ -122,6 +122,7 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
         }
         
         open func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
+                NSLog("---PipeAdapter--=>: pipe close by err:\(err?.localizedDescription ?? "<--->")")
                 self.delegate?.socketDidDisconnect?(sock, withError: err)
         }
 }

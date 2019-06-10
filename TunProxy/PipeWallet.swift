@@ -29,6 +29,9 @@ class PipeWallet:NSObject{
         var pubKey:Data?
         var AesKey:Data?
         var MyAddr:String?
+        var SockSrvIp:String?
+        var SockSrvPort:UInt16?
+        
         var Eastablished:Bool = false
         
         var PayConn:GCDAsyncSocket?
@@ -198,7 +201,8 @@ extension PipeWallet{
                 
                 self.PayConn = GCDAsyncSocket(delegate: self, delegateQueue:
                         PipeWallet.queue, socketQueue: PipeWallet.queue)
-                
+                self.SockSrvIp = ip
+                self.SockSrvPort = port
                 try self.PayConn?.connect(toHost: ip, onPort:port, withTimeout:5)
         }
         
