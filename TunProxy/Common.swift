@@ -9,9 +9,9 @@
 import Foundation
 import TweetNacl
 
-typealias JSONArray = [String: Any]
+typealias JSONArray = Dictionary<String, Any>
 
-extension JSONArray{
+extension Dictionary where Key: ExpressibleByStringLiteral, Value: Any{
         
         func ToData() -> Data?{
                 do{
