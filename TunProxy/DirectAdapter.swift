@@ -22,7 +22,7 @@ class DirectAdapter: Adapter{
                         try sock.connect(toHost: targetHost,
                                          onPort: targetPort)
                 } catch let err {
-                        NSLog("Open direct adapter err:\(err.localizedDescription)")
+                        NSLog("---DirectAdapter--=>:Open direct adapter err:\(err.localizedDescription)")
                         return nil
                 }
         }

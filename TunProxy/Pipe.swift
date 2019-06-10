@@ -19,7 +19,6 @@ public struct HTTPData {
 
 public enum PipeStatus: Int {
         case invalid = 0,
-        
         ProxyFirstRequest = 1,
         ProxyConnectResponse,
         ProxyWriteOut,
@@ -67,7 +66,7 @@ extension Pipe: GCDAsyncSocketDelegate{
                         switch (PipeStatus.init(rawValue: tag))!{
                         case .ProxyFirstRequest:
                                 let header = try HTTPHeader(headerData: data)
-//                                NSLog("---Pipe[\(self.KeyPort!)]---=>:ProxyFirstRequest \(header.toString())......")
+                                NSLog("---Pipe[\(self.KeyPort!)]---=>:ProxyFirstRequest \(header.toString())......")
                                 try self.OpenAdapter(header: header)
                                 break
                                 
@@ -76,7 +75,7 @@ extension Pipe: GCDAsyncSocketDelegate{
                                 break
                                 
                         case .AdapterReadIn:
-//                                NSLog("---Pipe[\(self.KeyPort!)]---=>:AdapterReadIn......\(data.count)")
+                                NSLog("---Pipe[\(self.KeyPort!)]---=>:AdapterReadIn......\(data.count)")
                                 self.proxySock.write(data,
                                                      withTimeout: -1,
                                                      tag: PipeStatus.ProxyWriteOut.rawValue)
@@ -113,7 +112,7 @@ extension Pipe: GCDAsyncSocketDelegate{
                 switch (PipeStatus.init(rawValue: tag))! {
                         
                 case .ProxyConnectResponse:
-//                        NSLog("---[\(self.KeyPort!)]---=>:ProxyConnectResponse......")
+                        NSLog("---[\(self.KeyPort!)]---=>:ProxyConnectResponse......")
                         self.proxySock.readData(withTimeout: -1,
                                                 tag: PipeStatus.ProxyReadIn.rawValue)
                         
@@ -121,7 +120,7 @@ extension Pipe: GCDAsyncSocketDelegate{
                         break
                         
                 case .AdapterWriteOut:
-//                        NSLog("---[\(self.KeyPort!)]---=>:AdapterWriteOut......")
+                        NSLog("---[\(self.KeyPort!)]---=>:AdapterWriteOut......")
                         if self.isConnCmd {
                                 self.proxySock.readData(withTimeout: -1,
                                                         tag: PipeStatus.ProxyReadIn.rawValue)
@@ -134,11 +133,11 @@ extension Pipe: GCDAsyncSocketDelegate{
                         break
                         
                 case .ProxyWriteOut:
-//                        NSLog("---Pipe[\(self.KeyPort!)]---=>:ProxyWriteOut......")
+                        NSLog("---Pipe[\(self.KeyPort!)]---=>:ProxyWriteOut......")
                         self.adapter?.readData(tag: PipeStatus.AdapterReadIn.rawValue)
                         break
                 default:
-//                        NSLog("---Pipe[\(self.KeyPort!)]---=>:didWriteDataWithTag unknown......")
+                        NSLog("---Pipe[\(self.KeyPort!)]---=>:didWriteDataWithTag unknown......")
                         return
                 }
         }

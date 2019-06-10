@@ -1,3 +1,4 @@
 github "robbiehanson/CocoaAsyncSocket"
 github "bitmark-inc/tweetnacl-swiftwrap" ~> 1.0
 github "krzyzanowskim/CryptoSwift"
+github "SwiftyJSON/SwiftyJSON" ~> 4.0
