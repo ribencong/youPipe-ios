@@ -9,8 +9,11 @@
 import Foundation
 import CocoaAsyncSocket
 import TweetNacl
+import SwiftyJSON
 
-
+public enum CmdType:Int{
+        case CmdPayChanel = 2, CmdPipe, CmdCheck
+}
 
 class PipeWallet:NSObject{
         static let shared = PipeWallet()
@@ -148,21 +151,17 @@ extension PipeWallet{
                 let sig = try self.License!.Sign(secretKey: self.priKey!)
                 NSLog("---PipeWallet--=> payment signature:[\(sig)]")
                 
-                let licBody : [String:String] = [
-                        "sig":self.License!.signature!,
-                        "start":self.License!.start!,
-                        "end":self.License!.end!,
-                        "user":self.License!.userAddr!]
-                
-                let jsonbody : JSONArray = [
+                let jsonbody = JSON( [
                         "CmdType" :  CmdType.CmdPayChanel.rawValue,
                         "Sig":sig,
-                        "Lic" :licBody]
+                        "Lic" : [
+                                "sig":self.License!.signature!,
+                                "start":self.License!.start!,
+                                "end":self.License!.end!,
+                                "user":self.License!.userAddr!]
+                        ])
 
-                guard let data = jsonbody.ToData() else{
-                        throw YPError.JsonPackError
-                }
-                return data
+                return try jsonbody.rawData()
         }
         
         func connectToServer(conf:[String:NSObject]) throws{
@@ -212,7 +211,7 @@ extension PipeWallet{
                         throw YPError.InvalidSignBill
                 }
                 
-                let bilObj = try FlowBill(billData: billData as JSONArray)
+                let bilObj = try FlowBill(billData: JSON(billData))
                 
                 guard let proof = try FlowCounter.shared.SignPayBill(bill: bilObj) else{
                         throw YPError.SignBillProofErr

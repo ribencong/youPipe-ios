@@ -8,6 +8,7 @@
 
 import Foundation
 import TweetNacl
+import SwiftyJSON
 
 class FlowCounter: NSObject{
         
@@ -36,24 +37,25 @@ class FlowCounter: NSObject{
         }
         
         func SignPayBill(bill:FlowBill) throws-> Data? {
-                var rawBill = bill.rawData
                
-                try queue.sync {
-                        
-                        if self.PayChannelClosed{
-                                throw YPError.PayChannelHasClosed
-                        }
-                        
-                        if self.unsigned < bill.BandWidthInBill{
-                                throw YPError.BillOverFlowUsed
-                        }
-                        
-                        let priKey = PipeWallet.shared.priKey!
-                        let sig = rawBill.ToSignString(priKey: priKey)
-                        rawBill["ConsumerSig"] = sig
+               return try queue.sync {
+                
+                var rawBill = bill.rawData
+                if self.PayChannelClosed{
+                        throw YPError.PayChannelHasClosed
                 }
                 
-                return rawBill.ToData()
+                if self.unsigned < bill.BandWidthInBill{
+                        throw YPError.BillOverFlowUsed
+                }
+                
+                let priKey = PipeWallet.shared.priKey!
+                let signData =  try NaclSign.signDetached(message: try rawBill.rawData(),
+                                                          secretKey: priKey)
+                rawBill["ConsumerSig"].string = signData.base64EncodedString()
+        
+                return try rawBill.rawData()
+                }
         }
 }
 
@@ -62,12 +64,12 @@ class FlowBill: NSObject{
         var SigData:Data
         var Mineral:Data
         var BandWidthInBill:Int64
-        var rawData:JSONArray
+        var rawData:JSON
         
-        init(billData:JSONArray) throws{
+        init(billData:JSON) throws{
                 self.rawData = billData
                 
-                guard let minerSig = billData["MinerSig"] as! String? else{
+                guard let minerSig = billData["MinerSig"].string else{
                         throw YPError.InvalidSign
                 }
                 guard let signature = Data(base64Encoded: minerSig) else{
@@ -75,11 +77,11 @@ class FlowBill: NSObject{
                 }
                 self.SigData = signature
                 
-                guard let id = billData["ID"] as! Int?,
-                        let mineTime = billData["MinedTime"] as! String?,
-                        let bandwidth = billData["UsedBandWidth"] as! Int64?,
-                        let userAddr = billData["ConsumerAddr"] as! String?,
-                        let minerAddr = billData["MinerAddr"] as! String? else{
+                guard let id = billData["ID"].int,
+                        let mineTime = billData["MinedTime"].string,
+                        let bandwidth = billData["UsedBandWidth"].int64,
+                        let userAddr = billData["ConsumerAddr"].string,
+                        let minerAddr = billData["MinerAddr"].string else{
                                 throw YPError.InvalidMineral
                 }
                 self.BandWidthInBill = bandwidth
@@ -88,17 +90,15 @@ class FlowBill: NSObject{
                         throw YPError.InvalidMineral
                 }
                 
-                let mineral: JSONArray = [
+                let mineral = JSON( [
                         "ID":id,
                         "MinedTime":mineTime,
                         "UsedBandWidth":bandwidth,
                         "ConsumerAddr":userAddr,
                         "MinerAddr":minerAddr,
-                ]
-                guard let minerData = mineral.ToData() else{
-                        throw YPError.InvalidMineral
-                }
-                self.Mineral = minerData
+                ]) 
+                
+                self.Mineral = try mineral.rawData()
                 super.init()
         }
         

@@ -9,6 +9,8 @@
 import Foundation
 import CocoaAsyncSocket
 import CryptoSwift
+import SwiftyJSON
+import TweetNacl
 
 class PipeAdapter: NSObject{
         let PipeCmdTime:TimeInterval = 5
@@ -142,21 +144,29 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
 extension PipeAdapter{
         
         func handShake() -> Data?{
-                let request : JSONArray = [
-                        "Addr":PipeWallet.shared.MyAddr!,
-                        "Target":"\(self.tgtHost):\(self.tgtPort)",
-                ]
-                
-                let pk = PipeWallet.shared.priKey!
-                let (sig, _) = request.ToSignString(priKey: pk)
-                
-                let handShake : JSONArray = [
-                        "CmdType": CmdType.CmdPipe.rawValue,
-                        "Sig":sig as Any,
-                        "Pipe":request,
-                ]
-                
-                return handShake.ToData()
+                do{
+                        
+                        let request = JSON([
+                                "Addr":PipeWallet.shared.MyAddr!,
+                                "Target":"\(self.tgtHost):\(self.tgtPort)",
+                                ])
+                        
+                        let pk = PipeWallet.shared.priKey!
+                        let signData =  try NaclSign.signDetached(message: try request.rawData(), secretKey: pk)
+                        let sig = signData.base64EncodedString()
+                        
+                        let handShake = JSON([
+                                "CmdType": CmdType.CmdPipe.rawValue,
+                                "Sig":sig as Any,
+                                "Pipe":request,
+                                ])
+                        
+                        return try handShake.rawData()
+                        
+                }catch let err{
+                        NSLog("handshake err:\(err.localizedDescription)")
+                        return nil
+                }
         }
         
         func Close(error:Error?){

@@ -38,7 +38,6 @@
 		7C6E563C22A51BBB000DFA75 /* HTTPURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E563A22A51BBA000DFA75 /* HTTPURL.swift */; };
 		7C6E563D22A51BBB000DFA75 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E563B22A51BBB000DFA75 /* HTTPHeader.swift */; };
 		7C6E564622A56AB8000DFA75 /* YPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E564522A56AB8000DFA75 /* YPError.swift */; };
-		7C8E506022AB791000D401AA /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8E505F22AB791000D401AA /* Common.swift */; };
 		7C8E506222AB8EA100D401AA /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C8E506122AB8EA100D401AA /* CryptoSwift.framework */; };
 		7C8E506322AB8EA100D401AA /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C8E506122AB8EA100D401AA /* CryptoSwift.framework */; };
 		7CA1090B22A65856001F1783 /* Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1090A22A65856001F1783 /* Adapter.swift */; };
@@ -48,6 +47,8 @@
 		7CA1092F22A6A74B001F1783 /* YPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E564522A56AB8000DFA75 /* YPError.swift */; };
 		7CA1093122A6B520001F1783 /* PipeWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1093022A6B51F001F1783 /* PipeWallet.swift */; };
 		7CA1093422A7F3EA001F1783 /* iosLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CA1093322A7F3EA001F1783 /* iosLib.framework */; };
+		BBA64ADF22AE5B000048562F /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBA64ADE22AE5B000048562F /* SwiftyJSON.framework */; };
+		BBA64AE022AE5B000048562F /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBA64ADE22AE5B000048562F /* SwiftyJSON.framework */; };
 		BBF3CA8D22A92F6F000DFAB8 /* Base58.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF3CA8C22A92F6F000DFAB8 /* Base58.swift */; };
 		BBF3CA8F22AA0B8E000DFAB8 /* LicenseBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF3CA8E22AA0B8E000DFAB8 /* LicenseBean.swift */; };
 		BBF3CA9022AA0B8E000DFAB8 /* LicenseBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF3CA8E22AA0B8E000DFAB8 /* LicenseBean.swift */; };
@@ -130,7 +131,6 @@
 		7C6E563A22A51BBA000DFA75 /* HTTPURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPURL.swift; sourceTree = "<group>"; };
 		7C6E563B22A51BBB000DFA75 /* HTTPHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
 		7C6E564522A56AB8000DFA75 /* YPError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPError.swift; sourceTree = "<group>"; };
-		7C8E505F22AB791000D401AA /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		7C8E506122AB8EA100D401AA /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Carthage/Build/iOS/CryptoSwift.framework; sourceTree = "<group>"; };
 		7CA1090A22A65856001F1783 /* Adapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adapter.swift; sourceTree = "<group>"; };
 		7CA1090C22A65894001F1783 /* DirectAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectAdapter.swift; sourceTree = "<group>"; };
@@ -138,6 +138,7 @@
 		7CA1092922A68BC5001F1783 /* YouPipeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouPipeService.swift; sourceTree = "<group>"; };
 		7CA1093022A6B51F001F1783 /* PipeWallet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipeWallet.swift; sourceTree = "<group>"; };
 		7CA1093322A7F3EA001F1783 /* iosLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iosLib.framework; sourceTree = "<group>"; };
+		BBA64ADE22AE5B000048562F /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		BBF3CA8C22A92F6F000DFAB8 /* Base58.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base58.swift; sourceTree = "<group>"; };
 		BBF3CA8E22AA0B8E000DFAB8 /* LicenseBean.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseBean.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -156,6 +157,7 @@
 			files = (
 				7C68350F22A20E2100343FEE /* CocoaAsyncSocket.framework in Frameworks */,
 				7C8E506222AB8EA100D401AA /* CryptoSwift.framework in Frameworks */,
+				BBA64ADF22AE5B000048562F /* SwiftyJSON.framework in Frameworks */,
 				7CA1093422A7F3EA001F1783 /* iosLib.framework in Frameworks */,
 				7C0F1C5822AD3A7000F6F72A /* DomainParser.framework in Frameworks */,
 				7C40257A22A18C730050AB3A /* NetworkExtension.framework in Frameworks */,
@@ -170,6 +172,7 @@
 				7C40258C22A190550050AB3A /* NetworkExtension.framework in Frameworks */,
 				7C68351122A20F0800343FEE /* CocoaAsyncSocket.framework in Frameworks */,
 				7C8E506322AB8EA100D401AA /* CryptoSwift.framework in Frameworks */,
+				BBA64AE022AE5B000048562F /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,6 +245,7 @@
 		7C40257822A18C730050AB3A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BBA64ADE22AE5B000048562F /* SwiftyJSON.framework */,
 				7C0F1C3822AD27C100F6F72A /* TweetNacl.framework */,
 				7C8E506122AB8EA100D401AA /* CryptoSwift.framework */,
 				7CA1093322A7F3EA001F1783 /* iosLib.framework */,
@@ -265,7 +269,6 @@
 				7CA1093022A6B51F001F1783 /* PipeWallet.swift */,
 				7C0F1C3222ACE19500F6F72A /* FlowCounter.swift */,
 				BBF3CA8C22A92F6F000DFAB8 /* Base58.swift */,
-				7C8E505F22AB791000D401AA /* Common.swift */,
 			);
 			path = TunProxy;
 			sourceTree = "<group>";
@@ -462,6 +465,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/CocoaAsyncSocket.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/TweetNacl.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/CryptoSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SwiftyJSON.framework",
 			);
 			name = "copy frames";
 			outputFileListPaths = (
@@ -508,7 +512,6 @@
 			files = (
 				7C0369F422A50BC900F6EB10 /* HttpProxy.swift in Sources */,
 				BBF3CA9022AA0B8E000DFAB8 /* LicenseBean.swift in Sources */,
-				7C8E506022AB791000D401AA /* Common.swift in Sources */,
 				BBF3CA8D22A92F6F000DFAB8 /* Base58.swift in Sources */,
 				7C0369F622A50D4B00F6EB10 /* Pipe.swift in Sources */,
 				7CA1090D22A65894001F1783 /* DirectAdapter.swift in Sources */,
