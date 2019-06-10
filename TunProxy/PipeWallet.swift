@@ -32,15 +32,18 @@ class PipeWallet:NSObject{
         var Eastablished:Bool = false
         
         var PayConn:GCDAsyncSocket?
-        
+        var ConnectCallBack:((Error?) ->Void)?
         private override init() {
                 super.init()
         }
         
         func Establish(conf:[String:NSObject], completionHandler: @escaping (Error?) -> Void) {
+                self.ConnectCallBack = completionHandler
+                self.TimeOutCheck()
                 do {
                         try Domains.shared.InitCache(data: conf["doamins"] as! [String])
                         try self.connectToServer(conf: conf)
+                        
                 }catch let err{
                         completionHandler(err)
                 }
@@ -50,6 +53,13 @@ class PipeWallet:NSObject{
         func Close(){
                 self.PayConn?.disconnectAfterReadingAndWriting()
                 self.Eastablished = false
+        }
+        
+        func TimeOutCheck(){
+                Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { (kTimer) in
+                        self.ConnectCallBack?(YPError.TimeOut)
+                        self.ConnectCallBack = nil
+                }
         }
 }
 
@@ -61,6 +71,9 @@ extension PipeWallet: GCDAsyncSocketDelegate{
                         let d = try self.handShakeData()
                         self.PayConn?.write(d, withTimeout: 5, tag: PayChanState.SynHand.rawValue)
                         
+                        self.ConnectCallBack?(nil)
+                        self.ConnectCallBack = nil
+                        
                 }catch let err{
                         NSLog("Failed to create payment channel:\(err.localizedDescription)")
                 }
@@ -68,6 +81,8 @@ extension PipeWallet: GCDAsyncSocketDelegate{
         
         open func socketDidDisconnect(_ socket: GCDAsyncSocket, withError err: Error?) {
                 self.Close()
+                self.ConnectCallBack?(err)
+                self.ConnectCallBack = nil
                 NSLog("---PipeWallet--=>:socketDidDisconnect......\(err.debugDescription)")
         }
         

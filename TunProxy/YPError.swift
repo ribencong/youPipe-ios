@@ -29,7 +29,8 @@ enum YPError: Error{
         BillOverFlowUsed,
         SignBillProofErr,
         PayChannelHasClosed,
-        NoDomains
+        NoDomains,
+        TimeOut
 }
 
 extension YPError: LocalizedError {
@@ -79,6 +80,8 @@ extension YPError: LocalizedError {
                         return NSLocalizedString("Payment channel has been closed".localized, comment: "Pipe Error")
                 case .NoDomains:
                         return NSLocalizedString("Damain list is empty".localized, comment: "Pipe Error")
+                case .TimeOut:
+                        return NSLocalizedString("Time Out".localized, comment: "Pipe Error")
                 }
         }
 }

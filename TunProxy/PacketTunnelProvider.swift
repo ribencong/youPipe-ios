@@ -53,6 +53,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         func ReleaseResource(){
                 self.httpProxy?.Close()
                 PipeWallet.shared.Close()
+                exit(EXIT_SUCCESS)
         }
     
         override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
