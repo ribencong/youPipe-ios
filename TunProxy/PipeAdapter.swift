@@ -94,17 +94,20 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
                 
                 switch cmd {
                 case .WaitAck:
-                        let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String : Any]
-                        let success = json?["Success"] as! Bool
-                        if !success{
-                                NSLog("---PipeAdapter--=>:Pipe[\(self.tgtHost):\(self.tgtPort)] hand shake err:\(json?["Message"] ?? "---")")
-                                self.Close(error: nil)
-                        }
-                        NSLog("---PipeAdapter--=>: Create Pipe[\(self.tgtHost):\(self.tgtPort)]  success!")
-                        
-                        self.sock.write(self.salt,
-                                        withTimeout: PipeCmdTime,
+                        do{
+                                let json = try JSON(data:data)
+                                if let success = json["Success"].bool, !success {
+                                        NSLog("---PipeAdapter--=>:Pipe[\(self.tgtHost):\(self.tgtPort)] hand shake err:\(json["Message"] )")
+                                        self.Close(error: nil)
+                                }
+                                NSLog("---PipeAdapter--=>: Create Pipe[\(self.tgtHost):\(self.tgtPort)]  success!")
+                                
+                                self.sock.write(self.salt,
+                                                withTimeout: PipeCmdTime,
                                         tag: PipeChanState.SendSalt.rawValue)
+                        }catch let err{
+                                NSLog("wait ack data err:\(err.localizedDescription)")
+                        }
                         break
                         
                 default:
@@ -141,33 +144,39 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
         }
 }
 
+struct PipeSig :Codable{
+        let Addr:String
+        let Target:String
+}
+
+struct HandShake:Codable{
+        let CmdType:Int
+        let Sig:String
+        let Pipe:PipeSig
+}
+
 extension PipeAdapter{
         
-        func handShake() -> Data?{
-                do{
-                        
-                        let request = JSON([
-                                "Addr":PipeWallet.shared.MyAddr!,
-                                "Target":"\(self.tgtHost):\(self.tgtPort)",
-                                ])
-                        
-                        let pk = PipeWallet.shared.priKey!
-                        let signData =  try NaclSign.signDetached(message: try request.rawData(), secretKey: pk)
-                        let sig = signData.base64EncodedString()
-                        
-                        let handShake = JSON([
-                                "CmdType": CmdType.CmdPipe.rawValue,
-                                "Sig":sig as Any,
-                                "Pipe":request,
-                                ])
-                        
-                        return try handShake.rawData()
-                        
-                }catch let err{
-                        NSLog("---PipeAdapter--=>:handshake err:\(err.localizedDescription)")
-                        return nil
-                }
-        }
+        func handShake() -> Data?{do{
+                let encoder = JSONEncoder()
+                let request = PipeSig(Addr: PipeWallet.shared.MyAddr!,
+                                      Target: "\(self.tgtHost):\(self.tgtPort)")
+                
+                let data = try encoder.encode(request)
+                
+                let pk = PipeWallet.shared.priKey!
+                let signData =  try NaclSign.signDetached(message: data, secretKey: pk)
+                let sig = signData.base64EncodedString()
+                
+                let hs = HandShake(CmdType: CmdType.CmdPipe.rawValue,
+                                   Sig: sig, Pipe: request)
+                let hsData = try encoder.encode(hs)
+                return hsData
+                
+        }catch let err{
+                NSLog("---PipeAdapter--=>:handshake err:\(err.localizedDescription)")
+                return nil
+        }}
         
         func Close(error:Error?){
                 self.delegate?.socketDidDisconnect?(self.sock, withError: error)

@@ -8,6 +8,7 @@
 
 import Foundation
 import TweetNacl
+import SwiftyJSON
 
 class LicenseBean:NSObject{
         
@@ -16,24 +17,21 @@ class LicenseBean:NSObject{
         var signature:String?
         var userAddr:String?
         var rawData:String
-        init?(data:String) {
+        init(data:String) {
                 self.rawData = data
                 print(data)
                 super.init()
-                do {try parse(RawData: data)}catch{
-                        return nil
-                }
+                parse(RawData: data)
         }
         
-        func parse(RawData data:String) throws{
-                let d = data.data(using: String.Encoding.utf8)
-                let json = try JSONSerialization.jsonObject(with: d!, options: .allowFragments) as! [String:Any]
+        func parse(RawData data:String){
+                let json = JSON(parseJSON: data)
                 print(json)
                 
-                self.signature = json["sig"] as? String
-                self.start = json["start"] as? String
-                self.end = json["end"] as? String
-                self.userAddr = json["user"] as? String
+                self.signature = json["sig"].string
+                self.start = json["start"].string
+                self.end = json["end"].string
+                self.userAddr = json["user"].string
         }
         
         func Sign(secretKey:Data)throws ->String{
@@ -42,4 +40,3 @@ class LicenseBean:NSObject{
                 return signData.base64EncodedString()
         }
 }
-//let base64Data = NSData(base64Encoded:base64String!, options:NSData.Base64DecodingOptions(rawValue: 0))
