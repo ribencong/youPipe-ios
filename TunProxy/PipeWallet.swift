@@ -146,7 +146,8 @@ extension PipeWallet{
         
         func handShakeData()throws -> Data{
                 let sig = try self.License!.Sign(secretKey: self.priKey!)
-                NSLog(sig)
+                NSLog("---PipeWallet--=> payment signature:[\(sig)]")
+                
                 let licBody : [String:String] = [
                         "sig":self.License!.signature!,
                         "start":self.License!.start!,
@@ -197,7 +198,7 @@ extension PipeWallet{
                 }
                 self.pubKey = pbk
                 
-                NSLog("must be equal the address of this account YP\(Base58.base58FromBytes(self.pubKey!))")
+                NSLog("---PipeWallet--=>:must be equal the address of this account YP\(Base58.base58FromBytes(self.pubKey!))")
                 
                 self.PayConn = GCDAsyncSocket(delegate: self, delegateQueue:
                         PipeWallet.queue, socketQueue: PipeWallet.queue)

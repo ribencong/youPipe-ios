@@ -15,7 +15,7 @@ extension Dictionary where Key: ExpressibleByStringLiteral, Value: Any{
         
         func ToData() -> Data?{
                 do{
-                        let data = try JSONSerialization.data(withJSONObject: self, options: .prettyPrinted)
+                        let data = try JSONSerialization.data(withJSONObject: self, options: JSONSerialization.WritingOptions.init(rawValue: 0))
                         let cleanStr = String(data: data, encoding: .utf8)?.replacingOccurrences(of: "\\", with: "")
                         return (cleanStr?.data(using: .utf8))!
                 }catch let err{

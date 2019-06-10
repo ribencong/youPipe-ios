@@ -146,6 +146,9 @@ class YouPipeService:NSObject{
                 }
                 param["priKey"] = priKey as NSObject
                 
+//                //TODO:: Tmp test
+//                NSLog(priKey.base64EncodedString())
+
                 guard let aesKey = IosLibGenAesKey(priKey, peerId) else{
                         throw YPError.OpenPrivateKeyErr
                 }

@@ -77,8 +77,20 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
         }
         
         open func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
-                switch (PipeChanState.init(rawValue: tag))! {
-                        
+                
+                guard let cmd = PipeChanState.init(rawValue: tag) else{
+                        NSLog("---PipeAdapter--=>:It's read for pipe[\(tag)]")
+                        do {
+                                let rawData = try self.decryptor.finish(withBytes: data.bytes)
+                                self.delegate?.socket?(sock, didRead: Data.init(rawData), withTag: tag)
+                                FlowCounter.shared.Consume(used: data.count)
+                        }catch let err{
+                                NSLog("---PipeAdapter--=>: read from socks server err:\(err.localizedDescription)")
+                        }
+                        return
+                }
+                
+                switch cmd {
                 case .WaitAck:
                         let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String : Any]
                         let success = json?["Success"] as! Bool
@@ -94,19 +106,19 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
                         break
                         
                 default:
-                        do {
-                                let rawData = try self.decryptor.finish(withBytes: data.bytes)
-                                self.delegate?.socket?(sock, didRead: Data.init(rawData), withTag: tag)
-                                FlowCounter.shared.Consume(used: data.count)
-                        }catch let err{
-                                NSLog("---PipeAdapter--=>: read from socks server err:\(err.localizedDescription)")
-                        }
+                        NSLog("---PipeAdapter--=>: unknown read cmd[\(cmd)]")
                         break
                 }
         }
         
         open func socket(_ sock: GCDAsyncSocket, didWriteDataWithTag tag: Int) {
-                switch (PipeChanState.init(rawValue: tag))! {
+                guard let cmd = PipeChanState.init(rawValue: tag) else{
+                        NSLog("---PipeAdapter--=>:Write to Pipe from adapter[\(tag)]")
+                        self.delegate?.socket?(sock, didWriteDataWithTag: tag)
+                        return
+                }
+                
+                switch cmd  {
                 case .SynHand:
                         NSLog("---PipeAdapter--=>:Pipe Adapter Send Handshake success")
                         self.sock.readData(withTimeout: 5, tag: PipeChanState.WaitAck.rawValue)
@@ -116,7 +128,7 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
                         self.delegate?.socket?(self.sock, didConnectToHost: self.tgtHost, port: self.tgtPort)
                         break
                 default:
-                        self.delegate?.socket?(sock, didWriteDataWithTag: tag)
+                        NSLog("---PipeAdapter--=>:unknown write tag")
                         break
                 }
         }
@@ -155,19 +167,22 @@ extension PipeAdapter{
 extension PipeAdapter:Adapter{
         
         func readData(tag: Int) {
+                NSLog("---PipeAdapter--=>: read cmd from pipe:[\(tag)]")
                 self.sock.readData(withTimeout: -1, tag: tag)
         }
         
         func write(data: Data, tag: Int) {
+                NSLog("---PipeAdapter--=>: write cmd from pipe:[\(tag)]")
                 do {
                         let cipher = try self.encryptor.finish(withBytes: data.bytes)
                         self.sock.write(Data.init(cipher), withTimeout: -1, tag: tag)
                 }catch let err{
-                        NSLog("Encrypt data to sock server err:\(err.localizedDescription)")
+                        NSLog("---PipeAdapter--=>: Encrypt data to sock server err:\(err.localizedDescription)")
                 }
         }
         
         func byePeer() {
+                NSLog("---PipeAdapter--=>: closed by peer")
+                self.sock.disconnectAfterReadingAndWriting()
         }
-        
 }
