@@ -71,6 +71,7 @@ extension Pipe: GCDAsyncSocketDelegate{
                                 break
                                 
                         case .ProxyReadIn:
+                                NSLog("---Pipe[\(self.KeyPort!)]---=>:ProxyReadIn......\(data.count)")
                                 self.adapter?.write(data: data, tag: PipeStatus.AdapterWriteOut.rawValue)
                                 break
                                 

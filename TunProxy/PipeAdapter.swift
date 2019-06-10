@@ -115,7 +115,7 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
         
         open func socket(_ sock: GCDAsyncSocket, didWriteDataWithTag tag: Int) {
                 guard let cmd = PipeChanState.init(rawValue: tag) else{
-                        NSLog("---PipeAdapter--=>:Write to Pipe from adapter[\(tag)]")
+                        NSLog("---PipeAdapter--=>:Write success[\(tag)]")
                         self.delegate?.socket?(sock, didWriteDataWithTag: tag)
                         return
                 }
@@ -164,7 +164,7 @@ extension PipeAdapter{
                         return try handShake.rawData()
                         
                 }catch let err{
-                        NSLog("handshake err:\(err.localizedDescription)")
+                        NSLog("---PipeAdapter--=>:handshake err:\(err.localizedDescription)")
                         return nil
                 }
         }
