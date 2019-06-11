@@ -30,7 +30,7 @@ class PipeAdapter: NSObject{
         var delegate:GCDAsyncSocketDelegate?
         
         init?(targetHost: String, targetPort: UInt16,
-             delegae:GCDAsyncSocketDelegate){
+             delegate:GCDAsyncSocketDelegate){
                 do {
                         tgtHost = targetHost
                         tgtPort = targetPort
@@ -38,7 +38,7 @@ class PipeAdapter: NSObject{
                         sock = GCDAsyncSocket(delegate: nil,
                                         delegateQueue: PipeWallet.queue,
                                         socketQueue:PipeWallet.queue)
-                        self.delegate = delegae
+                        self.delegate = delegate
                 
                         let iv: Array<UInt8> = AES.randomIV(AES.blockSize)
                         self.salt = Data.init(iv)
@@ -48,7 +48,6 @@ class PipeAdapter: NSObject{
                         
                         super.init()
                         self.sock.synchronouslySetDelegate(self)
-                
                 
                         try sock.connect(toHost: PipeWallet.shared.SockSrvIp!,
                                          onPort: PipeWallet.shared.SockSrvPort!)
@@ -72,14 +71,18 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
                                 tag: PipeChanState.SynHand.rawValue)
         }
         
+        open func socket(_ sock: GCDAsyncSocket, didReadPartialDataOfLength partialLength: UInt, tag: Int) {
+                NSLog("---PipeAdapter--=>: didReadPartialDataOfLength \(partialLength) for tag:\(tag) ")
+        }
+        
         open func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
                 
                 guard let cmd = PipeChanState.init(rawValue: tag) else{
                         NSLog("---PipeAdapter--=>:It's read for pipe[\(tag)]")
                         do {
-                                NSLog("---PipeAdapter-didRead-=>: before~\(data.toHexString())~")
+                                NSLog("---PipeAdapter-didRead-\(data.count)=>: before~\(data.toHexString())~")
                                 let rawData = try self.blender.decrypt(data.bytes)
-                                NSLog("---PipeAdapter-didRead-=>: after~\(rawData.toHexString())~")
+                                NSLog("---PipeAdapter-didRead-\(rawData.count)=>: after~\(rawData.toHexString())~")
                                 
                                 self.delegate?.socket?(sock, didRead: Data.init(rawData), withTag: tag)
                                 FlowCounter.shared.Consume(used: data.count)
@@ -188,9 +191,9 @@ extension PipeAdapter:Adapter{
         func write(data: Data, tag: Int) {
                 NSLog("---PipeAdapter--=>: write cmd from pipe:[\(tag)]")
                 do {
-                        NSLog("---PipeAdapter-write-=>: before~\(data.toHexString())~")
+                        NSLog("---PipeAdapter-write-\(data.count)=>: before~\(data.toHexString())~")
                         let cipher = try self.blender.encrypt(data.bytes)
-                        NSLog("---PipeAdapter-write-=>: after~\(cipher.toHexString())~")
+                        NSLog("---PipeAdapter-write-\(cipher.count)=>: after~\(cipher.toHexString())~")
                         
                         self.sock.write(Data.init(cipher), withTimeout: -1, tag: tag)
                 }catch let err{
