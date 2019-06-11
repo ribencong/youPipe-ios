@@ -17,6 +17,7 @@ public struct HTTPData {
         public static let ConnectSuccessResponse = "HTTP/1.1 200 Connection Established\r\n\r\n".data(using: String.Encoding.utf8)!
 }
 
+//Tips::start from 0
 public enum PipeStatus: Int {
         case invalid = 0,
         ProxyFirstRequest = 1,

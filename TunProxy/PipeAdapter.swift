@@ -14,11 +14,13 @@ import TweetNacl
 
 class PipeAdapter: NSObject{
         let PipeCmdTime:TimeInterval = 5
-        
+        let PackLenInBytes  = 4
+        //Tips::start from 10000
         public enum PipeChanState:Int{
-                case SynHand = 1,
+                case SynHand = 10000,
                 WaitAck,
-                SendSalt
+                SendSalt,
+                ReadHeaderLen//Tips::should always be the big one in this module
         }
         
         private var sock:GCDAsyncSocket
@@ -71,11 +73,20 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
                                 tag: PipeChanState.SynHand.rawValue)
         }
         
-        open func socket(_ sock: GCDAsyncSocket, didReadPartialDataOfLength partialLength: UInt, tag: Int) {
-                NSLog("---PipeAdapter--=>: didReadPartialDataOfLength \(partialLength) for tag:\(tag) ")
-        }
-        
         open func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
+                
+                if tag > PipeChanState.ReadHeaderLen.rawValue{
+                        let dataLen = data.ToInt32()
+                        guard dataLen != 0 else{
+                                NSLog("---PipeAdapter--=>: Protocol err, header len is wrong:\(data.count)")
+                                return
+                        }
+                        
+                        NSLog("---PipeAdapter--=>:Got length header:\(dataLen)")
+                        self.sock.readData(toLength: UInt(dataLen),
+                                           withTimeout: -1,
+                                           tag: tag - PipeChanState.ReadHeaderLen.rawValue)
+                }
                 
                 guard let cmd = PipeChanState.init(rawValue: tag) else{
                         NSLog("---PipeAdapter--=>:It's read for pipe[\(tag)]")
@@ -93,6 +104,7 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
                 }
                 
                 switch cmd {
+                        
                 case .WaitAck:
                         do{ let json = try JSON(data:data)
                                 if let success = json["Success"].bool, !success {
@@ -116,6 +128,7 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
         }
         
         open func socket(_ sock: GCDAsyncSocket, didWriteDataWithTag tag: Int) {
+                
                 guard let cmd = PipeChanState.init(rawValue: tag) else{
                         NSLog("---PipeAdapter--=>:Write success[\(tag)]")
                         self.delegate?.socket?(sock, didWriteDataWithTag: tag)
@@ -127,10 +140,12 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
                         NSLog("---PipeAdapter--=>:Pipe Adapter Send Handshake success")
                         self.sock.readData(withTimeout: 5, tag: PipeChanState.WaitAck.rawValue)
                         break
+                        
                 case .SendSalt:
                         NSLog("---PipeAdapter--=>:Send salt success")
                         self.delegate?.socket?(self.sock, didConnectToHost: self.tgtHost, port: self.tgtPort)
                         break
+                        
                 default:
                         NSLog("---PipeAdapter--=>:unknown write tag")
                         break
@@ -185,7 +200,8 @@ extension PipeAdapter:Adapter{
         
         func readData(tag: Int) {
                 NSLog("---PipeAdapter--=>: read cmd from pipe:[\(tag)]")
-                self.sock.readData(withTimeout: -1, tag: tag)
+      
+                self.sock.readData(withTimeout: -1, tag: tag + PipeChanState.ReadHeaderLen.rawValue)
         }
         
         func write(data: Data, tag: Int) {
@@ -193,9 +209,17 @@ extension PipeAdapter:Adapter{
                 do {
                         NSLog("---PipeAdapter-write-\(data.count)=>: before~\(data.toHexString())~")
                         let cipher = try self.blender.encrypt(data.bytes)
-                        NSLog("---PipeAdapter-write-\(cipher.count)=>: after~\(cipher.toHexString())~")
                         
-                        self.sock.write(Data.init(cipher), withTimeout: -1, tag: tag)
+                        let len = UInt32(cipher.count)
+                        guard var finalData = len.toData() else{
+                                NSLog("---PipeAdapter--=>: This is a empty data")
+                                return
+                        }
+                        finalData.append(Data.init(cipher))
+                        NSLog("---PipeAdapter-write-\(finalData.count)=>: after~\(finalData.toHexString())~")
+                        
+                        self.sock.write(finalData, withTimeout: -1, tag: tag)
+                        
                 }catch let err{
                         NSLog("---PipeAdapter--=>: Encrypt data to sock server err:\(err.localizedDescription)")
                 }
@@ -204,5 +228,37 @@ extension PipeAdapter:Adapter{
         func byePeer() {
                 NSLog("---PipeAdapter--=>: closed by peer")
                 self.sock.disconnectAfterReadingAndWriting()
+        }
+}
+
+extension Data{
+        public func ToInt32() -> UInt32{
+                
+                guard self.count == 4 else{
+                        return 0
+                }
+                
+                let bytes = self.bytes
+                
+                return (UInt32(bytes[0]) << 24) +
+                       (UInt32(bytes[1]) << 16) +
+                       (UInt32(bytes[2]) << 8) +
+                       UInt32(bytes[3])
+        }
+}
+
+extension UInt32 {
+        
+        public func toData() -> Data?{
+                guard self > 0 else{
+                        return nil
+                }
+                
+                let byte1 = UInt8((self >> 24) & 0xFF)
+                let byte2 = UInt8((self >> 16) & 0xFF)
+                let byte3 = UInt8((self >> 8) & 0xFF)
+                let byte4 = UInt8(self & 0xFF)
+                
+                return Data.init(bytes: [byte1, byte2, byte3, byte4])
         }
 }
