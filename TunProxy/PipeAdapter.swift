@@ -25,8 +25,7 @@ class PipeAdapter: NSObject{
         private var tgtHost:String
         private var tgtPort:UInt16
         private var salt:Data
-        private var encryptor:(Cryptor & Updatable)
-        private var decryptor:(Cryptor & Updatable)
+        private var blender:AES
         
         var delegate:GCDAsyncSocketDelegate?
         
@@ -44,14 +43,9 @@ class PipeAdapter: NSObject{
                         let iv: Array<UInt8> = AES.randomIV(AES.blockSize)
                         self.salt = Data.init(iv)
                 
-                        guard let aesKey = PipeWallet.shared.AesKey?.bytes else{
-                                throw YPError.InvalidAesKeyErr
-                        }
-                
-                        let aes = try AES(key: aesKey, blockMode: CFB.init(iv: iv))
-                        self.decryptor = try aes.makeDecryptor()
-                        self.encryptor = try aes.makeEncryptor()
-                
+                        let aesKey = PipeWallet.shared.AesKey!.bytes
+                        self.blender = try AES(key: aesKey, blockMode: CFB.init(iv: iv), padding:.noPadding)
+                        
                         super.init()
                         self.sock.synchronouslySetDelegate(self)
                 
@@ -83,7 +77,10 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
                 guard let cmd = PipeChanState.init(rawValue: tag) else{
                         NSLog("---PipeAdapter--=>:It's read for pipe[\(tag)]")
                         do {
-                                let rawData = try self.decryptor.finish(withBytes: data.bytes)
+                                NSLog("---PipeAdapter-didRead-=>: before~\(data.toHexString())~")
+                                let rawData = try self.blender.decrypt(data.bytes)
+                                NSLog("---PipeAdapter-didRead-=>: after~\(rawData.toHexString())~")
+                                
                                 self.delegate?.socket?(sock, didRead: Data.init(rawData), withTag: tag)
                                 FlowCounter.shared.Consume(used: data.count)
                         }catch let err{
@@ -191,7 +188,10 @@ extension PipeAdapter:Adapter{
         func write(data: Data, tag: Int) {
                 NSLog("---PipeAdapter--=>: write cmd from pipe:[\(tag)]")
                 do {
-                        let cipher = try self.encryptor.finish(withBytes: data.bytes)
+                        NSLog("---PipeAdapter-write-=>: before~\(data.toHexString())~")
+                        let cipher = try self.blender.encrypt(data.bytes)
+                        NSLog("---PipeAdapter-write-=>: after~\(cipher.toHexString())~")
+                        
                         self.sock.write(Data.init(cipher), withTimeout: -1, tag: tag)
                 }catch let err{
                         NSLog("---PipeAdapter--=>: Encrypt data to sock server err:\(err.localizedDescription)")
