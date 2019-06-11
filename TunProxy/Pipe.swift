@@ -163,7 +163,7 @@ extension Pipe {
                 if Domains.shared.Hit(host: header.host){
                         self.adapter = PipeAdapter(targetHost: self.targetAddr!,
                                                    targetPort: self.targetoPort!,
-                                                   delegae: self)
+                                                   delegate: self)
                 }else{
                         self.adapter = DirectAdapter(targetHost: self.targetAddr!,
                                              targetPort: self.targetoPort!,
