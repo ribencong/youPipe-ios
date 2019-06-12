@@ -107,9 +107,11 @@ class YouPipeService:NSObject{
                 
 //                let bootNode = try LoadBestBootNode()
                
-                let bootNode = "YPBzFaBFv8ZjkPQxtozNQe1c9CvrGXYg4tytuWjo9jiaZx@@@192.168.1.108:61948"
+//                let bootNode = "YPBzFaBFv8ZjkPQxtozNQe1c9CvrGXYg4tytuWjo9jiaZx@@@192.168.1.108:61948"
                 //TODO:: Tmp test
 //                let bootNode = "YPBysFiWhobpkFtiw6n1UeUhg8c8stmHJbKWDfad5NhDrZ@@@192.168.103.101:53526"
+                
+                let bootNode = "YPBzFaBFv8ZjkPQxtozNQe1c9CvrGXYg4tytuWjo9jiaZx@@@192.168.107.72:61948"
                 
                 
                 let domains = try LoadDomain()
@@ -145,9 +147,6 @@ class YouPipeService:NSObject{
                         throw YPError.OpenPrivateKeyErr
                 }
                 param["priKey"] = priKey as NSObject
-                
-//                //TODO:: Tmp test
-//                NSLog(priKey.base64EncodedString())
 
                 guard let aesKey = IosLibGenAesKey(priKey, peerId) else{
                         throw YPError.OpenPrivateKeyErr

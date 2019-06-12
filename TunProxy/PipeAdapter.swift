@@ -78,7 +78,7 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
                 if tag > PipeChanState.ReadHeaderLen.rawValue{
                         let dataLen = data.ToInt32()
                         guard dataLen != 0 else{
-                                NSLog("---PipeAdapter--=>: Protocol err, header len is wrong:\(data.count)")
+                                NSLog("---PipeAdapter--=>: didRead Protocol err, header len is wrong:\(data.count) data len:\(dataLen)")
                                 return
                         }
                         
@@ -86,6 +86,7 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
                         self.sock.readData(toLength: UInt(dataLen),
                                            withTimeout: -1,
                                            tag: tag - PipeChanState.ReadHeaderLen.rawValue)
+                        return
                 }
                 
                 guard let cmd = PipeChanState.init(rawValue: tag) else{
@@ -158,32 +159,19 @@ extension PipeAdapter: GCDAsyncSocketDelegate{
         }
 }
 
-struct PipeSig :Codable{
-        let Addr:String
-        let Target:String
-}
-
-struct HandShake:Codable{
-        let CmdType:Int
-        let Sig:String
-        let Pipe:PipeSig
-}
-
-extension PipeAdapter{ 
+//TODO:: replace this with sorted json
+extension PipeAdapter{
+        
         func handShake() -> Data?{do{
-                let encoder = JSONEncoder()
-                let request = PipeSig(Addr: PipeWallet.shared.MyAddr!,
-                                      Target: "\(self.tgtHost):\(self.tgtPort)")
                 
-                let data = try encoder.encode(request)
-                
+                let request = "{\"Addr\":\"\(PipeWallet.shared.MyAddr!)\",\"Target\":\"\(self.tgtHost):\(self.tgtPort)\"}"
+                let data = request.trimmingCharacters(in: CharacterSet.whitespaces).data(using: .utf8)!
                 let pk = PipeWallet.shared.priKey!
                 let signData =  try NaclSign.signDetached(message: data, secretKey: pk)
-                let sig = signData.base64EncodedString()
                 
-                let hs = HandShake(CmdType: CmdType.CmdPipe.rawValue,
-                                   Sig: sig, Pipe: request)
-                let hsData = try encoder.encode(hs)
+                let sig = signData.base64EncodedString().replacingOccurrences(of: "\\", with: "")
+                let hs = "{\"CmdType\":\(CmdType.CmdPipe.rawValue),\"Sig\": \"\(sig)\", \"Pipe\": \(request)}"
+                let hsData = hs.data(using: .utf8)!
                 return hsData
                 
         }catch let err{
@@ -200,8 +188,9 @@ extension PipeAdapter:Adapter{
         
         func readData(tag: Int) {
                 NSLog("---PipeAdapter--=>: read cmd from pipe:[\(tag)]")
-      
-                self.sock.readData(withTimeout: -1, tag: tag + PipeChanState.ReadHeaderLen.rawValue)
+                self.sock.readData(toLength: 4,
+                                   withTimeout: -1,
+                                   tag: tag + PipeChanState.ReadHeaderLen.rawValue)
         }
         
         func write(data: Data, tag: Int) {
