@@ -17,36 +17,30 @@ class HttpProxy:NSObject{
         static var TunnelCache:Dictionary<Int32, Pipe> = [:]
         static let queue = DispatchQueue(label: "com.ribencong.HttpQueue")
         
-        init?(port:Int){
+        init?(host:String, port:Int){
                 super.init()
                 
                 do{
                         self.listenSocket = try Socket.create()
-                        
-                        try listenSocket?.listen(on: port)
-                        
+                        try self.listenSocket?.listen(on: port, node:host)
                         
                 }catch let err{
-                        NSLog("Start http proxy failed:\(err.localizedDescription)")
+                        NSLog("---HttpProxy--=>:Start http proxy failed:\(err.localizedDescription)")
                         return nil
                 }
         }
         
         func Run(){
-                let queue = DispatchQueue.global(qos: .userInteractive)
-                
+                let queue = DispatchQueue.global(qos: .default)
+                let socket = self.listenSocket!
                 queue.async {
-                        [unowned self] in
+                        [unowned self, socket] in
                        
                         do {
                                 while self.RunOk{
+                                        let newSocket = try socket.acceptClientConnection() 
                                         
-                                        guard let newSocket = try self.listenSocket?.acceptClientConnection() else{
-                                                NSLog("Accepting exit......")
-                                                return
-                                        }
-                                        
-                                        NSLog("New accept proxy[\(newSocket.remoteHostname):\(newSocket.remotePort)]")
+                                        NSLog("---HttpProxy--=>:New accept proxy[\(newSocket.remoteHostname):\(newSocket.remotePort)]")
                                         queue.sync {
                                                 let newTunnel = Pipe(psock: newSocket){
                                                         HttpProxy.TunnelCache.removeValue(forKey: newSocket.socketfd)
@@ -56,7 +50,7 @@ class HttpProxy:NSObject{
                                         }
                                 }
                         }catch let err{
-                                NSLog("Http proxy exit......\(err.localizedDescription)")
+                                NSLog("---HttpProxy--=>:Http proxy exit......\(err.localizedDescription)")
                                 return
                         }
                 }

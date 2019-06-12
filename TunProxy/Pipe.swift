@@ -85,13 +85,13 @@ class Pipe: NSObject{
                                         if self.isConnCmd{
                                                try self.proxySock.write(from: HTTPData.ConnectSuccessResponse)
                                         }else{
-                                               try self.adapter?.write(data: readBuffer)
+                                               try self.adapter?.writeData(data: readBuffer)
                                         }
                                         
                                         self.readStatus = 2
                                 break
                                 case 2:
-                                        try self.adapter?.write(data: readBuffer)
+                                        try self.adapter?.writeData(data: readBuffer)
                                 break
                         default:
                                 return

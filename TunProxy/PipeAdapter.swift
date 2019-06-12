@@ -110,14 +110,23 @@ extension PipeAdapter:Adapter{
                 guard dataLen != 0 && dataLen < Pipe.PipeBufSize else{
                        throw YPError.ReadSocksErr
                 }
+                
                 var dataBuf = Data(capacity: Int(dataLen))
                 let _ = try self.sock.read(into: &dataBuf)
+                
+                NSLog("---PipeAdapter-readData-\(dataBuf.count)=>: before~\(dataBuf.toHexString())~")
+                let rawData = try self.blender.decrypt(dataBuf.bytes)
+                let finalData = Data.init(rawData)
+                NSLog("---PipeAdapter-didRead-\(finalData.count)=>: after~\(finalData.toHexString())~")
+                
+                FlowCounter.shared.Consume(used: dataBuf.count)
+                
                 return dataBuf
         }
         
-        func write(data: Data) throws {
+        func writeData(data: Data) throws {
                 
-                NSLog("---PipeAdapter-write-\(data.count)=>: before~\(data.toHexString())~")
+                NSLog("---PipeAdapter-writeData-\(data.count)=>: before~\(data.toHexString())~")
                 let cipher = try self.blender.encrypt(data.bytes)
                 
                 let len = UInt32(cipher.count)

@@ -21,12 +21,13 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                         return
                 }
                 
-                guard let proxy = HttpProxy( port:ProxyPort) else{
+                guard let proxy = HttpProxy( host: "127.0.0.1", port:ProxyPort) else{
                         completionHandler(YPError.HttpProxyFailed)
                         return
                 }
                 
                 self.httpProxy = proxy
+                self.httpProxy.Run()
                 
                 let networkSettings = newPacketTunnelSettings(proxyHost: "127.0.0.1", proxyPort: UInt16(ProxyPort))
                 

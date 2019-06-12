@@ -10,6 +10,6 @@ import Foundation
 
 public protocol Adapter: class{        
         func readData() throws -> Data 
-        func write(data: Data) throws
+        func writeData(data: Data) throws
         func byePeer()
 }

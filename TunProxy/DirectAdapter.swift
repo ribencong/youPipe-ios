@@ -26,14 +26,17 @@ class DirectAdapter: Adapter{
         func readData() throws -> Data {
                 var buf = Data(capacity: Pipe.PipeBufSize)
                 let _ =  try self.sock.read(into: &buf)
+                 NSLog("---DirectAdapter--=>:readData:\(buf.count)")
                 return buf
         }
         
-        func write(data: Data) throws{
+        func writeData(data: Data) throws{
+                NSLog("---DirectAdapter--=>:writeData:\(data.count)")
                 try self.sock.write(from: data)
         }
         
         func byePeer() {
+                NSLog("---DirectAdapter--=>:byePeer ")
                 self.sock.close()
         }
 }
