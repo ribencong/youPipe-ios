@@ -35,7 +35,7 @@ class PipeAdapter: NSObject{
                         tgtHost = targetHost
                         tgtPort = targetPort
                 
-                        sock = try Socket.create()
+                        self.sock = try Socket.create()
                 
                         let iv: Array<UInt8> = AES.randomIV(AES.blockSize)
                         self.salt = Data.init(iv)
@@ -45,14 +45,17 @@ class PipeAdapter: NSObject{
                         
                         super.init()
                 
-                        try sock.connect(to: PipeWallet.shared.SockSrvIp!,
-                                         port: Int32(PipeWallet.shared.SockSrvPort!),
-                                         timeout: Pipe.PipeDefaultTimeOut)
+                        let host = PipeWallet.shared.SockSrvIp!
+                        let port = Int32(PipeWallet.shared.SockSrvPort!)
+                        
+                        try self.sock.connect(to: host,
+                                         port: port,
+                                         timeout: 20)
                         
                         try self.handShake()
                         
                 } catch let err {
-                        NSLog("Open direct adapter err:\(err.localizedDescription)")
+                        NSLog("---PipeAdapter--=>:Open Pipe[\(targetHost):\(targetPort))] adapter err:\(err.localizedDescription)")
                         return nil
                 }
         }
