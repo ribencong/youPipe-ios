@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CocoaAsyncSocket
+import Socket
 import CryptoSwift
 import SwiftyJSON
 import TweetNacl
@@ -23,24 +23,19 @@ class PipeAdapter: NSObject{
                 ReadHeaderLen//Tips::should always be the big one in this module
         }
         
-        private var sock:GCDAsyncSocket
+        private var sock:Socket
         private var tgtHost:String
-        private var tgtPort:UInt16
+        private var tgtPort:Int32
         private var salt:Data
         private var blender:AES
         
-        var delegate:GCDAsyncSocketDelegate?
-        
-        init?(targetHost: String, targetPort: UInt16,
-             delegate:GCDAsyncSocketDelegate){
+        init?(targetHost: String, targetPort: Int32){
+                
                 do {
                         tgtHost = targetHost
                         tgtPort = targetPort
                 
-                        sock = GCDAsyncSocket(delegate: nil,
-                                        delegateQueue: PipeWallet.queue,
-                                        socketQueue:PipeWallet.queue)
-                        self.delegate = delegate
+                        sock = try Socket.create()
                 
                         let iv: Array<UInt8> = AES.randomIV(AES.blockSize)
                         self.salt = Data.init(iv)
@@ -49,120 +44,44 @@ class PipeAdapter: NSObject{
                         self.blender = try AES(key: aesKey, blockMode: CFB.init(iv: iv), padding:.noPadding)
                         
                         super.init()
-                        self.sock.synchronouslySetDelegate(self)
                 
-                        try sock.connect(toHost: PipeWallet.shared.SockSrvIp!,
-                                         onPort: PipeWallet.shared.SockSrvPort!)
+                        try sock.connect(to: tgtHost, port: tgtPort, timeout: Pipe.PipeDefaultTimeOut)
+                        
+                        try self.handShake()
+                        
                 } catch let err {
                         NSLog("Open direct adapter err:\(err.localizedDescription)")
                         return nil
                 }
         }
-}
-
-extension PipeAdapter: GCDAsyncSocketDelegate{
         
-        open func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port: UInt16) {
-                NSLog("---PipeAdapter--=>:Pipe Adapter connect to sock5 proxy[\(host):\(port)]")
+        func handShake()throws{
+                
+                let syn = try handSynData()
                
-                guard let data = self.handShake() else{
-                        self.Close(error: YPError.HandShakeErr)
-                        return
+                try self.sock.write(from: syn)
+                
+                var ackBuf = Data(capacity: 1024)
+                
+                let rno = try self.sock.read(into: &ackBuf)
+                
+                guard rno > 0 else {
+                        NSLog("---PipeAdapter--=>: No hand shake ack")
+                        throw YPError.HandShakeErr
                 }
-                self.sock.write(data, withTimeout: PipeCmdTime,
-                                tag: PipeChanState.SynHand.rawValue)
+                
+                let json = try JSON(data:ackBuf)
+                if let success = json["Success"].bool, !success {
+                        NSLog("---PipeAdapter--=>:Pipe[\(self.tgtHost):\(self.tgtPort)] hand shake err:\(json["Message"] )")
+                        self.Close(error: nil)
+                }
+                
+                NSLog("---PipeAdapter--=>: Create Pipe[\(self.tgtHost):\(self.tgtPort)]  success!")
+                
+                try self.sock.write(from: self.salt)
         }
         
-        open func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
-                
-                if tag > PipeChanState.ReadHeaderLen.rawValue{
-                        let dataLen = data.ToInt32()
-                        guard dataLen != 0 else{
-                                NSLog("---PipeAdapter--=>: didRead Protocol err, header len is wrong:\(data.count) data len:\(dataLen)")
-                                return
-                        }
-                        
-                        NSLog("---PipeAdapter--=>:Got length header:\(dataLen)")
-                        self.sock.readData(toLength: UInt(dataLen),
-                                           withTimeout: -1,
-                                           tag: tag - PipeChanState.ReadHeaderLen.rawValue)
-                        return
-                }
-                
-                guard let cmd = PipeChanState.init(rawValue: tag) else{
-                        NSLog("---PipeAdapter--=>:It's read for pipe[\(tag)]")
-                        do {
-                                NSLog("---PipeAdapter-didRead-\(data.count)=>: before~\(data.toHexString())~")
-                                let rawData = try self.blender.decrypt(data.bytes)
-                                NSLog("---PipeAdapter-didRead-\(rawData.count)=>: after~\(rawData.toHexString())~")
-                                
-                                self.delegate?.socket?(sock, didRead: Data.init(rawData), withTag: tag)
-                                FlowCounter.shared.Consume(used: data.count)
-                        }catch let err{
-                                NSLog("---PipeAdapter--=>: read from socks server err:\(err.localizedDescription)")
-                        }
-                        return
-                }
-                
-                switch cmd {
-                        
-                case .WaitAck:
-                        do{ let json = try JSON(data:data)
-                                if let success = json["Success"].bool, !success {
-                                        NSLog("---PipeAdapter--=>:Pipe[\(self.tgtHost):\(self.tgtPort)] hand shake err:\(json["Message"] )")
-                                        self.Close(error: nil)
-                                }
-                                NSLog("---PipeAdapter--=>: Create Pipe[\(self.tgtHost):\(self.tgtPort)]  success!")
-                                
-                                self.sock.write(self.salt,
-                                                withTimeout: PipeCmdTime,
-                                        tag: PipeChanState.SendSalt.rawValue)
-                        }catch let err{
-                                NSLog("wait ack data err:\(err.localizedDescription)")
-                        }
-                        break
-                        
-                default:
-                        NSLog("---PipeAdapter--=>: unknown read cmd[\(cmd)]")
-                        break
-                }
-        }
-        
-        open func socket(_ sock: GCDAsyncSocket, didWriteDataWithTag tag: Int) {
-                
-                guard let cmd = PipeChanState.init(rawValue: tag) else{
-                        NSLog("---PipeAdapter--=>:Write success[\(tag)]")
-                        self.delegate?.socket?(sock, didWriteDataWithTag: tag)
-                        return
-                }
-                
-                switch cmd  {
-                case .SynHand:
-                        NSLog("---PipeAdapter--=>:Pipe Adapter Send Handshake success")
-                        self.sock.readData(withTimeout: 5, tag: PipeChanState.WaitAck.rawValue)
-                        break
-                        
-                case .SendSalt:
-                        NSLog("---PipeAdapter--=>:Send salt success")
-                        self.delegate?.socket?(self.sock, didConnectToHost: self.tgtHost, port: self.tgtPort)
-                        break
-                        
-                default:
-                        NSLog("---PipeAdapter--=>:unknown write tag")
-                        break
-                }
-        }
-        
-        open func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
-                NSLog("---PipeAdapter--=>: pipe close by err:\(err?.localizedDescription ?? "<--->")")
-                self.delegate?.socketDidDisconnect?(sock, withError: err)
-        }
-}
-
-//TODO:: replace this with sorted json
-extension PipeAdapter{
-        
-        func handShake() -> Data?{do{
+        func handSynData()throws -> Data{
                 
                 let request = "{\"Addr\":\"\(PipeWallet.shared.MyAddr!)\",\"Target\":\"\(self.tgtHost):\(self.tgtPort)\"}"
                 let data = request.trimmingCharacters(in: CharacterSet.whitespaces).data(using: .utf8)!
@@ -174,50 +93,50 @@ extension PipeAdapter{
                 let hsData = hs.data(using: .utf8)!
                 return hsData
                 
-        }catch let err{
-                NSLog("---PipeAdapter--=>:handshake err:\(err.localizedDescription)")
-                return nil
-        }}
+        }
         
         func Close(error:Error?){
-                self.delegate?.socketDidDisconnect?(self.sock, withError: error)
+                self.sock.close()
         }
 }
 
 extension PipeAdapter:Adapter{
         
-        func readData(tag: Int) {
-                NSLog("---PipeAdapter--=>: read cmd from pipe:[\(tag)]")
-                self.sock.readData(toLength: 4,
-                                   withTimeout: -1,
-                                   tag: tag + PipeChanState.ReadHeaderLen.rawValue)
+        func readData() throws -> Data {
+                var lenBuf = Data(capacity: 4)
+                let _ = try self.sock.read(into: &lenBuf)
+                
+                let dataLen = lenBuf.ToInt32()
+                guard dataLen != 0 && dataLen < Pipe.PipeBufSize else{
+                       throw YPError.ReadSocksErr
+                }
+                var dataBuf = Data(capacity: Int(dataLen))
+                let _ = try self.sock.read(into: &dataBuf)
+                return dataBuf
         }
         
-        func write(data: Data, tag: Int) {
-                NSLog("---PipeAdapter--=>: write cmd from pipe:[\(tag)]")
-                do {
-                        NSLog("---PipeAdapter-write-\(data.count)=>: before~\(data.toHexString())~")
-                        let cipher = try self.blender.encrypt(data.bytes)
-                        
-                        let len = UInt32(cipher.count)
-                        guard var finalData = len.toData() else{
-                                NSLog("---PipeAdapter--=>: This is a empty data")
-                                return
-                        }
-                        finalData.append(Data.init(cipher))
-                        NSLog("---PipeAdapter-write-\(finalData.count)=>: after~\(finalData.toHexString())~")
-                        
-                        self.sock.write(finalData, withTimeout: -1, tag: tag)
-                        
-                }catch let err{
-                        NSLog("---PipeAdapter--=>: Encrypt data to sock server err:\(err.localizedDescription)")
+        func write(data: Data) throws {
+                
+                NSLog("---PipeAdapter-write-\(data.count)=>: before~\(data.toHexString())~")
+                let cipher = try self.blender.encrypt(data.bytes)
+                
+                let len = UInt32(cipher.count)
+                guard var finalData = len.toData() else{
+                        NSLog("---PipeAdapter--=>: This is a empty data")
+                        throw YPError.EncryptDataErr
                 }
+                finalData.append(Data.init(cipher))
+                NSLog("---PipeAdapter-write-\(finalData.count)=>: after~\(finalData.toHexString())~")
+                
+                try self.sock.write(from: finalData)
         }
         
         func byePeer() {
-                NSLog("---PipeAdapter--=>: closed by peer")
-                self.sock.disconnectAfterReadingAndWriting()
+                self.Close(error: nil)
         }
+        
+        
+        
 }
 
 extension Data{

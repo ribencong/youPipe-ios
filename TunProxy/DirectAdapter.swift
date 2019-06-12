@@ -7,35 +7,33 @@
 //
 
 import Foundation
-import CocoaAsyncSocket
+import Socket
 
 class DirectAdapter: Adapter{
         
-        private var sock: GCDAsyncSocket
+        private var sock: Socket
         
-        init?(targetHost: String, targetPort: UInt16, delegae:GCDAsyncSocketDelegate) {
-                
-                sock = GCDAsyncSocket(delegate: delegae, delegateQueue:
-                        HttpProxy.queue, socketQueue: HttpProxy.queue)
-                
-                do {
-                        try sock.connect(toHost: targetHost,
-                                         onPort: targetPort)
+        init?(targetHost: String, targetPort: Int32) {
+                 do {
+                        sock = try Socket.create()
+                        try sock.connect(to: targetHost, port: targetPort, timeout: Pipe.PipeDefaultTimeOut)
                 } catch let err {
                         NSLog("---DirectAdapter--=>:Open direct adapter err:\(err.localizedDescription)")
                         return nil
                 }
         }
         
-        func readData(tag: Int) {
-                self.sock.readData(withTimeout: -1, tag: tag)
+        func readData() throws -> Data {
+                var buf = Data(capacity: Pipe.PipeBufSize)
+                let _ =  try self.sock.read(into: &buf)
+                return buf
         }
         
-        func write(data: Data, tag: Int) {
-                self.sock.write(data, withTimeout: -1, tag: tag)
+        func write(data: Data) throws{
+                try self.sock.write(from: data)
         }
         
         func byePeer() {
-                self.sock.disconnectAfterReadingAndWriting()
+                self.sock.close()
         }
 }

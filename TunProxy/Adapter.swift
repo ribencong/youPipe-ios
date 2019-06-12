@@ -8,8 +8,8 @@
 
 import Foundation
 
-public protocol Adapter: class{ 
-        func readData(tag:Int)
-        func write(data:Data, tag:Int)
+public protocol Adapter: class{        
+        func readData() throws -> Data 
+        func write(data: Data) throws
         func byePeer()
 }

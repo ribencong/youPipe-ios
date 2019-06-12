@@ -30,7 +30,9 @@ enum YPError: Error{
         SignBillProofErr,
         PayChannelHasClosed,
         NoDomains,
-        TimeOut
+        TimeOut,
+        EncryptDataErr,
+        ReadSocksErr
 }
 
 extension YPError: LocalizedError {
@@ -82,6 +84,10 @@ extension YPError: LocalizedError {
                         return NSLocalizedString("Damain list is empty".localized, comment: "Pipe Error")
                 case .TimeOut:
                         return NSLocalizedString("Time Out".localized, comment: "Pipe Error")
+                case .EncryptDataErr:
+                        return NSLocalizedString("Encrypt data failed".localized, comment: "Pipe Error")
+                case .ReadSocksErr:
+                        return NSLocalizedString("Read data from YouPipe miner failed".localized, comment: "Pipe Error")
                 }
         }
 }
