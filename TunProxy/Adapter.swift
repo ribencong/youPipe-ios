@@ -8,7 +8,8 @@
 
 import Foundation
 
-public protocol Adapter: class{        
+public protocol Adapter: class{
+        var ID:Int32? { get set }
         func readData() throws -> Data 
         func writeData(data: Data) throws
         func byePeer()

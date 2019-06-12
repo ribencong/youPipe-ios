@@ -10,7 +10,7 @@ import Foundation
 import Socket
 
 class DirectAdapter: Adapter{
-        
+        var ID: Int32?
         private var sock: Socket
         
         init?(targetHost: String, targetPort: Int32) {
@@ -31,12 +31,12 @@ class DirectAdapter: Adapter{
         }
         
         func writeData(data: Data) throws{
-                NSLog("---DirectAdapter--=>:writeData:\(data.count)")
+//                NSLog("---DirectAdapter--=>:writeData:\(data.count)")
                 try self.sock.write(from: data)
         }
         
         func byePeer() {
-                NSLog("---DirectAdapter--=>:byePeer ")
+                NSLog("---DirectAdapter[\(self.ID!)]--=>:byePeer ")
                 self.sock.close()
         }
 }

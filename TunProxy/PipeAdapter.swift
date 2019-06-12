@@ -23,6 +23,8 @@ class PipeAdapter: NSObject{
                 ReadHeaderLen//Tips::should always be the big one in this module
         }
         
+        var ID: Int32?
+        
         private var sock:Socket
         private var tgtHost:String
         private var tgtPort:Int32
@@ -50,7 +52,7 @@ class PipeAdapter: NSObject{
                         
                         try self.sock.connect(to: host,
                                          port: port,
-                                         timeout: 20)
+                                         timeout: 120)
                         
                         try self.handShake()
                         
@@ -107,40 +109,51 @@ class PipeAdapter: NSObject{
 
 extension PipeAdapter:Adapter{
         
+        
         func readData() throws -> Data {
-                var lenBuf = Data(capacity: 4)
-                let _ = try self.sock.read(into: &lenBuf)
                 
-                let dataLen = lenBuf.ToInt32()
-                guard dataLen != 0 && dataLen < Pipe.PipeBufSize else{
-                       throw YPError.ReadSocksErr
+                let lenBuf :UnsafeMutablePointer<CChar> = UnsafeMutablePointer<CChar>.allocate(capacity: 4)
+                defer{
+                        lenBuf.deallocate()
                 }
                 
-                var dataBuf = Data(capacity: Int(dataLen))
-                let _ = try self.sock.read(into: &dataBuf)
+                let _ = try self.sock.read(into: lenBuf, bufSize: 4, truncate: true)
+                let dataLen = Data(buffer: UnsafeBufferPointer<CChar>(start: lenBuf, count: 4)).ToInt32()
+                NSLog("---PipeAdapter[\(self.ID!)]-readData---=>: Got Header Len:\(dataLen)")
+                guard dataLen != 0 && dataLen < Pipe.PipeBufSize else{
+                       throw YPError.ReadSocksErr
+                } 
                 
-                NSLog("---PipeAdapter-readData-\(dataBuf.count)=>: before~\(dataBuf.toHexString())~")
-                let rawData = try self.blender.decrypt(dataBuf.bytes)
+                var dataBuf :UnsafeMutablePointer<CChar> = UnsafeMutablePointer<CChar>.allocate(capacity: Int(dataLen))
+                defer{
+                        dataBuf.deallocate()
+                }
+                let _ = try self.sock.read(into: dataBuf, bufSize:  Int(dataLen), truncate:true)
+                let data = Data(buffer: UnsafeBufferPointer<CChar>(start: dataBuf, count: Int(dataLen)))
+                
+                
+                NSLog("---PipeAdapter[\(self.ID!)]-readData-\(data.count)=>: before~\(data.toHexString())~")
+                let rawData = try self.blender.decrypt(data.bytes)
                 let finalData = Data.init(rawData)
-                NSLog("---PipeAdapter-didRead-\(finalData.count)=>: after~\(finalData.toHexString())~")
+                NSLog("---PipeAdapter[\(self.ID!)]-didRead-\(finalData.count)=>: after~\(finalData.toHexString())~")
                 
-                FlowCounter.shared.Consume(used: dataBuf.count)
+                FlowCounter.shared.Consume(used: data.count)
                 
-                return dataBuf
+                return finalData
         }
         
         func writeData(data: Data) throws {
                 
-                NSLog("---PipeAdapter-writeData-\(data.count)=>: before~\(data.toHexString())~")
+                NSLog("---PipeAdapter[\(self.ID!)]-writeData-\(data.count)=>: before~\(data.toHexString())~")
                 let cipher = try self.blender.encrypt(data.bytes)
                 
                 let len = UInt32(cipher.count)
                 guard var finalData = len.toData() else{
-                        NSLog("---PipeAdapter--=>: This is a empty data")
+                        NSLog("---PipeAdapter[\(self.ID!)]--=>: This is a empty data")
                         throw YPError.EncryptDataErr
                 }
                 finalData.append(Data.init(cipher))
-                NSLog("---PipeAdapter-write-\(finalData.count)=>: after~\(finalData.toHexString())~")
+                NSLog("---PipeAdapter[\(self.ID!)]-write-\(finalData.count)=>: after~\(finalData.toHexString())~")
                 
                 try self.sock.write(from: finalData)
         }

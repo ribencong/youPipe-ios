@@ -118,7 +118,7 @@ class Pipe: NSObject{
                         try self.proxySock.write(from: data)
                         
                 }while self.runOk }catch let err{
-                        NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:wrting err:\(err.localizedDescription)")
+                        NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:writing err:\(err.localizedDescription)")
                         return
                 }
         }
@@ -136,6 +136,7 @@ class Pipe: NSObject{
                         self.adapter = DirectAdapter(targetHost: self.targetAddr!,
                                              targetPort: self.targetoPort!)
                 }
+                self.adapter?.ID = self.proxySock.socketfd
                 
                 DispatchQueue.global(qos: .default).async {
                         self.Writing()
