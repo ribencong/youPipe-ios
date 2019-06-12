@@ -38,6 +38,7 @@
 		7C6E563C22A51BBB000DFA75 /* HTTPURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E563A22A51BBA000DFA75 /* HTTPURL.swift */; };
 		7C6E563D22A51BBB000DFA75 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E563B22A51BBB000DFA75 /* HTTPHeader.swift */; };
 		7C6E564622A56AB8000DFA75 /* YPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E564522A56AB8000DFA75 /* YPError.swift */; };
+		7C79112822B0F02100A4D10E /* Socket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C79112722B0F02100A4D10E /* Socket.framework */; };
 		7C8E506222AB8EA100D401AA /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C8E506122AB8EA100D401AA /* CryptoSwift.framework */; };
 		7C8E506322AB8EA100D401AA /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C8E506122AB8EA100D401AA /* CryptoSwift.framework */; };
 		7CA1090B22A65856001F1783 /* Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1090A22A65856001F1783 /* Adapter.swift */; };
@@ -131,6 +132,7 @@
 		7C6E563A22A51BBA000DFA75 /* HTTPURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPURL.swift; sourceTree = "<group>"; };
 		7C6E563B22A51BBB000DFA75 /* HTTPHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
 		7C6E564522A56AB8000DFA75 /* YPError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPError.swift; sourceTree = "<group>"; };
+		7C79112722B0F02100A4D10E /* Socket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Socket.framework; path = Carthage/Build/iOS/Socket.framework; sourceTree = "<group>"; };
 		7C8E506122AB8EA100D401AA /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Carthage/Build/iOS/CryptoSwift.framework; sourceTree = "<group>"; };
 		7CA1090A22A65856001F1783 /* Adapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adapter.swift; sourceTree = "<group>"; };
 		7CA1090C22A65894001F1783 /* DirectAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectAdapter.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				7C0F1C6C22AD3AE800F6F72A /* DomainParser.framework in Frameworks */,
 				7C40258C22A190550050AB3A /* NetworkExtension.framework in Frameworks */,
 				7C68351122A20F0800343FEE /* CocoaAsyncSocket.framework in Frameworks */,
+				7C79112822B0F02100A4D10E /* Socket.framework in Frameworks */,
 				7C8E506322AB8EA100D401AA /* CryptoSwift.framework in Frameworks */,
 				BBA64AE022AE5B000048562F /* SwiftyJSON.framework in Frameworks */,
 			);
@@ -245,6 +248,7 @@
 		7C40257822A18C730050AB3A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7C79112722B0F02100A4D10E /* Socket.framework */,
 				BBA64ADE22AE5B000048562F /* SwiftyJSON.framework */,
 				7C0F1C3822AD27C100F6F72A /* TweetNacl.framework */,
 				7C8E506122AB8EA100D401AA /* CryptoSwift.framework */,
@@ -466,6 +470,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/TweetNacl.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/CryptoSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftyJSON.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Socket.framework",
 			);
 			name = "copy frames";
 			outputFileListPaths = (
