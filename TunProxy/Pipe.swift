@@ -42,10 +42,6 @@ class Pipe: NSObject{
                 DispatchQueue.global(qos: .default).async {
                         self.Reading()
                 }
-                
-                DispatchQueue.global(qos: .default).async {
-                        self.Writing()
-                }
         }
         
         func Close() {
@@ -61,6 +57,7 @@ class Pipe: NSObject{
                 defer {
                         self.runOk = false
                         NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:Pipe[\(self.proxySock.socketfd)] exit......")
+                        self.Close()
                 }
                 
                 self.readStatus = 1
@@ -80,6 +77,7 @@ class Pipe: NSObject{
                                 case 1:
                                         let header = try HTTPHeader(headerData: readBuffer)
                                         NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:ProxyFirstRequest \(header.toString())......")
+                                        
                                         try self.OpenAdapter(header: header)
                                         
                                         if self.isConnCmd{
@@ -112,7 +110,7 @@ class Pipe: NSObject{
                 
                 do{ repeat{
                         
-                        guard let data = try self.adapter?.readData()  else{
+                        guard let data = try self.adapter?.readData(), data.count > 0 else{
                                 NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:read from adapter failed")
                                 return
                         }
@@ -124,10 +122,6 @@ class Pipe: NSObject{
                         return
                 }
         }
-}
-
-
-extension Pipe {
         
         func OpenAdapter(header:HTTPHeader) throws {
 
@@ -141,6 +135,10 @@ extension Pipe {
                 }else{
                         self.adapter = DirectAdapter(targetHost: self.targetAddr!,
                                              targetPort: self.targetoPort!)
+                }
+                
+                DispatchQueue.global(qos: .default).async {
+                        self.Writing()
                 }
         }
 }

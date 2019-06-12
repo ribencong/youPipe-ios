@@ -16,9 +16,9 @@ class DirectAdapter: Adapter{
         init?(targetHost: String, targetPort: Int32) {
                  do {
                         sock = try Socket.create()
-                        try sock.connect(to: targetHost, port: targetPort, timeout: Pipe.PipeDefaultTimeOut)
+                        try sock.connect(to: targetHost, port: targetPort)
                 } catch let err {
-                        NSLog("---DirectAdapter--=>:Open direct adapter err:\(err.localizedDescription)")
+                        NSLog("---DirectAdapter--=>:Open direct[\(targetHost):\(targetPort)] adapter err:\(err.localizedDescription)")
                         return nil
                 }
         }
@@ -26,7 +26,7 @@ class DirectAdapter: Adapter{
         func readData() throws -> Data {
                 var buf = Data(capacity: Pipe.PipeBufSize)
                 let _ =  try self.sock.read(into: &buf)
-                 NSLog("---DirectAdapter--=>:readData:\(buf.count)")
+//                 NSLog("---DirectAdapter--=>:readData:\(buf.count)")
                 return buf
         }
         
