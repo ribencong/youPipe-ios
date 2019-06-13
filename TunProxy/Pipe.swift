@@ -101,28 +101,6 @@ class Pipe: NSObject{
                 }
         }
         
-        func Writing(){
-                
-                defer{
-                        self.runOk = false
-                        NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:Writing exit......")
-                }
-                
-                do{ repeat{
-                        
-                        guard let data = try self.adapter?.readData(), data.count > 0 else{
-                                NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:read from adapter failed")
-                                return
-                        }
-                        
-                        try self.proxySock.write(from: data)
-                        
-                }while self.runOk }catch let err{
-                        NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:writing err:\(err.localizedDescription)")
-                        return
-                }
-        }
-        
         func OpenAdapter(header:HTTPHeader) throws {
 
                 self.targetAddr = header.host
@@ -131,15 +109,24 @@ class Pipe: NSObject{
                 
                 if Domains.shared.Hit(host: header.host){
                         self.adapter = PipeAdapter(targetHost: self.targetAddr!,
-                                                   targetPort: self.targetoPort!)
+                                                   targetPort: self.targetoPort!,
+                                                   delegate: self)
                 }else{
                         self.adapter = DirectAdapter(targetHost: self.targetAddr!,
-                                             targetPort: self.targetoPort!)
+                                                     targetPort: self.targetoPort!,
+                                                     delegate:self)
                 }
                 self.adapter?.ID = self.proxySock.socketfd
                 
-                DispatchQueue.global(qos: .default).async {
-                        self.Writing()
-                }
+        }
+}
+
+
+extension Pipe: PipeWriteDelegate{
+        
+        func write(rawData: Data) throws -> Int {
+                let no = try self.proxySock.write(from: rawData)
+//                NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:PipeWriteDelegate writing:\(no)")
+                return no
         }
 }

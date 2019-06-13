@@ -43,32 +43,55 @@ class AES:NSObject{
         }
         
         private func crypt(input: Data, operation: CCOperation) throws -> Data {
-                var outLength = Int(0)
-                var outBytes = [UInt8](repeating: 0, count: input.count + kCCBlockSizeAES128)
                 
+                var cryptorRef:CCCryptorRef? = nil;
                 var status: CCCryptorStatus = CCCryptorStatus(kCCSuccess)
                 
-                input.withUnsafeBytes { (encryptedBytes: UnsafePointer<UInt8>!) -> () in
-                        iv.withUnsafeBytes { (ivBytes: UnsafePointer<UInt8>!) in
-                                key.withUnsafeBytes { (keyBytes: UnsafePointer<UInt8>!) -> () in
-                                        status = CCCrypt(operation,
-                                                         CCAlgorithm(kCCAlgorithmAES),            // algorithm
-                                                CCOptions(kCCModeCFB + ccNoPadding),           // options
-                                                keyBytes,                                   // key
-                                                key.count,                                  // keylength
-                                                ivBytes,                                    // iv
-                                                encryptedBytes,                             // dataIn
-                                                input.count,                                // dataInLength
-                                                &outBytes,                                  // dataOut
-                                                outBytes.count,                             // dataOutAvailable
-                                                &outLength)                                 // dataOutMoved
-                                }
+                iv.withUnsafeBytes{ (ivBytes: UnsafePointer<UInt8>?) -> () in
+                        key.withUnsafeBytes{ (keyBytes: UnsafePointer<UInt8>?) -> () in
+                                status = CCCryptorCreateWithMode(operation,
+                                                        CCMode(kCCModeCFB),
+                                                        CCAlgorithm(kCCAlgorithmAES),
+                                                        CCPadding(ccNoPadding),
+                                                        ivBytes,
+                                                        keyBytes,
+                                                        kCCKeySizeAES256,
+                                                        nil,
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        &cryptorRef)
                         }
                 }
+                
                 guard status == kCCSuccess else {
                         throw AESError.cryptoFailed(status: status)
                 }
-                return Data(bytes: UnsafePointer<UInt8>(outBytes), count: outLength)
+                defer { _ = CCCryptorRelease(cryptorRef!)}
+                
+                
+                let needed = CCCryptorGetOutputLength(cryptorRef!, input.count, true)
+                var result = Data.init(count: needed)
+                var updateLen: size_t = 0
+                let rescount = result.count
+                input.withUnsafeBytes{ (inputBytes: UnsafePointer<UInt8>?) -> () in
+                        result.withUnsafeMutableBytes{ (resultBytes:UnsafeMutablePointer<UInt8>) -> () in
+                                 status = CCCryptorUpdate(cryptorRef, inputBytes, input.count, resultBytes, needed, &updateLen)
+                        }
+                }
+                guard status == noErr else { throw AESError.cryptoFailed(status: status)}
+                
+                
+                var finalLen: size_t = 0
+                status = result.withUnsafeMutableBytes { resultBytes in
+                        return CCCryptorFinal(cryptorRef!, resultBytes + updateLen,
+                                               rescount - updateLen,
+                                               &finalLen)
+                }
+                guard status == noErr else { throw AESError.cryptoFailed(status: status) }
+                result.count = updateLen + finalLen
+                
+                return result as Data
         }
 }
 

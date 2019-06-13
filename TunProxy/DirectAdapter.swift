@@ -10,24 +10,35 @@ import Foundation
 import Socket
 
 class DirectAdapter: Adapter{
+        var delegate: PipeWriteDelegate
         var ID: Int32?
         private var sock: Socket
         
-        init?(targetHost: String, targetPort: Int32) {
+        init?(targetHost: String, targetPort: Int32, delegate:PipeWriteDelegate) {
                  do {
+                        self.delegate = delegate
                         sock = try Socket.create()
                         try sock.connect(to: targetHost, port: targetPort)
                 } catch let err {
                         NSLog("---DirectAdapter--=>:Open direct[\(targetHost):\(targetPort)] adapter err:\(err.localizedDescription)")
                         return nil
                 }
+                
+                DispatchQueue.global(qos: .default).async {
+                        self.reading()
+                }
         }
         
-        func readData() throws -> Data {
-                var buf = Data(capacity: Pipe.PipeBufSize)
-                let _ =  try self.sock.read(into: &buf)
-//                 NSLog("---DirectAdapter--=>:readData:\(buf.count)")
-                return buf
+        func reading() {
+                
+                do{while true{
+                        var buf = Data(capacity: Pipe.PipeBufSize)
+                        let _ =  try self.sock.read(into: &buf)
+                        let _ = try self.delegate.write(rawData: buf)
+                        }
+                }catch let err{
+                 NSLog("---DirectAdapter--=>:reading err:\(err.localizedDescription)")
+                }
         }
         
         func writeData(data: Data) throws{
