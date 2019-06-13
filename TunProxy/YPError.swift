@@ -32,7 +32,8 @@ enum YPError: Error{
         NoDomains,
         TimeOut,
         EncryptDataErr,
-        ReadSocksErr
+        ReadSocksErr,
+        PaymentChannelErr
 }
 
 extension YPError: LocalizedError {
@@ -88,6 +89,8 @@ extension YPError: LocalizedError {
                         return NSLocalizedString("Encrypt data failed".localized, comment: "Pipe Error")
                 case .ReadSocksErr:
                         return NSLocalizedString("Read data from YouPipe miner failed".localized, comment: "Pipe Error")
+                case .PaymentChannelErr:
+                        return NSLocalizedString("Open payment channel failed".localized, comment: "Pipe Error")
                 }
         }
 }

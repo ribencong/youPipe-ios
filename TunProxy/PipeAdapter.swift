@@ -8,7 +8,6 @@
 
 import Foundation
 import Socket
-import CryptoSwift
 import SwiftyJSON
 import TweetNacl
 
@@ -29,21 +28,19 @@ class PipeAdapter: NSObject{
         private var tgtHost:String
         private var tgtPort:Int32
         private var salt:Data
-        private var blender:AES
+        private var aseBlender:AES
         
         init?(targetHost: String, targetPort: Int32){
                 
                 do {
+                        
                         tgtHost = targetHost
                         tgtPort = targetPort
                 
                         self.sock = try Socket.create()
-                
-                        let iv: Array<UInt8> = AES.randomIV(AES.blockSize)
-                        self.salt = Data.init(iv)
-                
-                        let aesKey = PipeWallet.shared.AesKey!.bytes
-                        self.blender = try AES(key: aesKey, blockMode: CFB.init(iv: iv), padding:.noPadding)
+                        self.salt = AES.randomIV()
+                        let aesKey = PipeWallet.shared.AesKey!
+                        self.aseBlender = try AES(key: aesKey, iv: self.salt)
                         
                         super.init()
                 
@@ -122,7 +119,7 @@ extension PipeAdapter:Adapter{
                 NSLog("---PipeAdapter[\(self.ID!)]-readData---=>: Got Header Len:\(dataLen)")
                 guard dataLen != 0 && dataLen < Pipe.PipeBufSize else{
                        throw YPError.ReadSocksErr
-                } 
+                }
                 
                 var dataBuf :UnsafeMutablePointer<CChar> = UnsafeMutablePointer<CChar>.allocate(capacity: Int(dataLen))
                 defer{
@@ -132,28 +129,27 @@ extension PipeAdapter:Adapter{
                 let data = Data(buffer: UnsafeBufferPointer<CChar>(start: dataBuf, count: Int(dataLen)))
                 
                 
-                NSLog("---PipeAdapter[\(self.ID!)]-readData-\(data.count)=>: before~\(data.toHexString())~")
-                let rawData = try self.blender.decrypt(data.bytes)
-                let finalData = Data.init(rawData)
-                NSLog("---PipeAdapter[\(self.ID!)]-didRead-\(finalData.count)=>: after~\(finalData.toHexString())~")
+                NSLog("---PipeAdapter[\(self.ID!)]-readData-\(data.count)=>: before~\(data.hexadecimal)~")
+                let rawData = try self.aseBlender.decrypt(data)
+                NSLog("---PipeAdapter[\(self.ID!)]-didRead-\(rawData.count)=>: after~\(rawData.hexadecimal)~")
                 
                 FlowCounter.shared.Consume(used: data.count)
                 
-                return finalData
+                return rawData
         }
         
         func writeData(data: Data) throws {
                 
-                NSLog("---PipeAdapter[\(self.ID!)]-writeData-\(data.count)=>: before~\(data.toHexString())~")
-                let cipher = try self.blender.encrypt(data.bytes)
+                NSLog("---PipeAdapter[\(self.ID!)]-writeData-\(data.count)=>: before~\(data.hexadecimal)~")
+                let cipher = try self.aseBlender.encrypt(data)
                 
                 let len = UInt32(cipher.count)
                 guard var finalData = len.toData() else{
                         NSLog("---PipeAdapter[\(self.ID!)]--=>: This is a empty data")
                         throw YPError.EncryptDataErr
                 }
-                finalData.append(Data.init(cipher))
-                NSLog("---PipeAdapter[\(self.ID!)]-write-\(finalData.count)=>: after~\(finalData.toHexString())~")
+                finalData.append(cipher)
+                NSLog("---PipeAdapter[\(self.ID!)]-write-\(finalData.count)=>: after~\(finalData.hexadecimal)~")
                 
                 try self.sock.write(from: finalData)
         }
@@ -173,12 +169,17 @@ extension Data{
                         return 0
                 }
                 
-                let bytes = self.bytes
+                var bytes = [UInt8](self)
                 
                 return (UInt32(bytes[0]) << 24) +
                        (UInt32(bytes[1]) << 16) +
                        (UInt32(bytes[2]) << 8) +
                        UInt32(bytes[3])
+        }
+        
+        var hexadecimal: String {
+                return map { String(format: "%02x", $0) }
+                        .joined()
         }
 }
 

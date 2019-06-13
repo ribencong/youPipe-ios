@@ -107,11 +107,11 @@ class YouPipeService:NSObject{
                 
 //                let bootNode = try LoadBestBootNode()
                
-                let bootNode = "YPBzFaBFv8ZjkPQxtozNQe1c9CvrGXYg4tytuWjo9jiaZx@@@192.168.1.108:61948"
+//                let bootNode = "YPBzFaBFv8ZjkPQxtozNQe1c9CvrGXYg4tytuWjo9jiaZx@@@192.168.1.108:61948"
                 //TODO:: Tmp test
 //                let bootNode = "YPBysFiWhobpkFtiw6n1UeUhg8c8stmHJbKWDfad5NhDrZ@@@192.168.103.101:53526"
                 
-//                let bootNode = "YPBzFaBFv8ZjkPQxtozNQe1c9CvrGXYg4tytuWjo9jiaZx@@@192.168.107.72:61948"
+                let bootNode = "YPBzFaBFv8ZjkPQxtozNQe1c9CvrGXYg4tytuWjo9jiaZx@@@192.168.30.12:61948"
                 
                 
                 let domains = try LoadDomain()
@@ -131,7 +131,7 @@ class YouPipeService:NSObject{
                         throw YPError.NoValidBootNode
                 }
                 param["bootIP"] = ipPort[0] as NSObject
-                param["bootPort"] = UInt16(ipPort[1])! as NSObject
+                param["bootPort"] = Int32(ipPort[1])! as NSObject
                 
                 guard let ls = self.license else{
                         throw YPError.NoValidLicense

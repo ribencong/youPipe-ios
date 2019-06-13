@@ -6,10 +6,10 @@
 //  Copyright © 2019 com.ribencong.youPipe. All rights reserved.
 //
 
-import Foundation
-import CocoaAsyncSocket
+import Foundation 
 import TweetNacl
 import SwiftyJSON
+import Socket
 
 public enum CmdType:Int{
         case CmdPayChanel = 2, CmdPipe, CmdCheck
@@ -17,7 +17,7 @@ public enum CmdType:Int{
 
 class PipeWallet:NSObject{
         static let shared = PipeWallet()
-        static let queue = DispatchQueue(label: "com.ribencong.pipeWalletQueue")
+        let queue = DispatchQueue(label: "com.ribencong.pipeWalletQueue")
         
         public enum PayChanState:Int{
                 case SynHand = 1,
@@ -33,11 +33,11 @@ class PipeWallet:NSObject{
         var AesKey:Data?
         var MyAddr:String?
         var SockSrvIp:String?
-        var SockSrvPort:UInt16?
+        var SockSrvPort:Int32?
         
         var Eastablished:Bool = false
         
-        var PayConn:GCDAsyncSocket?
+        var PayConn:Socket?
         var ConnectCallBack:((Error?) ->Void)?
         private override init() {
                 super.init()
@@ -47,6 +47,7 @@ class PipeWallet:NSObject{
                 self.ConnectCallBack = completionHandler
                 self.TimeOutCheck()
                 do {
+                        self.PayConn = try Socket.create()
                         try Domains.shared.InitCache(data: conf["doamins"] as! [String])
                         try self.connectToServer(conf: conf)
                         
@@ -57,7 +58,7 @@ class PipeWallet:NSObject{
         
         //TODO::Check the wallet user when payment channel closed
         func Close(){
-                self.PayConn?.disconnectAfterReadingAndWriting()
+                self.PayConn?.close()
                 self.Eastablished = false
         }
         
@@ -65,79 +66,6 @@ class PipeWallet:NSObject{
                 Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { (kTimer) in
                         self.ConnectCallBack?(YPError.TimeOut)
                         self.ConnectCallBack = nil
-                }
-        }
-}
-
-extension PipeWallet: GCDAsyncSocketDelegate{
-        
-        open func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port: UInt16) {
-                NSLog("Connect to \(host):\(port) success")
-                do{
-                        let d = try self.handShakeData()
-                        self.PayConn?.write(d, withTimeout: 5, tag: PayChanState.SynHand.rawValue)
-                        
-                }catch let err{
-                        NSLog("---PipeWallet--=>:Failed to create payment channel:\(err.localizedDescription)")
-                }
-        }
-        
-        open func socketDidDisconnect(_ socket: GCDAsyncSocket, withError err: Error?) {
-                self.Close()
-                self.ConnectCallBack?(err)
-                self.ConnectCallBack = nil
-                NSLog("---PipeWallet--=>:socketDidDisconnect......\(err.debugDescription)")
-        }
-        
-        open func socket(_ sock: GCDAsyncSocket, didWriteDataWithTag tag: Int) {
-                
-                switch (PayChanState.init(rawValue: tag))! {
-                case .SynHand:
-                        NSLog("---PipeWallet--=>:Send Sync Handshake success")
-                        self.PayConn?.readData(withTimeout: 5,
-                                               tag: PayChanState.WaitAck.rawValue)
-                        break
-                        
-                case .ProofBill:
-                        NSLog("---PipeWallet--=>:Send Bill Proof success")
-                        break
-                default:
-                        //TODO::
-                        break
-                }
-        }
-        
-        open func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {do {
-                switch (PayChanState.init(rawValue: tag))! {
-                case .WaitAck:
-                        let json = try JSON(data:data)
-                        if let success = json["Success"].bool, !success {
-                                NSLog("---PipeWallet--=>:pay channel hand shake err:\(json["Message"] )")
-                                self.Close()
-                        }
-                        NSLog("---PipeWallet--=>: Create Payment channel success!")
-                        self.ConnectCallBack?(nil)
-                        self.ConnectCallBack = nil
-                        self.Eastablished = true
-                        self.PayConn?.readData(withTimeout: -1, tag: PayChanState.WaitBill.rawValue)
-                        break
-                        
-                case .WaitBill:
-                        let json = try JSON(data:data)
-                        NSLog("---PipeWallet--=>:Got bill:[\(String(describing: json))]")
-                        let proofData = try self.SignTheBill(bill:json)
-                        self.PayConn?.write(proofData, withTimeout: 5,
-                                            tag: PayChanState.ProofBill.rawValue)
-                        break
-                        
-                default:
-                        //TODO::
-                        break
-                }
-                }catch let err{
-                        NSLog("---PipeWallet--=>:didRead err:\(err.localizedDescription)")
-                        self.Close()
-                        PipeWallet.shared.Close()
                 }
         }
 }
@@ -171,7 +99,7 @@ extension PipeWallet{
                 self.MyAddr = conf["address"] as? String
                 
                 guard let ip = conf["bootIP"] as? String,
-                        let port = conf["bootPort"] as? UInt16 else{
+                        let port = conf["bootPort"] as? Int32 else{
                                 throw YPError.NoValidBootNode
                 }
                 guard let lic = conf["license"] as? String else{
@@ -196,11 +124,58 @@ extension PipeWallet{
                 
                 NSLog("---PipeWallet--=>:must be equal the address of this account YP\(Base58.base58FromBytes(self.pubKey!))")
                 
-                self.PayConn = GCDAsyncSocket(delegate: self, delegateQueue:
-                        PipeWallet.queue, socketQueue: PipeWallet.queue)
                 self.SockSrvIp = ip
                 self.SockSrvPort = port
-                try self.PayConn?.connect(toHost: ip, onPort:port, withTimeout:5)
+                try self.PayConn!.connect(to: ip, port: port, timeout: 10)
+                
+                let d = try self.handShakeData()
+                try self.PayConn!.write(from: d)
+                
+                var readBuf = Data(capacity: 1024)
+                let no = try self.PayConn!.read(into: &readBuf)
+                guard no > 0 else{
+                        throw YPError.PaymentChannelErr
+                }
+                
+                let json = try JSON(data:readBuf)
+                if let success = json["Success"].bool, !success {
+                        NSLog("---PipeWallet--=>:pay channel hand shake err:\(json["Message"] )")
+                        throw YPError.PaymentChannelErr
+                }
+                
+                NSLog("---PipeWallet--=>: Create Payment channel success!")
+                self.ConnectCallBack?(nil)
+                self.Eastablished = true
+                
+                self.queue.async {
+                        self.WaitingBill()
+                }
+        }
+        
+        func WaitingBill(){
+                
+                var readBuf = Data(capacity: 1024)
+                defer{
+                        self.Close()
+                }
+                
+                do{ repeat{
+                        readBuf.count = 0
+                        let no = try self.PayConn!.read(into: &readBuf)
+                        guard no > 0 else{
+                                NSLog("---PipeWallet--=>: read payment bill empty")
+                                throw YPError.PaymentChannelErr
+                        }
+                        
+                        let json = try JSON(data:readBuf)
+                        NSLog("---PipeWallet--=>:Got bill:[\(String(describing: json))]")
+                        let proofData = try self.SignTheBill(bill:json)
+                        try self.PayConn!.write(from: proofData)
+                        
+                }while self.Eastablished}catch let err{
+                        NSLog("---PipeWallet--=>: payment channel close:\(err.localizedDescription)")
+                        return
+                }
         }
         
         func SignTheBill(bill:JSON) throws -> Data{
