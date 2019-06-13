@@ -26,6 +26,8 @@ FOUNDATION_EXPORT NSString* _Nonnull IosLibLoadDomain(NSString* _Nullable url);
 
 FOUNDATION_EXPORT NSString* _Nonnull IosLibLoadNodes(void);
 
+FOUNDATION_EXPORT NSData* _Nullable IosLibTestAes(NSData* _Nullable priKey, NSData* _Nullable iv, NSData* _Nullable data);
+
 FOUNDATION_EXPORT BOOL IosLibVerifyAccount(NSString* _Nullable cipherTxt, NSString* _Nullable address, NSString* _Nullable password);
 
 FOUNDATION_EXPORT BOOL IosLibVerifyLicense(NSString* _Nullable license);

@@ -15,6 +15,9 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         var httpProxy:HttpProxy!
         
         override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
+                
+                print("-------------------------------")
+                
                 guard let opts = options else{
                         completionHandler(YPError.VPNParamLost)
                         NSLog(YPError.VPNParamLost.localizedDescription)

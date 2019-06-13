@@ -130,13 +130,16 @@ extension PipeAdapter{
                                         self.readingPool.append(tmpBuf)
                                 }
                                 
-                                let lenData = tmpBuf.dropFirst(4)
+                                let lenData = self.readingPool.prefix(4)
                                 let bodyLen = lenData.ToInt32()
                                 if bodyLen == 0 || bodyLen > Pipe.PipeBufSize{
+                                        NSLog("---PipeAdapter[\(self.ID!)]-invalid data lenght [\(bodyLen)]   data:[\(lenData.hexadecimal)]")
                                         throw YPError.PipeDataProtocolErr
                                 }
                                 
+                                NSLog("--PipeAdapter[\(self.ID!)]-FillPool body length is \(bodyLen) ")
                                 
+                                self.readingPool.removeFirst(4)
                                 while self.readingPool.count < bodyLen{
                                         tmpBuf.count = 0
                                         let bodyNO = try self.sock.read(into: &tmpBuf)
@@ -144,18 +147,18 @@ extension PipeAdapter{
                                         self.readingPool.append(tmpBuf)
                                 }
                                 
-                                let data = self.readingPool.dropFirst(bodyLen)
+                                let data = self.readingPool.prefix(bodyLen)
                                 NSLog("---PipeAdapter[\(self.ID!)]-FillPool-\(data.count)=>: before~\(data.hexadecimal)~")
                                 let rawData = try self.aseBlender.decrypt(data)
                                 NSLog("---PipeAdapter[\(self.ID!)]-FillPool-\(rawData.count)=>: after~\(rawData.hexadecimal)~")
                                 
                                 let _ = try self.delegate.write(rawData: rawData)
+                                self.readingPool.removeFirst(bodyLen)
                                 FlowCounter.shared.Consume(used: rawData.count)
                         }
                         
                 }catch let err {
-                        
-                        NSLog("---PipeAdapter[\(self.ID!)]-FillPool exit---=>:\(err)")
+                        NSLog("---PipeAdapter[\(self.ID!)]-FillPool exit---=>:\(err.localizedDescription)")
                         return
                 }
         }
@@ -189,7 +192,7 @@ extension PipeAdapter:Adapter{
 
 extension Data{
         public func ToInt32() -> Int{
-                NSLog("---PipeAdapter-original->:\(self.hexadecimal)")
+                NSLog("---PipeAdapter-ToInt32-original->:\(self.hexadecimal)")
                 guard self.count == 4 else{
                         return 0
                 }
