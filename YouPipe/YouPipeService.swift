@@ -157,23 +157,24 @@ class YouPipeService:NSObject{
                         throw YPError.OpenPrivateKeyErr
                 }
                 param["aesKey"] = aesKey as NSObject
-                let salt = AES.randomIV()
-                let aes = try AES.init(key: aesKey, iv: salt)
                 
-                
-                let digest = TestData.hexadecimal!
-                let enData = IosLibTestAes(aesKey, salt, digest)!
-                print("\(enData.hexadecimal)")
-                let deData = try aes.decrypt(enData)
-                print("我来解码：\(deData.hexadecimal)")
-                
-                
-                
-                let digest2 = TestData2.hexadecimal!
-                let enData2 = IosLibTestAes(aesKey, salt, digest2)!
-                print("\(enData2.hexadecimal)")
-                let deData2 = try aes.decrypt(enData2)
-                print("我来解码：\(deData2.hexadecimal)")
+//                let salt = AES.randomIV()
+//                let aes = try AES.init(key: aesKey, iv: salt)
+//
+//
+//                let digest = TestData.hexadecimal!
+//                let enData = IosLibTestAes(aesKey, salt, digest)!
+//                print("\(enData.hexadecimal)")
+//                let deData = try aes.decrypt(enData)
+//                print("我来解码：\(deData.hexadecimal)")
+//
+//
+//
+//                let digest2 = TestData2.hexadecimal!
+//                let enData2 = IosLibTestAes(aesKey, salt, digest2)!
+//                print("\(enData2.hexadecimal)")
+//                let deData2 = try aes.decrypt(enData2)
+//                print("我来解码：\(deData2.hexadecimal)")
                 
                 
                 return param
@@ -181,27 +182,27 @@ class YouPipeService:NSObject{
         
         
 }
-
-extension Data{
-        var hexadecimal: String {
-                return map { String(format: "%02x", $0) }
-                        .joined()
-        }
-}
-extension String {
-        var hexadecimal: Data? {
-                var data = Data(capacity: characters.count / 2)
-                
-                let regex = try! NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive)
-                regex.enumerateMatches(in: self, range: NSRange(startIndex..., in: self)) { match, _, _ in
-                        let byteString = (self as NSString).substring(with: match!.range)
-                        let num = UInt8(byteString, radix: 16)!
-                        data.append(num)
-                }
-                
-                guard data.count > 0 else { return nil }
-                
-                return data
-        }
-        
-}
+//
+//extension Data{
+//        var hexadecimal: String {
+//                return map { String(format: "%02x", $0) }
+//                        .joined()
+//        }
+//}
+//extension String {
+//        var hexadecimal: Data? {
+//                var data = Data(capacity: characters.count / 2)
+//                
+//                let regex = try! NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive)
+//                regex.enumerateMatches(in: self, range: NSRange(startIndex..., in: self)) { match, _, _ in
+//                        let byteString = (self as NSString).substring(with: match!.range)
+//                        let num = UInt8(byteString, radix: 16)!
+//                        data.append(num)
+//                }
+//                
+//                guard data.count > 0 else { return nil }
+//                
+//                return data
+//        }
+//        
+//}
