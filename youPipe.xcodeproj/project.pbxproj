@@ -47,6 +47,8 @@
 		7CA1092F22A6A74B001F1783 /* YPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E564522A56AB8000DFA75 /* YPError.swift */; };
 		7CA1093122A6B520001F1783 /* PipeWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1093022A6B51F001F1783 /* PipeWallet.swift */; };
 		7CA1093422A7F3EA001F1783 /* iosLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CA1093322A7F3EA001F1783 /* iosLib.framework */; };
+		7CBCCD6422B26C5700BB9CE9 /* AES.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C79113022B1EE5300A4D10E /* AES.swift */; };
+		7CBCCD6522B26E6A00BB9CE9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C79113222B1FD0B00A4D10E /* Security.framework */; };
 		BBA64ADF22AE5B000048562F /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBA64ADE22AE5B000048562F /* SwiftyJSON.framework */; };
 		BBA64AE022AE5B000048562F /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBA64ADE22AE5B000048562F /* SwiftyJSON.framework */; };
 		BBF3CA8D22A92F6F000DFAB8 /* Base58.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF3CA8C22A92F6F000DFAB8 /* Base58.swift */; };
@@ -157,6 +159,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CBCCD6522B26E6A00BB9CE9 /* Security.framework in Frameworks */,
 				BBA64ADF22AE5B000048562F /* SwiftyJSON.framework in Frameworks */,
 				7CA1093422A7F3EA001F1783 /* iosLib.framework in Frameworks */,
 				7C0F1C5822AD3A7000F6F72A /* DomainParser.framework in Frameworks */,
@@ -508,6 +511,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CBCCD6422B26C5700BB9CE9 /* AES.swift in Sources */,
 				7CA1092F22A6A74B001F1783 /* YPError.swift in Sources */,
 				BBF3CA8F22AA0B8E000DFAB8 /* LicenseBean.swift in Sources */,
 				7C40256622A18B200050AB3A /* ViewController.swift in Sources */,
@@ -780,6 +784,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = youPipe_debug;
+				SWIFT_OBJC_BRIDGING_HEADER = "TunProxy/TunProxy-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -808,6 +813,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = youPipe_debug;
+				SWIFT_OBJC_BRIDGING_HEADER = "TunProxy/TunProxy-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
