@@ -52,8 +52,7 @@ class PipeAdapter: NSObject{
                         let port = Int32(PipeWallet.shared.SockSrvPort!)
                         
                         try self.sock.connect(to: host,
-                                         port: port,
-                                         timeout: 120)
+                                         port: port)
                         
                         try self.handShake()
                         
