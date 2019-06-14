@@ -12,7 +12,7 @@ import SwiftyJSON
 import TweetNacl
 
 class PipeAdapter: NSObject{
-        let PipeCmdTime:TimeInterval = 5
+        
         let PackLenInBytes  = 4
         //Tips::start from 10000
         public enum PipeChanState:Int{
