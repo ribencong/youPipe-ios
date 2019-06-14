@@ -39,8 +39,14 @@ class YouPipeService:NSObject{
                         UserDefaults.standard.set(nodeStr, forKey: KEY_FOR_BOOT_NODE_STR)
                 }
                 
-                let bootNode = IosLibFindBestNode(nodeStr)
+                var bootNode = IosLibFindBestNode(nodeStr)
                 if bootNode == ""{
+                        nodeStr = IosLibLoadNodes()
+                        UserDefaults.standard.set(nodeStr, forKey: KEY_FOR_BOOT_NODE_STR)
+                }
+                
+                bootNode = IosLibFindBestNode(nodeStr)
+                if bootNode == "" {
                         throw YPError.NoValidBootNode
                 }
                 return bootNode
@@ -109,14 +115,14 @@ class YouPipeService:NSObject{
         func PrepareForVpn(password:String) throws -> [String:NSObject]{
                 var param:[String:NSObject] = [:]
                 
-//                let bootNode = try LoadBestBootNode()
+                let bootNode = try LoadBestBootNode()
                
 //                let bootNode = "YPBzFaBFv8ZjkPQxtozNQe1c9CvrGXYg4tytuWjo9jiaZx@@@192.168.1.108:61948"
                 //TODO:: Tmp test
 //                let bootNode = "YPBysFiWhobpkFtiw6n1UeUhg8c8stmHJbKWDfad5NhDrZ@@@192.168.103.101:53526"
                 
 //                let bootNode = "YPBzFaBFv8ZjkPQxtozNQe1c9CvrGXYg4tytuWjo9jiaZx@@@192.168.107.72:61948"
-                let bootNode = "YPBzFaBFv8ZjkPQxtozNQe1c9CvrGXYg4tytuWjo9jiaZx@@@192.168.30.12:61948"
+//                let bootNode = "YPBzFaBFv8ZjkPQxtozNQe1c9CvrGXYg4tytuWjo9jiaZx@@@192.168.30.12:61948"
                 
                 
                 let domains = try LoadDomain()

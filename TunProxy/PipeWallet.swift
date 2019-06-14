@@ -52,6 +52,7 @@ class PipeWallet:NSObject{
                         try self.connectToServer(conf: conf)
                         
                 }catch let err{
+                        NSLog("---PipeWallet--=>: Establish err:\(err.localizedDescription)")
                         completionHandler(err)
                 }
         }
@@ -122,11 +123,11 @@ extension PipeWallet{
                 }
                 self.pubKey = pbk
                 
-                NSLog("---PipeWallet--=>:must be equal the address of this account YP\(Base58.base58FromBytes(self.pubKey!))")
+                NSLog("---PipeWallet--=>:Connectint to \(ip):\(port)")
                 
                 self.SockSrvIp = ip
                 self.SockSrvPort = port
-                try self.PayConn!.connect(to: ip, port: port, timeout: 10)
+                try self.PayConn!.connect(to: ip, port: port)
                 
                 let d = try self.handShakeData()
                 try self.PayConn!.write(from: d)
