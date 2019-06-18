@@ -147,9 +147,9 @@ extension PipeAdapter{
                                 }
                                 
                                 let data = self.readingPool.prefix(bodyLen)
-                                NSLog("---PipeAdapter[\(self.ID!)]-FillPool-\(data.count)=>: before~\(data.hexadecimal)~")
+//                                NSLog("---PipeAdapter[\(self.ID!)]-FillPool-\(data.count)=>: before~\(data.hexadecimal)~")
                                 let rawData = try self.aseBlender.decrypt(data)
-                                NSLog("---PipeAdapter[\(self.ID!)]-FillPool-\(rawData.count)=>: after~\(rawData.hexadecimal)~")
+//                                NSLog("---PipeAdapter[\(self.ID!)]-FillPool-\(rawData.count)=>: after~\(rawData.hexadecimal)~")
                                 
                                 let _ = try self.delegate.write(rawData: rawData)
                                 self.readingPool.removeFirst(bodyLen)
@@ -168,7 +168,7 @@ extension PipeAdapter:Adapter{
         
         func writeData(data: Data) throws {
                 
-                NSLog("---PipeAdapter[\(self.ID!)]-writeData-\(data.count)=>: before~\(data.hexadecimal)~")
+//                NSLog("---PipeAdapter[\(self.ID!)]-writeData-\(data.count)=>: before~\(data.hexadecimal)~")
                 var cipher = try self.aseBlender.encrypt(data)
                 let dataLen = UInt32(cipher.count)
                 
@@ -179,7 +179,7 @@ extension PipeAdapter:Adapter{
                 
                 cipher.insert(contentsOf: lenData, at: 0)
                 
-                NSLog("---PipeAdapter[\(self.ID!)]-writeData-\(cipher.count)=>: after~\(cipher.hexadecimal)~")
+//                NSLog("---PipeAdapter[\(self.ID!)]-writeData-\(cipher.count)=>: after~\(cipher.hexadecimal)~")
                 
                 try self.sock.write(from: cipher)
         }
