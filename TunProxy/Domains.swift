@@ -25,11 +25,13 @@ class Domains: NSObject {
         
         func Hit(host:String) -> Bool{
                 
-                guard let domain = self.domainParse?.parse(host: host)?.domain else{
-                        return false
-                }
+                return false
                 
-                NSLog("---Domains---=>:domain=\(domain) host=\(host)") 
-                return self.cache.contains(domain)
+//                guard let domain = self.domainParse?.parse(host: host)?.domain else{
+//                        return false
+//                }
+//
+//                NSLog("---Domains---=>:domain=\(domain) host=\(host)")
+//                return self.cache.contains(domain)
         }
 }

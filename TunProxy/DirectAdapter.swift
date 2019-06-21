@@ -13,6 +13,7 @@ class DirectAdapter: Adapter{
         var delegate: PipeWriteDelegate
         var ID: Int32?
         private var sock: Socket
+        var running:Bool = true
         
         init?(targetHost: String, targetPort: Int32, delegate:PipeWriteDelegate) {
                  do {
@@ -31,23 +32,30 @@ class DirectAdapter: Adapter{
         
         func reading() {
                 
-                do{while true{
+                do{while self.running{
                         var buf = Data(capacity: Pipe.PipeBufSize)
-                        let _ =  try self.sock.read(into: &buf)
+                        let no =  try self.sock.read(into: &buf)
+                        NSLog("---DirectAdapter[\(self.ID!)]--=>:reading from server:\(no)")
+                        if no == 0{
+                                NSLog("---DirectAdapter[\(self.ID!)]--=>:reading exit case no data")
+                                self.byePeer()
+                                return
+                        }
                         let _ = try self.delegate.write(rawData: buf)
                         }
                 }catch let err{
-                 NSLog("---DirectAdapter--=>:reading err:\(err.localizedDescription)")
+                 NSLog("---DirectAdapter[\(self.ID!)]--=>:reading err:\(err.localizedDescription)")
                 }
         }
         
         func writeData(data: Data) throws{
-//                NSLog("---DirectAdapter--=>:writeData:\(data.count)")
+                NSLog("---DirectAdapter[\(self.ID!)]--=>:writeData:\(data.count)")
                 try self.sock.write(from: data)
         }
         
         func byePeer() {
                 NSLog("---DirectAdapter[\(self.ID!)]--=>:byePeer ")
+                self.running = false
                 self.sock.close()
         }
 }

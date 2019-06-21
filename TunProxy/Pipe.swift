@@ -73,25 +73,25 @@ class Pipe: NSObject{
                         }
                         
                         switch self.readStatus {
+                        case 1:
+                                let header = try HTTPHeader(headerData: readBuffer)
+                                NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:ProxyFirstRequest \(header.toString())......")
                                 
-                                case 1:
-                                        let header = try HTTPHeader(headerData: readBuffer)
-                                        NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:ProxyFirstRequest \(header.toString())......")
-                                        
-                                        try self.OpenAdapter(header: header)
-                                        
-                                        if self.isConnCmd{
-                                               try self.proxySock.write(from: HTTPData.ConnectSuccessResponse)
-                                        }else{
-                                               try self.adapter?.writeData(data: readBuffer)
-                                        }
-                                        
-                                        self.readStatus = 2
-                                break
-                                case 2:
-                                        try self.adapter?.writeData(data: readBuffer)
-                                break
+                                try self.OpenAdapter(header: header)
+                                
+                                if self.isConnCmd{
+                                       try self.proxySock.write(from: HTTPData.ConnectSuccessResponse)
+                                }else{
+                                       try self.adapter?.writeData(data: readBuffer)
+                                }
+                                
+                                self.readStatus = 2
+                        break
+                        case 2:
+                                try self.adapter?.writeData(data: readBuffer)
+                        break
                         default:
+                                NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:unknown reading status:\(self.readStatus)")
                                 return
                         }
                         
@@ -117,7 +117,7 @@ class Pipe: NSObject{
                                                      delegate:self)
                 }
                 self.adapter?.ID = self.proxySock.socketfd
-                
+                NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:first header:\(header.toString())")
         }
 }
 
@@ -126,7 +126,7 @@ extension Pipe: PipeWriteDelegate{
         
         func write(rawData: Data) throws -> Int {
                 let no = try self.proxySock.write(from: rawData)
-//                NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:PipeWriteDelegate writing:\(no)")
+                NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:PipeWriteDelegate writing:\(no) data len:\(rawData.count)")
                 return no
         }
 }
