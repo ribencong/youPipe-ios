@@ -6,13 +6,11 @@
 //  Copyright © 2019 com.ribencong.youPipe. All rights reserved.
 //
 
-import Foundation
-import DomainParser
+import Foundation 
 
 class Domains: NSObject {
         static var shared = Domains()
         private var cache:[String] = []
-        private var domainParse:DomainParser?
         
         private override init() {
                 super.init()
@@ -20,7 +18,6 @@ class Domains: NSObject {
         
         func InitCache(data:[String])throws -> Void {
                 self.cache = data
-                self.domainParse = try DomainParser() 
         }
         
         func Hit(host:String) -> Bool{

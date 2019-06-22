@@ -11,18 +11,7 @@
 		7C0369F622A50D4B00F6EB10 /* Pipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0369F522A50D4B00F6EB10 /* Pipe.swift */; };
 		7C0F1C3322ACE19500F6F72A /* FlowCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0F1C3222ACE19500F6F72A /* FlowCounter.swift */; };
 		7C0F1C3522AD07B600F6F72A /* Domains.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0F1C3422AD07B600F6F72A /* Domains.swift */; };
-		7C0F1C5822AD3A7000F6F72A /* DomainParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C0F1C5122AD3A7000F6F72A /* DomainParser.framework */; };
-		7C0F1C5922AD3A7000F6F72A /* DomainParser.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7C0F1C5122AD3A7000F6F72A /* DomainParser.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		7C0F1C6C22AD3AE800F6F72A /* DomainParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C0F1C5122AD3A7000F6F72A /* DomainParser.framework */; };
-		7C0F1C6E22AD3CD600F6F72A /* public_suffix_list.dat in Resources */ = {isa = PBXBuildFile; fileRef = 7C0F1C6D22AD3CD600F6F72A /* public_suffix_list.dat */; };
-		7C3418F622ADEA11008DCA58 /* DomainParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3418ED22ADEA11008DCA58 /* DomainParser.swift */; };
-		7C3418F722ADEA11008DCA58 /* RulesParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3418EE22ADEA11008DCA58 /* RulesParser.swift */; };
-		7C3418F822ADEA11008DCA58 /* ParsedHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3418EF22ADEA11008DCA58 /* ParsedHost.swift */; };
-		7C3418F922ADEA11008DCA58 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3418F022ADEA11008DCA58 /* Constant.swift */; };
-		7C3418FA22ADEA11008DCA58 /* RuleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3418F222ADEA11008DCA58 /* RuleLabel.swift */; };
-		7C3418FB22ADEA11008DCA58 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3418F322ADEA11008DCA58 /* Rule.swift */; };
-		7C3418FC22ADEA11008DCA58 /* BasicRulesParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3418F422ADEA11008DCA58 /* BasicRulesParser.swift */; };
-		7C3418FD22ADEA11008DCA58 /* DomainParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C3418F522ADEA11008DCA58 /* DomainParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7C2A4E8F22BDF23B00B6E7C5 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C2A4E8E22BDF23B00B6E7C5 /* AuthenticationServices.framework */; };
 		7C40256422A18B200050AB3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C40256322A18B200050AB3A /* AppDelegate.swift */; };
 		7C40256622A18B200050AB3A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C40256522A18B200050AB3A /* ViewController.swift */; };
 		7C40256922A18B200050AB3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C40256722A18B200050AB3A /* Main.storyboard */; };
@@ -57,13 +46,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		7C0F1C5622AD3A7000F6F72A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7C40255822A18B1F0050AB3A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7C0F1C5022AD3A7000F6F72A;
-			remoteInfo = DomainParser;
-		};
 		7C40258522A18D170050AB3A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7C40255822A18B1F0050AB3A /* Project object */;
@@ -80,7 +62,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				7C0F1C5922AD3A7000F6F72A /* DomainParser.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -104,17 +85,7 @@
 		7C0F1C3222ACE19500F6F72A /* FlowCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowCounter.swift; sourceTree = "<group>"; };
 		7C0F1C3422AD07B600F6F72A /* Domains.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Domains.swift; sourceTree = "<group>"; };
 		7C0F1C3822AD27C100F6F72A /* TweetNacl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TweetNacl.framework; path = Carthage/Build/iOS/TweetNacl.framework; sourceTree = "<group>"; };
-		7C0F1C5122AD3A7000F6F72A /* DomainParser.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DomainParser.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7C0F1C5422AD3A7000F6F72A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7C0F1C6D22AD3CD600F6F72A /* public_suffix_list.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = public_suffix_list.dat; sourceTree = "<group>"; };
-		7C3418ED22ADEA11008DCA58 /* DomainParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomainParser.swift; sourceTree = "<group>"; };
-		7C3418EE22ADEA11008DCA58 /* RulesParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RulesParser.swift; sourceTree = "<group>"; };
-		7C3418EF22ADEA11008DCA58 /* ParsedHost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsedHost.swift; sourceTree = "<group>"; };
-		7C3418F022ADEA11008DCA58 /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
-		7C3418F222ADEA11008DCA58 /* RuleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RuleLabel.swift; sourceTree = "<group>"; };
-		7C3418F322ADEA11008DCA58 /* Rule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
-		7C3418F422ADEA11008DCA58 /* BasicRulesParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicRulesParser.swift; sourceTree = "<group>"; };
-		7C3418F522ADEA11008DCA58 /* DomainParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DomainParser.h; sourceTree = "<group>"; };
+		7C2A4E8E22BDF23B00B6E7C5 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		7C40256022A18B1F0050AB3A /* YouPipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouPipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C40256322A18B200050AB3A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7C40256522A18B200050AB3A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -148,21 +119,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		7C0F1C4E22AD3A7000F6F72A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7C40255D22A18B1F0050AB3A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C2A4E8F22BDF23B00B6E7C5 /* AuthenticationServices.framework in Frameworks */,
 				7CBCCD6522B26E6A00BB9CE9 /* Security.framework in Frameworks */,
 				BBA64ADF22AE5B000048562F /* SwiftyJSON.framework in Frameworks */,
 				7CA1093422A7F3EA001F1783 /* iosLib.framework in Frameworks */,
-				7C0F1C5822AD3A7000F6F72A /* DomainParser.framework in Frameworks */,
 				7C40257A22A18C730050AB3A /* NetworkExtension.framework in Frameworks */,
 				7C79113422B1FE5700A4D10E /* TweetNacl.framework in Frameworks */,
 			);
@@ -173,7 +137,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C79113322B1FD0B00A4D10E /* Security.framework in Frameworks */,
-				7C0F1C6C22AD3AE800F6F72A /* DomainParser.framework in Frameworks */,
 				7C40258C22A190550050AB3A /* NetworkExtension.framework in Frameworks */,
 				7C79112822B0F02100A4D10E /* Socket.framework in Frameworks */,
 				BBA64AE022AE5B000048562F /* SwiftyJSON.framework in Frameworks */,
@@ -183,37 +146,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7C0F1C5222AD3A7000F6F72A /* DomainParser */ = {
-			isa = PBXGroup;
-			children = (
-				7C3418F422ADEA11008DCA58 /* BasicRulesParser.swift */,
-				7C3418F022ADEA11008DCA58 /* Constant.swift */,
-				7C3418F522ADEA11008DCA58 /* DomainParser.h */,
-				7C3418ED22ADEA11008DCA58 /* DomainParser.swift */,
-				7C3418F122ADEA11008DCA58 /* Model */,
-				7C3418EF22ADEA11008DCA58 /* ParsedHost.swift */,
-				7C3418EE22ADEA11008DCA58 /* RulesParser.swift */,
-				7C0F1C6D22AD3CD600F6F72A /* public_suffix_list.dat */,
-				7C0F1C5422AD3A7000F6F72A /* Info.plist */,
-			);
-			path = DomainParser;
-			sourceTree = "<group>";
-		};
-		7C3418F122ADEA11008DCA58 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				7C3418F222ADEA11008DCA58 /* RuleLabel.swift */,
-				7C3418F322ADEA11008DCA58 /* Rule.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		7C40255722A18B1F0050AB3A = {
 			isa = PBXGroup;
 			children = (
 				7C40256222A18B200050AB3A /* YouPipe */,
 				7C40258022A18D170050AB3A /* TunProxy */,
-				7C0F1C5222AD3A7000F6F72A /* DomainParser */,
 				7C40256122A18B1F0050AB3A /* Products */,
 				7C40257822A18C730050AB3A /* Frameworks */,
 			);
@@ -224,7 +161,6 @@
 			children = (
 				7C40256022A18B1F0050AB3A /* YouPipe.app */,
 				7C40257F22A18D170050AB3A /* TunProxy.appex */,
-				7C0F1C5122AD3A7000F6F72A /* DomainParser.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -249,6 +185,7 @@
 		7C40257822A18C730050AB3A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7C2A4E8E22BDF23B00B6E7C5 /* AuthenticationServices.framework */,
 				7C79113222B1FD0B00A4D10E /* Security.framework */,
 				7C79112722B0F02100A4D10E /* Socket.framework */,
 				BBA64ADE22AE5B000048562F /* SwiftyJSON.framework */,
@@ -309,36 +246,7 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		7C0F1C4C22AD3A7000F6F72A /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7C3418FD22ADEA11008DCA58 /* DomainParser.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
-		7C0F1C5022AD3A7000F6F72A /* DomainParser */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 7C0F1C5A22AD3A7000F6F72A /* Build configuration list for PBXNativeTarget "DomainParser" */;
-			buildPhases = (
-				7C0F1C4C22AD3A7000F6F72A /* Headers */,
-				7C0F1C4D22AD3A7000F6F72A /* Sources */,
-				7C0F1C4E22AD3A7000F6F72A /* Frameworks */,
-				7C0F1C4F22AD3A7000F6F72A /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = DomainParser;
-			productName = DomainParser;
-			productReference = 7C0F1C5122AD3A7000F6F72A /* DomainParser.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		7C40255F22A18B1F0050AB3A /* YouPipe */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7C40257222A18B220050AB3A /* Build configuration list for PBXNativeTarget "YouPipe" */;
@@ -354,7 +262,6 @@
 			);
 			dependencies = (
 				7C40258622A18D170050AB3A /* PBXTargetDependency */,
-				7C0F1C5722AD3A7000F6F72A /* PBXTargetDependency */,
 			);
 			name = YouPipe;
 			productName = YouPipe;
@@ -388,17 +295,19 @@
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = com.ribencong.youPipe;
 				TargetAttributes = {
-					7C0F1C5022AD3A7000F6F72A = {
-						CreatedOnToolsVersion = 10.2.1;
-						LastSwiftMigration = 1020;
-					};
 					7C40255F22A18B1F0050AB3A = {
 						CreatedOnToolsVersion = 10.2.1;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.AutoFillCredentialProvider = {
+								enabled = 1;
+							};
 							com.apple.NetworkExtensions.iOS = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 							com.apple.VPNLite = {
@@ -410,6 +319,9 @@
 						CreatedOnToolsVersion = 10.2.1;
 						LastSwiftMigration = 1020;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
 							com.apple.NetworkExtensions.iOS = {
 								enabled = 1;
 							};
@@ -435,20 +347,11 @@
 			targets = (
 				7C40255F22A18B1F0050AB3A /* YouPipe */,
 				7C40257E22A18D170050AB3A /* TunProxy */,
-				7C0F1C5022AD3A7000F6F72A /* DomainParser */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		7C0F1C4F22AD3A7000F6F72A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7C0F1C6E22AD3CD600F6F72A /* public_suffix_list.dat in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7C40255E22A18B1F0050AB3A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -493,20 +396,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		7C0F1C4D22AD3A7000F6F72A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7C3418F722ADEA11008DCA58 /* RulesParser.swift in Sources */,
-				7C3418F822ADEA11008DCA58 /* ParsedHost.swift in Sources */,
-				7C3418FC22ADEA11008DCA58 /* BasicRulesParser.swift in Sources */,
-				7C3418F622ADEA11008DCA58 /* DomainParser.swift in Sources */,
-				7C3418FB22ADEA11008DCA58 /* Rule.swift in Sources */,
-				7C3418F922ADEA11008DCA58 /* Constant.swift in Sources */,
-				7C3418FA22ADEA11008DCA58 /* RuleLabel.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7C40255C22A18B1F0050AB3A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -546,11 +435,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		7C0F1C5722AD3A7000F6F72A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7C0F1C5022AD3A7000F6F72A /* DomainParser */;
-			targetProxy = 7C0F1C5622AD3A7000F6F72A /* PBXContainerItemProxy */;
-		};
 		7C40258622A18D170050AB3A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7C40257E22A18D170050AB3A /* TunProxy */;
@@ -578,73 +462,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		7C0F1C5B22AD3A7000F6F72A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 7745PS7TY6;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = DomainParser/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe.DomainParser;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				USE_HEADERMAP = NO;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		7C0F1C5C22AD3A7000F6F72A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 7745PS7TY6;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = DomainParser/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe.DomainParser;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				USE_HEADERMAP = NO;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		7C40257022A18B220050AB3A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -781,9 +598,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.blockchainPipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = youPipe_debug;
+				PROVISIONING_PROFILE_SPECIFIER = blockchainYouPipe;
 				SWIFT_OBJC_BRIDGING_HEADER = "TunProxy/TunProxy-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -810,9 +627,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.blockchainPipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = youPipe_debug;
+				PROVISIONING_PROFILE_SPECIFIER = blockchainYouPipe;
 				SWIFT_OBJC_BRIDGING_HEADER = "TunProxy/TunProxy-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -841,9 +658,9 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe.packetTunnel;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.blockchainPipe.TunProxy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = youpipe.packetTunnel_debug;
+				PROVISIONING_PROFILE_SPECIFIER = blockchainYouPipeTunProxy;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "TunProxy/TunProxy-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -874,9 +691,9 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.youPipe.packetTunnel;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.blockchainPipe.TunProxy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = youpipe.packetTunnel_debug;
+				PROVISIONING_PROFILE_SPECIFIER = blockchainYouPipeTunProxy;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "TunProxy/TunProxy-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
@@ -887,15 +704,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7C0F1C5A22AD3A7000F6F72A /* Build configuration list for PBXNativeTarget "DomainParser" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7C0F1C5B22AD3A7000F6F72A /* Debug */,
-				7C0F1C5C22AD3A7000F6F72A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		7C40255B22A18B1F0050AB3A /* Build configuration list for PBXProject "YouPipe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
