@@ -19,7 +19,7 @@ public struct HTTPData {
 
 class Pipe: NSObject{
         
-        static let  PipeBufSize:Int         = Int(UINT16_MAX)
+        static let  PipeBufSize:Int         = 1 << 10
         static let  PipeDefaultTimeOut:UInt = 5
         
         private var targetAddr:String?
@@ -56,7 +56,7 @@ class Pipe: NSObject{
                 
                 defer {
                         self.runOk = false
-                        NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:Pipe[\(self.proxySock.socketfd)] exit......")
+                        NSLog("---Pipe[\(self.proxySock.socketfd)]---=>reading exit......")
                         self.Close()
                 }
                 
