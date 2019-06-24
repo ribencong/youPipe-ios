@@ -17,7 +17,7 @@ open class HTTPHeader {
     // Chunk is not supported yet.
     open var contentLength: Int = 0
     open var headers: [(String, String)] = []
-    open var rawHeader: Data?
+    open var rawHeader: [UInt8]?
 
     public init(headerString: String) throws {
         let lines = headerString.components(separatedBy: "\r\n")
@@ -121,8 +121,9 @@ open class HTTPHeader {
         }
     }
 
-    public convenience init(headerData: Data) throws {
-        guard let headerString = String(data: headerData, encoding: .utf8) else {
+    public convenience init(headerData: [UInt8]) throws {
+        
+        guard let headerString = String(bytes: headerData, encoding: .utf8) else {
             throw HTTPHeaderError.illegalEncoding
         }
 

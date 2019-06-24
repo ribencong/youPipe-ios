@@ -25,8 +25,6 @@
 		7C6E563C22A51BBB000DFA75 /* HTTPURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E563A22A51BBA000DFA75 /* HTTPURL.swift */; };
 		7C6E563D22A51BBB000DFA75 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E563B22A51BBB000DFA75 /* HTTPHeader.swift */; };
 		7C6E564622A56AB8000DFA75 /* YPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E564522A56AB8000DFA75 /* YPError.swift */; };
-		7C79112822B0F02100A4D10E /* Socket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C79112722B0F02100A4D10E /* Socket.framework */; };
-		7C79113122B1EE5300A4D10E /* AES.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C79113022B1EE5300A4D10E /* AES.swift */; };
 		7C79113322B1FD0B00A4D10E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C79113222B1FD0B00A4D10E /* Security.framework */; };
 		7C79113422B1FE5700A4D10E /* TweetNacl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C0F1C3822AD27C100F6F72A /* TweetNacl.framework */; };
 		7CA1090B22A65856001F1783 /* Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1090A22A65856001F1783 /* Adapter.swift */; };
@@ -36,8 +34,9 @@
 		7CA1092F22A6A74B001F1783 /* YPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E564522A56AB8000DFA75 /* YPError.swift */; };
 		7CA1093122A6B520001F1783 /* PipeWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA1093022A6B51F001F1783 /* PipeWallet.swift */; };
 		7CA1093422A7F3EA001F1783 /* iosLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CA1093322A7F3EA001F1783 /* iosLib.framework */; };
-		7CBCCD6422B26C5700BB9CE9 /* AES.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C79113022B1EE5300A4D10E /* AES.swift */; };
 		7CBCCD6522B26E6A00BB9CE9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C79113222B1FD0B00A4D10E /* Security.framework */; };
+		7CC11B1F22C0E580002C4780 /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CC11B1E22C0E57F002C4780 /* CryptoSwift.framework */; };
+		7CFCD41622C06145002E0039 /* SocketSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFCD41522C06145002E0039 /* SocketSwift.framework */; };
 		BBA64ADF22AE5B000048562F /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBA64ADE22AE5B000048562F /* SwiftyJSON.framework */; };
 		BBA64AE022AE5B000048562F /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBA64ADE22AE5B000048562F /* SwiftyJSON.framework */; };
 		BBF3CA8D22A92F6F000DFAB8 /* Base58.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBF3CA8C22A92F6F000DFAB8 /* Base58.swift */; };
@@ -103,9 +102,6 @@
 		7C6E563A22A51BBA000DFA75 /* HTTPURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPURL.swift; sourceTree = "<group>"; };
 		7C6E563B22A51BBB000DFA75 /* HTTPHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
 		7C6E564522A56AB8000DFA75 /* YPError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPError.swift; sourceTree = "<group>"; };
-		7C79112722B0F02100A4D10E /* Socket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Socket.framework; path = Carthage/Build/iOS/Socket.framework; sourceTree = "<group>"; };
-		7C79112A22B1E96400A4D10E /* TunProxy-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TunProxy-Bridging-Header.h"; sourceTree = "<group>"; };
-		7C79113022B1EE5300A4D10E /* AES.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AES.swift; sourceTree = "<group>"; };
 		7C79113222B1FD0B00A4D10E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		7CA1090A22A65856001F1783 /* Adapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adapter.swift; sourceTree = "<group>"; };
 		7CA1090C22A65894001F1783 /* DirectAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectAdapter.swift; sourceTree = "<group>"; };
@@ -113,6 +109,8 @@
 		7CA1092922A68BC5001F1783 /* YouPipeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouPipeService.swift; sourceTree = "<group>"; };
 		7CA1093022A6B51F001F1783 /* PipeWallet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipeWallet.swift; sourceTree = "<group>"; };
 		7CA1093322A7F3EA001F1783 /* iosLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iosLib.framework; sourceTree = "<group>"; };
+		7CC11B1E22C0E57F002C4780 /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = Carthage/Build/iOS/CryptoSwift.framework; sourceTree = "<group>"; };
+		7CFCD41522C06145002E0039 /* SocketSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SocketSwift.framework; path = Carthage/Build/iOS/SocketSwift.framework; sourceTree = "<group>"; };
 		BBA64ADE22AE5B000048562F /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		BBF3CA8C22A92F6F000DFAB8 /* Base58.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base58.swift; sourceTree = "<group>"; };
 		BBF3CA8E22AA0B8E000DFAB8 /* LicenseBean.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseBean.swift; sourceTree = "<group>"; };
@@ -138,7 +136,8 @@
 			files = (
 				7C79113322B1FD0B00A4D10E /* Security.framework in Frameworks */,
 				7C40258C22A190550050AB3A /* NetworkExtension.framework in Frameworks */,
-				7C79112822B0F02100A4D10E /* Socket.framework in Frameworks */,
+				7CFCD41622C06145002E0039 /* SocketSwift.framework in Frameworks */,
+				7CC11B1F22C0E580002C4780 /* CryptoSwift.framework in Frameworks */,
 				BBA64AE022AE5B000048562F /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -185,9 +184,10 @@
 		7C40257822A18C730050AB3A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7CC11B1E22C0E57F002C4780 /* CryptoSwift.framework */,
+				7CFCD41522C06145002E0039 /* SocketSwift.framework */,
 				7C2A4E8E22BDF23B00B6E7C5 /* AuthenticationServices.framework */,
 				7C79113222B1FD0B00A4D10E /* Security.framework */,
-				7C79112722B0F02100A4D10E /* Socket.framework */,
 				BBA64ADE22AE5B000048562F /* SwiftyJSON.framework */,
 				7C0F1C3822AD27C100F6F72A /* TweetNacl.framework */,
 				7CA1093322A7F3EA001F1783 /* iosLib.framework */,
@@ -199,7 +199,6 @@
 		7C40258022A18D170050AB3A /* TunProxy */ = {
 			isa = PBXGroup;
 			children = (
-				7C79112922B1E90000A4D10E /* AES */,
 				7CA1091122A65A17001F1783 /* Adapter */,
 				7C6E563E22A51BCC000DFA75 /* HttpProxy */,
 				7C0369F522A50D4B00F6EB10 /* Pipe.swift */,
@@ -223,15 +222,6 @@
 				7C0369F322A50BC900F6EB10 /* HttpProxy.swift */,
 			);
 			name = HttpProxy;
-			sourceTree = "<group>";
-		};
-		7C79112922B1E90000A4D10E /* AES */ = {
-			isa = PBXGroup;
-			children = (
-				7C79112A22B1E96400A4D10E /* TunProxy-Bridging-Header.h */,
-				7C79113022B1EE5300A4D10E /* AES.swift */,
-			);
-			name = AES;
 			sourceTree = "<group>";
 		};
 		7CA1091122A65A17001F1783 /* Adapter */ = {
@@ -382,7 +372,8 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/TweetNacl.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftyJSON.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Socket.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SocketSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/CryptoSwift.framework",
 			);
 			name = "copy frames";
 			outputFileListPaths = (
@@ -400,7 +391,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7CBCCD6422B26C5700BB9CE9 /* AES.swift in Sources */,
 				7CA1092F22A6A74B001F1783 /* YPError.swift in Sources */,
 				BBF3CA8F22AA0B8E000DFAB8 /* LicenseBean.swift in Sources */,
 				7C40256622A18B200050AB3A /* ViewController.swift in Sources */,
@@ -418,7 +408,6 @@
 				BBF3CA9022AA0B8E000DFAB8 /* LicenseBean.swift in Sources */,
 				BBF3CA8D22A92F6F000DFAB8 /* Base58.swift in Sources */,
 				7C0369F622A50D4B00F6EB10 /* Pipe.swift in Sources */,
-				7C79113122B1EE5300A4D10E /* AES.swift in Sources */,
 				7CA1090D22A65894001F1783 /* DirectAdapter.swift in Sources */,
 				7C6E563D22A51BBB000DFA75 /* HTTPHeader.swift in Sources */,
 				7C6E564622A56AB8000DFA75 /* YPError.swift in Sources */,
@@ -601,7 +590,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.blockchainPipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = blockchainYouPipe;
-				SWIFT_OBJC_BRIDGING_HEADER = "TunProxy/TunProxy-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -630,7 +619,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ribencong.blockchainPipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = blockchainYouPipe;
-				SWIFT_OBJC_BRIDGING_HEADER = "TunProxy/TunProxy-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -662,7 +651,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = blockchainYouPipeTunProxy;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "TunProxy/TunProxy-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -695,7 +684,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = blockchainYouPipeTunProxy;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "TunProxy/TunProxy-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

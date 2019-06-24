@@ -9,7 +9,8 @@
 import Foundation 
 import TweetNacl
 import SwiftyJSON
-import Socket
+//import Socket
+import SocketSwift
 
 public enum CmdType:Int{
         case CmdPayChanel = 2, CmdPipe, CmdCheck
@@ -47,7 +48,7 @@ class PipeWallet:NSObject{
                 self.ConnectCallBack = completionHandler
                 self.TimeOutCheck()
                 do {
-                        self.PayConn = try Socket.create()
+                        self.PayConn = try Socket(.inet, type: .stream, protocol: .tcp)
                         try Domains.shared.InitCache(data: conf["doamins"] as! [String])
                         try self.connectToServer(conf: conf)
                         
@@ -127,18 +128,18 @@ extension PipeWallet{
                 
                 self.SockSrvIp = ip
                 self.SockSrvPort = port
-                try self.PayConn!.connect(to: ip, port: port)
+                try self.PayConn!.connect(port: Port(port), address: ip)
                 
                 let d = try self.handShakeData()
-                try self.PayConn!.write(from: d)
+                try self.PayConn!.write(d.bytes)
                 
-                var readBuf = Data(capacity: 1024)
-                let no = try self.PayConn!.read(into: &readBuf)
+                var readBuf = [UInt8](repeating: 0, count: 1024)
+                let no = try self.PayConn!.read(&readBuf, size: 1024)
                 guard no > 0 else{
                         throw YPError.PaymentChannelErr
                 }
                 
-                let json = try JSON(data:readBuf)
+                let json = try JSON(data:Data(bytes: &readBuf, count: no))
                 if let success = json["Success"].bool, !success {
                         NSLog("---PipeWallet--=>:pay channel hand shake err:\(json["Message"] )")
                         throw YPError.PaymentChannelErr
@@ -155,23 +156,23 @@ extension PipeWallet{
         
         func WaitingBill(){
                 
-                var readBuf = Data(capacity: 1024)
+                var readBuf = [UInt8](repeating: 0, count: 1024)
                 defer{
                         self.Close()
                 }
                 
                 do{ repeat{
-                        readBuf.count = 0
-                        let no = try self.PayConn!.read(into: &readBuf)
+                        readBuf.removeAll(keepingCapacity: true)
+                        let no = try self.PayConn!.read(&readBuf, size: 1024)
                         guard no > 0 else{
                                 NSLog("---PipeWallet--=>: read payment bill empty")
                                 throw YPError.PaymentChannelErr
                         }
                         
-                        let json = try JSON(data:readBuf)
+                        let json = try JSON(data:Data(bytes: readBuf))
                         NSLog("---PipeWallet--=>:Got bill:[\(String(describing: json))]")
                         let proofData = try self.SignTheBill(bill:json)
-                        try self.PayConn!.write(from: proofData)
+                        try self.PayConn!.write(proofData.bytes)
                         
                 }while self.Eastablished}catch let err{
                         NSLog("---PipeWallet--=>: payment channel close:\(err.localizedDescription)")

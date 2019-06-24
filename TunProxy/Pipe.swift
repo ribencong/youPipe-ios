@@ -7,19 +7,20 @@
 //
 
 import Foundation
-import Socket
+//import Socket
+import SocketSwift
 
 typealias CloseCallBack = ()->Void
 
 public struct HTTPData {
         public static let DoubleCRLF = "\r\n\r\n".data(using: String.Encoding.utf8)!
         public static let CRLF = "\r\n".data(using: String.Encoding.utf8)!
-        public static let ConnectSuccessResponse = "HTTP/1.1 200 Connection Established\r\n\r\n".data(using: String.Encoding.utf8)!
+        public static let ConnectSuccessResponse = [UInt8]("HTTP/1.1 200 Connection Established\r\n\r\n".utf8)
 }
 
 class Pipe: NSObject{
         
-        static let  PipeBufSize:Int         = 1 << 10
+        static let  PipeBufSize:Int         = 1 << 14
         static let  PipeDefaultTimeOut:UInt = 5
         
         private var targetAddr:String?
@@ -52,51 +53,48 @@ class Pipe: NSObject{
         
         func Reading(){
                 
-                var readBuffer = Data(capacity: Pipe.PipeBufSize)
+                var readBuffer = [UInt8](repeating: 0, count: Pipe.PipeBufSize)
                 
                 defer {
                         self.runOk = false
-                        NSLog("---Pipe[\(self.proxySock.socketfd)]---=>reading exit......")
+                        NSLog("---Pipe[\(self.proxySock.fileDescriptor)]---=>reading exit......")
                         self.Close()
                 }
                 
                 self.readStatus = 1
                 
                 do{ repeat{
-                        
-                        readBuffer.count = 0
-                        
-                        let rno = try self.proxySock.read(into: &readBuffer)
+                        let rno = try self.proxySock.read(&readBuffer, size: Pipe.PipeBufSize)
                         if rno == 0 {
-                                NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:read empty data")
+                                NSLog("---Pipe[\(self.proxySock.fileDescriptor)]---=>:read empty data")
                                 return
                         }
                         
                         switch self.readStatus {
                         case 1:
                                 let header = try HTTPHeader(headerData: readBuffer)
-                                NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:ProxyFirstRequest \(header.toString())......")
+                                NSLog("---Pipe[\(self.proxySock.fileDescriptor)]---=>:ProxyFirstRequest \(header.toString())......")
                                 
                                 try self.OpenAdapter(header: header)
                                 
                                 if self.isConnCmd{
-                                       try self.proxySock.write(from: HTTPData.ConnectSuccessResponse)
+                                       try self.proxySock.write(HTTPData.ConnectSuccessResponse)
                                 }else{
-                                       try self.adapter?.writeData(data: readBuffer)
+                                       try self.adapter?.writeData(data: Array(readBuffer.prefix(rno)))
                                 }
                                 
                                 self.readStatus = 2
                         break
                         case 2:
-                                try self.adapter?.writeData(data: readBuffer)
+                                try self.adapter?.writeData(data: Array(readBuffer.prefix(rno)))
                         break
                         default:
-                                NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:unknown reading status:\(self.readStatus)")
+                                NSLog("---Pipe[\(self.proxySock.fileDescriptor)]---=>:unknown reading status:\(self.readStatus)")
                                 return
                         }
                         
                 }while self.runOk }catch let err{
-                        NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:reading err:\(err.localizedDescription)")
+                        NSLog("---Pipe[\(self.proxySock.fileDescriptor)]---=>:reading err:\(err.localizedDescription)")
                         return
                 }
         }
@@ -116,17 +114,16 @@ class Pipe: NSObject{
                                                      targetPort: self.targetoPort!,
                                                      delegate:self)
                 }
-                self.adapter?.ID = self.proxySock.socketfd
-                NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:first header:\(header.toString())")
+                self.adapter?.ID = self.proxySock.fileDescriptor
+                NSLog("---Pipe[\(self.proxySock.fileDescriptor)]---=>:first header:\(header.toString())")
         }
 }
 
-
 extension Pipe: PipeWriteDelegate{
         
-        func write(rawData: Data) throws -> Int {
-                let no = try self.proxySock.write(from: rawData)
-                NSLog("---Pipe[\(self.proxySock.socketfd)]---=>:PipeWriteDelegate writing:\(no) data len:\(rawData.count)")
-                return no
+        func write(rawData: [UInt8]) throws -> Int {
+                try self.proxySock.write(rawData)
+                NSLog("---Pipe[\(self.proxySock.fileDescriptor)]---=>:PipeWriteDelegate writing data len:\(rawData.count)")
+                return rawData.count
         }
 }

@@ -7,7 +7,9 @@
 //
 
 import Foundation
-import Socket
+//import Socket
+import CryptoSwift
+import SocketSwift
 import SwiftyJSON
 import TweetNacl
 
@@ -28,10 +30,10 @@ class PipeAdapter: NSObject{
         private var sock:Socket
         private var tgtHost:String
         private var tgtPort:Int32
-        private var salt:Data
+        private var salt:[UInt8]
         private var aseBlender:AES
         
-        var readingPool = Data(capacity: Pipe.PipeBufSize)
+        var readingPool = [UInt8](repeating: 0, count: Pipe.PipeBufSize)
         
         let queue = DispatchQueue(label: "com.ribencong.pipAdapter")
         
@@ -41,18 +43,17 @@ class PipeAdapter: NSObject{
                         self.tgtPort = targetPort
                         self.delegate = delegate
                 
-                        self.sock = try Socket.create()
-                        self.salt = AES.randomIV()
+                        self.sock = try Socket(.inet, type: .stream, protocol: .tcp)
+                        self.salt = AES.randomIV(AES.blockSize)
                         let aesKey = PipeWallet.shared.AesKey!
-                        self.aseBlender = try AES(key: aesKey, iv: self.salt)
+                        self.aseBlender = try AES(key: aesKey.bytes, blockMode:CFB(iv: self.salt), padding: .noPadding)
                         
                         super.init()
                 
                         let host = PipeWallet.shared.SockSrvIp!
                         let port = Int32(PipeWallet.shared.SockSrvPort!)
                         
-                        try self.sock.connect(to: host,
-                                         port: port)
+                        try self.sock.connect(port: Port(port), address: host)
                         
                         try self.handShake()
                         
@@ -70,18 +71,18 @@ class PipeAdapter: NSObject{
                 
                 let syn = try handSynData()
                
-                try self.sock.write(from: syn)
+                try self.sock.write(syn)
                 
-                var ackBuf = Data(capacity: 1024)
+                var ackBuf = [UInt8](repeating: 0, count: 1024)
                 
-                let rno = try self.sock.read(into: &ackBuf)
+                let rno = try self.sock.read(&ackBuf, size: 1024)
                 
                 guard rno > 0 else {
                         NSLog("---PipeAdapter--=>: No hand shake ack")
                         throw YPError.HandShakeErr
                 }
                 
-                let json = try JSON(data:ackBuf)
+                let json = try JSON(data:Data(bytes: ackBuf))
                 if let success = json["Success"].bool, !success {
                         NSLog("---PipeAdapter--=>:Pipe[\(self.tgtHost):\(self.tgtPort)] hand shake err:\(json["Message"] )")
                         self.Close(error: nil)
@@ -89,10 +90,10 @@ class PipeAdapter: NSObject{
                 
                 NSLog("---PipeAdapter--=>: Create Pipe[\(self.tgtHost):\(self.tgtPort)]  success!")
                 
-                try self.sock.write(from: self.salt)
+                try self.sock.write([UInt8](self.salt))
         }
         
-        func handSynData()throws -> Data{
+        func handSynData()throws -> [UInt8]{
                 
                 let request = "{\"Addr\":\"\(PipeWallet.shared.MyAddr!)\",\"Target\":\"\(self.tgtHost):\(self.tgtPort)\"}"
                 let data = request.trimmingCharacters(in: CharacterSet.whitespaces).data(using: .utf8)!
@@ -101,8 +102,7 @@ class PipeAdapter: NSObject{
                 
                 let sig = signData.base64EncodedString().replacingOccurrences(of: "\\", with: "")
                 let hs = "{\"CmdType\":\(CmdType.CmdPipe.rawValue),\"Sig\": \"\(sig)\", \"Pipe\": \(request)}"
-                let hsData = hs.data(using: .utf8)!
-                return hsData
+                return [UInt8](hs.utf8)
                 
         }
         
@@ -113,26 +113,26 @@ class PipeAdapter: NSObject{
 extension PipeAdapter{
         
         func reading(){
-                var tmpBuf = Data(capacity: 1024)
+                var tmpBuf = [UInt8](repeating: 0, count: 4)
                 do{
                         while true{
                                 
                                 if self.readingPool.count <= 4{
-//                                        tmpBuf.removeAll(keepingCapacity: true)
-                                        tmpBuf.count = 0
-                                        let no = try self.sock.read(into: &tmpBuf)
+                                        tmpBuf.removeAll(keepingCapacity: true)
+                                        
+                                        let no = try self.sock.read(&tmpBuf, size: 4)
                                         NSLog("---PipeAdapter[\(self.ID!)]-FillPool start Got---=>:\(no)")
                                         if no < 4 {
                                                 NSLog("---PipeAdapter[\(self.ID!)]-too short data:[\(no)]")
                                                 return
                                         }
-                                        self.readingPool.append(tmpBuf)
+                                        self.readingPool += tmpBuf//.append(contentsOf:tmpBuf)
                                 }
                                 
-                                let lenData = self.readingPool.prefix(4)
+                                let lenData = Array(self.readingPool.prefix(4))
                                 let bodyLen = lenData.ToInt32()
                                 if bodyLen == 0 || bodyLen > Pipe.PipeBufSize{
-                                        NSLog("---PipeAdapter[\(self.ID!)]-invalid data lenght [\(bodyLen)]   data:[\(lenData.hexadecimal)]")
+                                        NSLog("---PipeAdapter[\(self.ID!)]-invalid data lenght [\(bodyLen)]   data:[\(lenData.toHexString())]")
                                         throw YPError.PipeDataProtocolErr
                                 }
                                 
@@ -140,16 +140,16 @@ extension PipeAdapter{
                                 
                                 self.readingPool.removeFirst(4)
                                 while self.readingPool.count < bodyLen{
-                                        tmpBuf.count = 0
-                                        let bodyNO = try self.sock.read(into: &tmpBuf)
+                                        tmpBuf.removeAll()
+                                        let bodyNO = try self.sock.read(&tmpBuf, size: 4)
                                         NSLog("---PipeAdapter[\(self.ID!)]-FillPool Body Data Got---=>:\(bodyNO)")
-                                        self.readingPool.append(tmpBuf)
+                                        self.readingPool += tmpBuf //.append(contentsOf:tmpBuf)
                                 }
                                 
-                                let data = self.readingPool.prefix(bodyLen)
-                                NSLog("---PipeAdapter[\(self.ID!)]-FillPool-\(data.count)=>: before~\(data.hexadecimal)~")
+                                let data = Array(self.readingPool.prefix(bodyLen))
+                                NSLog("---PipeAdapter[\(self.ID!)]-FillPool-\(data.count)=>: before~\(data.toHexString()))~")
                                 let rawData = try self.aseBlender.decrypt(data)
-                                NSLog("---PipeAdapter[\(self.ID!)]-FillPool-\(rawData.count)=>: after~\(rawData.hexadecimal)~")
+                                NSLog("---PipeAdapter[\(self.ID!)]-FillPool-\(rawData.count)=>: after~\(rawData.toHexString()))~")
                                 
                                 let _ = try self.delegate.write(rawData: rawData)
                                 self.readingPool.removeFirst(bodyLen)
@@ -166,9 +166,9 @@ extension PipeAdapter{
 
 extension PipeAdapter:Adapter{
         
-        func writeData(data: Data) throws {
+        func writeData(data: [UInt8]) throws {
                 
-                NSLog("---PipeAdapter[\(self.ID!)]-writeData-\(data.count)=>: before~\(data.hexadecimal)~")
+                NSLog("---PipeAdapter[\(self.ID!)]-writeData-\(data.count)=>: before~\(data.toHexString())~")
                 var cipher = try self.aseBlender.encrypt(data)
                 let dataLen = UInt32(cipher.count)
                 
@@ -179,9 +179,9 @@ extension PipeAdapter:Adapter{
                 
                 cipher.insert(contentsOf: lenData, at: 0)
                 
-                NSLog("---PipeAdapter[\(self.ID!)]-writeData-\(cipher.count)=>: after~\(cipher.hexadecimal)~")
+                NSLog("---PipeAdapter[\(self.ID!)]-writeData-\(cipher.count)=>: after~\(cipher.toHexString())~")
                 
-                try self.sock.write(from: cipher)
+                try self.sock.write(cipher)
         }
         
         func byePeer() {
@@ -189,9 +189,8 @@ extension PipeAdapter:Adapter{
         }
 }
 
-extension Data{
+extension Array where Element == UInt8{
         public func ToInt32() -> Int{
-                NSLog("---PipeAdapter-ToInt32-original->:\(self.hexadecimal)")
                 guard self.count == 4 else{
                         return 0
                 }
@@ -202,11 +201,6 @@ extension Data{
                        (Int(bytes[1]) << 16) +
                        (Int(bytes[2]) << 8) +
                        Int(bytes[3])
-        }
-        
-        var hexadecimal: String {
-                return map { String(format: "%02x", $0) }
-                        .joined()
         }
 }
 

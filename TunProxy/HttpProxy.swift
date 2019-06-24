@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Socket
+import SocketSwift
 
 class HttpProxy:NSObject{
         
@@ -21,8 +21,9 @@ class HttpProxy:NSObject{
                 super.init()
                 
                 do{
-                        self.listenSocket = try Socket.create()
-                        try self.listenSocket?.listen(on: port, node:host)
+                        self.listenSocket = try Socket(.inet, type: .stream, protocol: .tcp)
+                        try self.listenSocket?.bind(port: Port(port), address: host)
+                        try self.listenSocket?.listen()
                         
                 }catch let err{
                         NSLog("---HttpProxy--=>:Start http proxy failed:\(err.localizedDescription)")
@@ -35,21 +36,27 @@ class HttpProxy:NSObject{
                 queue.async {
                         while self.RunOk{ do {
                                
-                                let newSocket = try self.listenSocket!.acceptClientConnection()
+                        guard let newSocket = try self.listenSocket?.accept() else{
+                                NSLog("---HttpProxy--=>: accept failed")
+                                return
+                        }
                                 
-                                NSLog("---HttpProxy--=>:New accept proxy[\(newSocket.remoteHostname):\(newSocket.remotePort)]")
-                               
-                                let newTunnel = Pipe(psock: newSocket){
-                                        NSLog("---HttpProxy--=>:Http proxy remove \(newSocket.socketfd) from TunnelCache")
-                                        self.TunnelCache.removeValue(forKey: newSocket.socketfd)
+                        let address = Socket.addresses(newSocket)
+                                NSLog("---HttpProxy--=>:New accept proxy [\(String(describing: address))]")
+                       
+                        let newTunnel = Pipe(psock: newSocket){
+                                NSLog("---HttpProxy--=>:Http proxy remove \(newSocket.fileDescriptor) from TunnelCache")
+                                self.queue.sync {
+                                     self.TunnelCache.removeValue(forKey: newSocket.fileDescriptor)
                                 }
+                        }
                                 
-                                self.TunnelCache[newSocket.socketfd] = newTunnel
+                        self.TunnelCache[newSocket.fileDescriptor] = newTunnel
                                 
-                                }catch let err{
-                                        NSLog("---HttpProxy--=>:Http proxy exit......\(err.localizedDescription)")
-                                        return
-                                } }
+                        }catch let err{
+                                NSLog("---HttpProxy--=>:Http proxy exit......\(err.localizedDescription)")
+                                return
+                        }}
                 }
         }
         
