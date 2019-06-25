@@ -1,4 +1,4 @@
 github "SwiftyJSON/SwiftyJSON" ~> 4.0
 github "bitmark-inc/tweetnacl-swiftwrap" ~> 1.0 
-github "BiAtoms/Socket.swift" ~> 2.3
+github "IBM-Swift/BlueSocket" ~> 1.0.8
 github "krzyzanowskim/CryptoSwift"

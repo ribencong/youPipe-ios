@@ -9,11 +9,11 @@
 import Foundation
 
 protocol PipeWriteDelegate {
-        func write(rawData:[UInt8])throws -> Int
+        func write(rawData:Data)throws -> Int
 }
 
 public protocol Adapter: class{
         var ID:Int32? { get set } 
-        func writeData(data: [UInt8]) throws
+        func writeData(data: Data) throws
         func byePeer()
 }

@@ -7,20 +7,19 @@
 //
 
 import Foundation
-//import Socket
-import SocketSwift
+import Socket
 
-typealias CloseCallBack = ()->Void
+typealias CloseCallBack = (_ fd: Int32)->Void
 
 public struct HTTPData {
         public static let DoubleCRLF = "\r\n\r\n".data(using: String.Encoding.utf8)!
         public static let CRLF = "\r\n".data(using: String.Encoding.utf8)!
-        public static let ConnectSuccessResponse = [UInt8]("HTTP/1.1 200 Connection Established\r\n\r\n".utf8)
+        public static let ConnectSuccessResponse = "HTTP/1.1 200 Connection Established\r\n\r\n".data(using: .utf8)!
 }
 
 class Pipe: NSObject{
         
-        static let  PipeBufSize:Int         = 1 << 14
+        static let  PipeBufSize:Int         = Int(UInt16.max)
         static let  PipeDefaultTimeOut:UInt = 5
         
         private var targetAddr:String?
@@ -34,67 +33,71 @@ class Pipe: NSObject{
         private var adapter: Adapter?
         private var CCB:CloseCallBack?
         
+        private var pipeID:Int32
+        let queue = DispatchQueue.global(qos: .default)
         
         init(psock:Socket, callBack:@escaping CloseCallBack) {
                 
                 proxySock = psock
                 self.CCB = callBack
+                pipeID = psock.socketfd
                 super.init()
-                DispatchQueue.global(qos: .default).async {
+                queue.async {
                         self.Reading()
                 }
         }
         
         func Close() {
-                self.CCB?()
+                self.CCB?(self.pipeID)
                 self.proxySock.close()
                 self.adapter?.byePeer()
         }
         
         func Reading(){
                 
-                var readBuffer = [UInt8](repeating: 0, count: Pipe.PipeBufSize)
-                
+                var readBuffer = Data(capacity: Pipe.PipeBufSize)
                 defer {
                         self.runOk = false
-                        NSLog("---Pipe[\(self.proxySock.fileDescriptor)]---=>reading exit......")
+                        NSLog("---Pipe[\(self.pipeID)]---=>reading exit......")
                         self.Close()
                 }
                 
                 self.readStatus = 1
                 
                 do{ repeat{
-                        let rno = try self.proxySock.read(&readBuffer, size: Pipe.PipeBufSize)
+                        let rno = try self.proxySock.read(into: &readBuffer)
                         if rno == 0 {
-                                NSLog("---Pipe[\(self.proxySock.fileDescriptor)]---=>:read empty data")
+                                NSLog("---Pipe[\(self.pipeID)]---=>:read empty data")
                                 return
                         }
                         
                         switch self.readStatus {
                         case 1:
                                 let header = try HTTPHeader(headerData: readBuffer)
-                                NSLog("---Pipe[\(self.proxySock.fileDescriptor)]---=>:ProxyFirstRequest \(header.toString())......")
+                                NSLog("---Pipe[\(self.pipeID)]---=>:ProxyFirstRequest \(header.toString())......")
                                 
                                 try self.OpenAdapter(header: header)
                                 
                                 if self.isConnCmd{
-                                       try self.proxySock.write(HTTPData.ConnectSuccessResponse)
+                                        try self.proxySock.write(from: HTTPData.ConnectSuccessResponse)
                                 }else{
-                                       try self.adapter?.writeData(data: Array(readBuffer.prefix(rno)))
+                                       try self.adapter?.writeData(data: readBuffer.prefix(rno))
                                 }
                                 
                                 self.readStatus = 2
                         break
                         case 2:
-                                try self.adapter?.writeData(data: Array(readBuffer.prefix(rno)))
+                                try self.adapter?.writeData(data: readBuffer.prefix(rno))
                         break
                         default:
-                                NSLog("---Pipe[\(self.proxySock.fileDescriptor)]---=>:unknown reading status:\(self.readStatus)")
+                                NSLog("---Pipe[\(self.pipeID)]---=>:unknown reading status:\(self.readStatus)")
                                 return
                         }
                         
+                        readBuffer.count = 0
+                        
                 }while self.runOk }catch let err{
-                        NSLog("---Pipe[\(self.proxySock.fileDescriptor)]---=>:reading err:\(err.localizedDescription)")
+                        NSLog("---Pipe[\(self.pipeID)]---=>:reading err:\(err.localizedDescription)")
                         return
                 }
         }
@@ -114,16 +117,20 @@ class Pipe: NSObject{
                                                      targetPort: self.targetoPort!,
                                                      delegate:self)
                 }
-                self.adapter?.ID = self.proxySock.fileDescriptor
-                NSLog("---Pipe[\(self.proxySock.fileDescriptor)]---=>:first header:\(header.toString())")
+                self.adapter?.ID = self.pipeID
+                NSLog("---Pipe[\(self.pipeID)]---=>:first header:\(header.toString())")
+        }
+        
+        func ToString() -> String {
+                return String(format: "proxysockID[%d]", self.pipeID)
         }
 }
 
 extension Pipe: PipeWriteDelegate{
         
-        func write(rawData: [UInt8]) throws -> Int {
-                try self.proxySock.write(rawData)
-                NSLog("---Pipe[\(self.proxySock.fileDescriptor)]---=>:PipeWriteDelegate writing data len:\(rawData.count)")
+        func write(rawData: Data) throws -> Int {
+                try self.proxySock.write(from: rawData)
+                NSLog("---Pipe[\(self.pipeID)]---=>:PipeWriteDelegate writing data len:\(rawData.count)")
                 return rawData.count
         }
 }

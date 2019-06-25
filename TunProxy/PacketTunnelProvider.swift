@@ -16,7 +16,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         
         override func startTunnel(options: [String : NSObject]?, completionHandler: @escaping (Error?) -> Void) {
                 
-                print("-------------------------------")
+                NSLog("-------------startTunnel------------------")
                 
                 guard let opts = options else{
                         completionHandler(YPError.VPNParamLost)

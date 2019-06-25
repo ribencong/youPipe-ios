@@ -7,51 +7,63 @@
 //
 
 import Foundation
-import SocketSwift
+import Socket
 
 class HttpProxy:NSObject{
         
         fileprivate var listenSocket: Socket?
         private var RunOk:Bool = true
         
-        var TunnelCache:Dictionary<Int32, Pipe> = [:]
-        let queue = DispatchQueue(label: "com.ribencong.HttpQueue")
+        var TunnelCache = [Int32:Pipe]()
+        
+        let httpQueue = DispatchQueue.global(qos: .userInteractive)
+        let lockQueue = DispatchQueue(label: "com.ribencong.tunproxy.lock")
         
         init?(host:String, port:Int){
                 super.init()
                 
                 do{
-                        self.listenSocket = try Socket(.inet, type: .stream, protocol: .tcp)
-                        try self.listenSocket?.bind(port: Port(port), address: host)
-                        try self.listenSocket?.listen()
-                        
+                        self.listenSocket = try Socket.create(family:.inet, type: .stream, proto: .tcp)
+                        self.listenSocket!.readBufferSize = Pipe.PipeBufSize
+                        try self.listenSocket!.listen(on: port, node:host)
+                        NSLog("---HttpProxy--=>:Start http proxy Success:\(self.listenSocket!.remoteHostname) on port \(self.listenSocket!.remotePort)")
                 }catch let err{
                         NSLog("---HttpProxy--=>:Start http proxy failed:\(err.localizedDescription)")
                         return nil
                 }
         }
         
+        deinit {
+                //TODO:: Close all open sockets...
+//                for socket in connectedSockets.values {
+//                        socket.close()
+//                }
+                self.listenSocket?.close()
+        }
+        
         func Run(){
                 
-                queue.async {
+                self.httpQueue.async { [unowned self] in
+                        
                         while self.RunOk{ do {
                                
-                        guard let newSocket = try self.listenSocket?.accept() else{
-                                NSLog("---HttpProxy--=>: accept failed")
-                                return
-                        }
+                        let newSocket = try self.listenSocket!.acceptClientConnection()
+                        let fd = newSocket.socketfd
+                        NSLog("---HttpProxy--=>Accepted connection[\(fd)] from: \(newSocket.remoteHostname) on port \(newSocket.remotePort)")
+                        NSLog("---HttpProxy--=>Socket Signature: \(String(describing: newSocket.signature?.description))")
                                 
-                        let address = Socket.addresses(newSocket)
-                                NSLog("---HttpProxy--=>:New accept proxy [\(String(describing: address))]")
-                       
                         let newTunnel = Pipe(psock: newSocket){
-                                NSLog("---HttpProxy--=>:Http proxy remove \(newSocket.fileDescriptor) from TunnelCache")
-                                self.queue.sync {
-                                     self.TunnelCache.removeValue(forKey: newSocket.fileDescriptor)
+                                fd in
+                                self.lockQueue.sync{
+                                        self.TunnelCache[fd] = nil
+                                        NSLog("---HttpProxy--=>:Http proxy remove \(fd) from TunnelCache")
                                 }
                         }
                                 
-                        self.TunnelCache[newSocket.fileDescriptor] = newTunnel
+                        self.lockQueue.sync{
+                                self.TunnelCache[fd] = newTunnel
+                        }
+                        
                                 
                         }catch let err{
                                 NSLog("---HttpProxy--=>:Http proxy exit......\(err.localizedDescription)")
