@@ -26,7 +26,6 @@ class Pipe: NSObject{
         private var targetoPort:Int32?
         
         private var isConnCmd:Bool = false
-        private var runOk:Bool = true
         private var readStatus:Int = 1
         
         private var proxySock: Socket
@@ -44,16 +43,15 @@ class Pipe: NSObject{
                 super.init()
                 queue.async {
                         [unowned self] in
-                        self.Reading()
+                        self.getRequest()
                 }
         }
         
-        func Reading(){
+        func getRequest(){
                 
                 var readBuffer = Data(capacity: Pipe.PipeBufSize)
                 defer {
-                        self.runOk = false
-                        NSLog("---Pipe[\(self.pipeID)]---=>reading exit......")
+                        NSLog("---Pipe[\(self.pipeID)]---=>client reading exit......")
                         self.breakPipe()
                 }
                 
@@ -62,7 +60,7 @@ class Pipe: NSObject{
                 do{ repeat{
                         let rno = try self.proxySock.read(into: &readBuffer)
                         if rno == 0 {
-                                NSLog("---Pipe[\(self.pipeID)]---=>:read empty data")
+                                NSLog("---Pipe[\(self.pipeID)]---=>:client read empty data")
                                 return
                         }
                         
@@ -91,8 +89,8 @@ class Pipe: NSObject{
                         
                         readBuffer.count = 0
                         
-                }while self.runOk }catch let err{
-                        NSLog("---Pipe[\(self.pipeID)]---=>:reading err:\(err.localizedDescription)")
+                }while true }catch let err{
+                        NSLog("---Pipe[\(self.pipeID)]---=>:client reading err:\(err.localizedDescription)")
                         return
                 }
         }
@@ -105,34 +103,61 @@ class Pipe: NSObject{
                 
                 if Domains.shared.Hit(host: header.host){
                         self.adapter = PipeAdapter(targetHost: self.targetAddr!,
-                                                   targetPort: self.targetoPort!,
-                                                   delegate: self)
+                                                   targetPort: self.targetoPort!)
                 }else{
                         self.adapter = DirectAdapter(targetHost: self.targetAddr!,
-                                                     targetPort: self.targetoPort!,
-                                                     delegate:self)
+                                                     targetPort: self.targetoPort!)
+                }
+                guard self.adapter != nil else{
+                        throw YPError.HandShakeErr
                 }
                 self.adapter?.ID = self.pipeID
                 NSLog("---Pipe[\(self.pipeID)]---=>:first header:\(header.toString())")
+                
+                queue.async {
+                        [weak self] in
+                        self?.waitResponse()
+                }
         }
         
         func ToString() -> String {
                 return String(format: "proxysockID[%d]", self.pipeID)
         }
-}
-
-extension Pipe: PipeWriteDelegate{
-        
-        func write(rawData: Data) throws -> Int {
-                try self.proxySock.write(from: rawData)
-                NSLog("---Pipe[\(self.pipeID)]---=>:PipeWriteDelegate writing data len:\(rawData.count)")
-                return rawData.count
-        }
         
         func breakPipe() {
-                
                 self.CCB?(self.pipeID)
                 self.proxySock.close()
                 self.adapter?.byePeer()
         }
+        
+        
+        func waitResponse() {
+                
+                var readBuffer = Data(capacity: Pipe.PipeBufSize)
+                
+                defer {
+                        NSLog("---Pipe[\(self.pipeID)]---=>server reading exit......")
+                        self.breakPipe()
+                }
+                
+                do { repeat{
+                        let no = try self.adapter!.readData(into: &readBuffer)
+                        if no == 0{
+                                NSLog("---Pipe[\(self.pipeID)]---=>: reading from server data finished")
+                                return
+                        }
+                        
+                        let wNo = try self.proxySock.write(from: readBuffer)
+                        NSLog("---Pipe[\(self.pipeID)]---=>: writing data to client\(wNo) len:\(no)")
+                        
+                        readBuffer.count = 0
+                        
+                }while true } catch let err {
+                        NSLog("---Pipe[\(self.pipeID)]---=>:server reading err:\(err.localizedDescription)")
+                        return
+                }
+                
+        }
+        
+        
 }

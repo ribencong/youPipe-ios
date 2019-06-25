@@ -10,15 +10,12 @@ import Foundation
 import Socket
 
 class DirectAdapter: Adapter{
-        var delegate: PipeWriteDelegate
         var ID: Int32?
         private var sock: Socket
         var running:Bool = true
-        let queue = DispatchQueue.global(qos: .default)
         
-        init?(targetHost: String, targetPort: Int32, delegate:PipeWriteDelegate) {
+        init?(targetHost: String, targetPort: Int32) {
                  do {
-                        self.delegate = delegate
                         sock = try Socket.create(family: .inet, type: .stream, proto: .tcp)
                         try sock.connect(to: targetHost, port: targetPort)
                 } catch let err {
@@ -26,36 +23,29 @@ class DirectAdapter: Adapter{
                         return nil
                 }
                 
-                self.queue.async {
-                        [unowned self] in
-                        self.reading()
-                }
+                
         }
         
-        func reading() {
+        func readData(into data: inout Data) throws -> Int{
                 
-                defer{
-                        self.delegate.breakPipe()
-                }
-                
-                var readingBuff = Data(capacity: Pipe.PipeBufSize)
-                do{while self.running{
-                        
-                        let no =  try self.sock.read(into: &readingBuff)
-                        NSLog("---DirectAdapter[\(self.ID!)]--=>:reading from server:\(no)")
-                        if no == 0{
-                                NSLog("---DirectAdapter[\(self.ID!)]--=>:reading exit case no data")
-                                return
-                        }
-                        let _ = try self.delegate.write(rawData: readingBuff.prefix(no))
-                        
-                        readingBuff.count = 0
-                        }
-                        
-                }catch let err{
-                        NSLog("---DirectAdapter[\(self.ID!)]--=>:reading err:\(err.localizedDescription)")
-                        
-                }
+                return try self.sock.read(into: &data)
+//                var readingBuff = Data(capacity: Pipe.PipeBufSize)
+//                do{while self.running{
+//                        readingBuff.count = 0
+//                        let no =
+//                        NSLog("---DirectAdapter[\(self.ID!)]--=>:reading from server:\(no)")
+//                        if no == 0{
+//                                NSLog("---DirectAdapter[\(self.ID!)]--=>:reading exit case no data")
+//                                return
+//                        }
+//
+//                        readingBuff.prefix(no)
+//                        }
+//
+//                }catch let err{
+//                        NSLog("---DirectAdapter[\(self.ID!)]--=>:reading err:\(err.localizedDescription)")
+//
+//                }
         }
         
         func writeData(data: Data) throws{

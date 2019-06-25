@@ -24,8 +24,6 @@ class PipeAdapter: NSObject{
         }
         
         var ID: Int32?
-        var delegate: PipeWriteDelegate
-        
         private var sock:Socket
         private var tgtHost:String
         private var tgtPort:Int32
@@ -35,11 +33,10 @@ class PipeAdapter: NSObject{
         let queue = DispatchQueue.global(qos: .default)
         var readingPool = [UInt8](repeating: 0, count: Pipe.PipeBufSize)
         
-        init?(targetHost: String, targetPort: Int32, delegate:PipeWriteDelegate){
+        init?(targetHost: String, targetPort: Int32){
                 do {
                         self.tgtHost = targetHost
                         self.tgtPort = targetPort
-                        self.delegate = delegate
                 
                         self.sock = try Socket.create(family: .inet, type: .stream, proto: .tcp)
                         let iv = AES.randomIV(AES.blockSize)
@@ -54,11 +51,6 @@ class PipeAdapter: NSObject{
                         try self.sock.connect(to: host, port: port)
                         
                         try self.handShake()
-                        
-                        self.queue.async{
-                                [unowned self] in
-                                self.reading()
-                        }
                         
                 } catch let err {
                         NSLog("---PipeAdapter--=>:Open Pipe[\(targetHost):\(targetPort))] adapter err:\(err.localizedDescription)")
@@ -106,65 +98,62 @@ class PipeAdapter: NSObject{
                 
         }
 }
-extension PipeAdapter{
-        
-        func reading(){
-                
-                defer{
-                        self.delegate.breakPipe()
-                }
-                
-                var tmpBuf = Data(capacity: 1024)
-                do{
-                        while true{
-                                
-                                if self.readingPool.count <= 4{
-                                        let no = try self.sock.read(into: &tmpBuf)
-                                        NSLog("---PipeAdapter[\(self.ID!)]-FillPool start Got---=>:\(no)")
-                                        if no < 4 {
-                                                NSLog("---PipeAdapter[\(self.ID!)]-too short data:[\(no)]")
-                                                return
-                                        }
-                                        self.readingPool.append(contentsOf:tmpBuf)
-                                }
-                                
-                                let lenData = Array(self.readingPool.prefix(4))
-                                let bodyLen = lenData.ToInt32()
-                                if bodyLen == 0 || bodyLen > Pipe.PipeBufSize{
-                                        NSLog("---PipeAdapter[\(self.ID!)]-invalid data lenght [\(bodyLen)]   data:[\(lenData.toHexString())]")
-                                        throw YPError.PipeDataProtocolErr
-                                }
-                                
-                                NSLog("--PipeAdapter[\(self.ID!)]-FillPool body length is \(bodyLen) ")
-                                
-                                self.readingPool.removeFirst(4)
-                                while self.readingPool.count < bodyLen{
-                                        tmpBuf.count = 0
-                                        let bodyNO = try self.sock.read(into: &tmpBuf)
-                                        NSLog("---PipeAdapter[\(self.ID!)]-FillPool Body Data Got---=>:\(bodyNO)")
-                                        self.readingPool.append(contentsOf:tmpBuf)
-                                }
-                                
-                                let data = Array(self.readingPool.prefix(bodyLen))
-                                NSLog("---PipeAdapter[\(self.ID!)]-FillPool-\(data.count)=>: before~\(data.toHexString()))~")
-                                let rawData = try self.aseBlender.decrypt(data)
-                                NSLog("---PipeAdapter[\(self.ID!)]-FillPool-\(rawData.count)=>: after~\(rawData.toHexString()))~")
-                                
-                                let _ = try self.delegate.write(rawData: Data(bytes: rawData))
-                                self.readingPool.removeFirst(bodyLen)
-                                FlowCounter.shared.Consume(used: rawData.count)
-                                tmpBuf.count = 0
-                        }
-                        
-                }catch let err {
-                        NSLog("---PipeAdapter[\(self.ID!)]-FillPool exit---=>:\(err.localizedDescription)")
-                        return
-                }
-        }
-        
-}
-
 extension PipeAdapter:Adapter{
+        
+        func readData(into data: inout Data) throws -> Int{
+                return try self.sock.read(into: &data)
+                
+//                defer{
+//                        self.byePeer()
+//                }
+//                
+//                var tmpBuf = Data(capacity: 1024)
+//                do{
+//                        while true{
+//                                
+//                                if self.readingPool.count <= 4{
+//                                        let no = try self.sock.read(into: &tmpBuf)
+//                                        NSLog("---PipeAdapter[\(self.ID!)]-FillPool start Got---=>:\(no)")
+//                                        if no < 4 {
+//                                                NSLog("---PipeAdapter[\(self.ID!)]-too short data:[\(no)]")
+//                                                return
+//                                        }
+//                                        self.readingPool.append(contentsOf:tmpBuf)
+//                                }
+//                                
+//                                let lenData = Array(self.readingPool.prefix(4))
+//                                let bodyLen = lenData.ToInt32()
+//                                if bodyLen == 0 || bodyLen > Pipe.PipeBufSize{
+//                                        NSLog("---PipeAdapter[\(self.ID!)]-invalid data lenght [\(bodyLen)]   data:[\(lenData.toHexString())]")
+//                                        throw YPError.PipeDataProtocolErr
+//                                }
+//                                
+//                                NSLog("--PipeAdapter[\(self.ID!)]-FillPool body length is \(bodyLen) ")
+//                                
+//                                self.readingPool.removeFirst(4)
+//                                while self.readingPool.count < bodyLen{
+//                                        tmpBuf.count = 0
+//                                        let bodyNO = try self.sock.read(into: &tmpBuf)
+//                                        NSLog("---PipeAdapter[\(self.ID!)]-FillPool Body Data Got---=>:\(bodyNO)")
+//                                        self.readingPool.append(contentsOf:tmpBuf)
+//                                }
+//                                
+//                                let data = Array(self.readingPool.prefix(bodyLen))
+//                                NSLog("---PipeAdapter[\(self.ID!)]-FillPool-\(data.count)=>: before~\(data.toHexString()))~")
+//                                let rawData = try self.aseBlender.decrypt(data)
+//                                NSLog("---PipeAdapter[\(self.ID!)]-FillPool-\(rawData.count)=>: after~\(rawData.toHexString()))~")
+//                                
+//                                let _ = try self.delegate.write(rawData: Data(bytes: rawData))
+//                                self.readingPool.removeFirst(bodyLen)
+//                                FlowCounter.shared.Consume(used: rawData.count)
+//                                tmpBuf.count = 0
+//                        }
+//                        
+//                }catch let err {
+//                        NSLog("---PipeAdapter[\(self.ID!)]-FillPool exit---=>:\(err.localizedDescription)")
+//                        return
+//                }
+        }
         
         func writeData(data: Data) throws {
                 
