@@ -56,6 +56,7 @@ class PipeAdapter: NSObject{
                         try self.handShake()
                         
                         self.queue.async{
+                                [unowned self] in
                                 self.reading()
                         }
                         
@@ -83,7 +84,7 @@ class PipeAdapter: NSObject{
                 let json = try JSON(data:Data(bytes: ackBuf))
                 if let success = json["Success"].bool, !success {
                         NSLog("---PipeAdapter--=>:Pipe[\(self.tgtHost):\(self.tgtPort)] hand shake err:\(json["Message"] )")
-                        self.Close(error: nil)
+                        throw YPError.JsonPackError
                 }
                 
                 NSLog("---PipeAdapter--=>: Create Pipe[\(self.tgtHost):\(self.tgtPort)]  success!")
@@ -104,16 +105,16 @@ class PipeAdapter: NSObject{
                 return hs.data(using: .utf8)!
                 
         }
-        
-        func Close(error:Error?){
-                self.sock.close()
-        }
 }
 extension PipeAdapter{
         
         func reading(){
-                var tmpBuf = Data(capacity: 1024)
                 
+                defer{
+                        self.delegate.breakPipe()
+                }
+                
+                var tmpBuf = Data(capacity: 1024)
                 do{
                         while true{
                                 
@@ -184,7 +185,7 @@ extension PipeAdapter:Adapter{
         }
         
         func byePeer() {
-                self.Close(error: nil)
+                self.sock.close()
         }
 }
 

@@ -43,14 +43,9 @@ class Pipe: NSObject{
                 pipeID = psock.socketfd
                 super.init()
                 queue.async {
+                        [unowned self] in
                         self.Reading()
                 }
-        }
-        
-        func Close() {
-                self.CCB?(self.pipeID)
-                self.proxySock.close()
-                self.adapter?.byePeer()
         }
         
         func Reading(){
@@ -59,7 +54,7 @@ class Pipe: NSObject{
                 defer {
                         self.runOk = false
                         NSLog("---Pipe[\(self.pipeID)]---=>reading exit......")
-                        self.Close()
+                        self.breakPipe()
                 }
                 
                 self.readStatus = 1
@@ -132,5 +127,12 @@ extension Pipe: PipeWriteDelegate{
                 try self.proxySock.write(from: rawData)
                 NSLog("---Pipe[\(self.pipeID)]---=>:PipeWriteDelegate writing data len:\(rawData.count)")
                 return rawData.count
+        }
+        
+        func breakPipe() {
+                
+                self.CCB?(self.pipeID)
+                self.proxySock.close()
+                self.adapter?.byePeer()
         }
 }

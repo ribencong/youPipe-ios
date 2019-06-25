@@ -10,6 +10,7 @@ import Foundation
 
 protocol PipeWriteDelegate {
         func write(rawData:Data)throws -> Int
+        func breakPipe()
 }
 
 public protocol Adapter: class{
