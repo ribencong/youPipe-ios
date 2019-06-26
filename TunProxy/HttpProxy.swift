@@ -50,7 +50,6 @@ class HttpProxy:NSObject{
                         let newSocket = try self.listenSocket!.acceptClientConnection()
                         let fd = newSocket.socketfd
                         NSLog("---HttpProxy--=>Accepted connection[\(fd)] from: \(newSocket.remoteHostname) on port \(newSocket.remotePort)")
-                        NSLog("---HttpProxy--=>Socket Signature: \(String(describing: newSocket.signature?.description))")
                                 
                         let newTunnel = Pipe(psock: newSocket){
                                 fd in

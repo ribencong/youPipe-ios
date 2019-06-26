@@ -85,8 +85,7 @@ class Pipe: NSObject{
                         default:
                                 NSLog("---Pipe[\(self.pipeID)]---=>:unknown reading status:\(self.readStatus)")
                                 return
-                        }
-                        
+                        }                        
                         readBuffer.count = 0
                         
                 }while true }catch let err{
@@ -120,10 +119,6 @@ class Pipe: NSObject{
                 }
         }
         
-        func ToString() -> String {
-                return String(format: "proxysockID[%d]", self.pipeID)
-        }
-        
         func breakPipe() {
                 self.CCB?(self.pipeID)
                 self.proxySock.close()
@@ -148,7 +143,7 @@ class Pipe: NSObject{
                         }
                         
                         let wNo = try self.proxySock.write(from: readBuffer)
-                        NSLog("---Pipe[\(self.pipeID)]---=>: writing data to client\(wNo) len:\(no)")
+                        NSLog("---Pipe[\(self.pipeID)]---=>: writing data to client:\(wNo) len:\(no)")
                         
                         readBuffer.count = 0
                         
@@ -158,6 +153,4 @@ class Pipe: NSObject{
                 }
                 
         }
-        
-        
 }

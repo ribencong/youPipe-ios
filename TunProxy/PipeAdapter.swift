@@ -98,10 +98,41 @@ class PipeAdapter: NSObject{
                 
         }
 }
+
 extension PipeAdapter:Adapter{
         
         func readData(into data: inout Data) throws -> Int{
-                return try self.sock.read(into: &data)
+                var lenBuf = [Int8].init(repeating: 0, count: 4)
+                
+                var no = try self.sock.read(into: &lenBuf, bufSize: 4, truncate: true)
+                if no != 4{
+                        NSLog("---PipeAdapter[\(self.ID!)]-too short data:[\(no)]")
+                        return 0
+                }
+                let lenData = Data.init(bytes: lenBuf, count: 4)
+                let bodyLen = parseLen(atAddress: lenData)
+                if bodyLen == 0 || bodyLen > Pipe.PipeBufSize{
+                        NSLog("---PipeAdapter[\(self.ID!)]---=>: parse body len[\(bodyLen)] failed]")
+                        return 0
+                }
+                
+                
+                var bodyBuf = [Int8].init(repeating: 0, count: bodyLen)
+               
+                no = try self.sock.read(into: &bodyBuf, bufSize: bodyLen, truncate: true)
+                if no != bodyLen{
+                        NSLog("---PipeAdapter[\(self.ID!)]---=>: read body data of len[\(bodyLen)] unreach :\(no)]")
+                        return 0
+                }
+                
+                let cryptData = Data.init(bytes: bodyBuf, count: bodyLen)
+                NSLog("---PipeAdapter[\(self.ID!)]-readData-\(cryptData.count)=>: before~\(cryptData.toHexString()))~")
+                let rawData = try self.aseBlender.decrypt([UInt8](cryptData))
+                data.append(contentsOf: rawData)
+                NSLog("---PipeAdapter[\(self.ID!)]-readData-\(data.count)=>: after~\(data.toHexString()))~")
+                FlowCounter.shared.Consume(used: bodyLen)
+                return bodyLen
+                
                 
 //                defer{
 //                        self.byePeer()
@@ -176,20 +207,18 @@ extension PipeAdapter:Adapter{
         func byePeer() {
                 self.sock.close()
         }
-}
-
-extension Array where Element == UInt8{
-        public func ToInt32() -> Int{
-                guard self.count == 4 else{
+        
+        func parseLen(atAddress data:Data) -> Int{
+              
+                guard data.count == 4 else{
                         return 0
                 }
-                
-                var bytes = [UInt8](self)
+                let bytes = [UInt8](data)
                 
                 return (Int(bytes[0]) << 24) +
-                       (Int(bytes[1]) << 16) +
-                       (Int(bytes[2]) << 8) +
-                       Int(bytes[3])
+                        (Int(bytes[1]) << 16) +
+                        (Int(bytes[2]) << 8) +
+                        Int(bytes[3])
         }
 }
 

@@ -21,7 +21,9 @@ class Domains: NSObject {
         }
         
         func Hit(host:String) -> Bool{
-                
+                if host.contains("facebook") || host.contains("youtube"){
+                        return true
+                }
                 return false
                 
 //                guard let domain = self.domainParse?.parse(host: host)?.domain else{
