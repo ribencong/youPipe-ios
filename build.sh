@@ -1,0 +1,1 @@
+carthage build --platform iOS
