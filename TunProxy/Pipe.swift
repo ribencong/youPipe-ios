@@ -42,8 +42,8 @@ class Pipe: NSObject{
                 pipeID = psock.socketfd
                 super.init()
                 queue.async {
-                        [unowned self] in
-                        self.getRequest()
+                        [weak self] in
+                        self?.getRequest()
                 }
         }
         

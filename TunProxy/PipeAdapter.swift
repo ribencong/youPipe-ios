@@ -103,7 +103,6 @@ extension PipeAdapter:Adapter{
         
         func readData(into data: inout Data) throws -> Int{
                 var lenBuf = [Int8].init(repeating: 0, count: 4)
-                
                 var no = try self.sock.read(into: &lenBuf, bufSize: 4, truncate: true)
                 if no != 4{
                         NSLog("---PipeAdapter[\(self.ID!)]-too short data:[\(no)]")
@@ -111,18 +110,27 @@ extension PipeAdapter:Adapter{
                 }
                 let lenData = Data.init(bytes: lenBuf, count: 4)
                 let bodyLen = parseLen(atAddress: lenData)
+                
+                NSLog("---PipeAdapter[\(self.ID!)]-readData-=>: data length[\(bodyLen)] data:\(data.toHexString())")
                 if bodyLen == 0 || bodyLen > Pipe.PipeBufSize{
                         NSLog("---PipeAdapter[\(self.ID!)]---=>: parse body len[\(bodyLen)] failed]")
                         return 0
                 }
                 
-                
                 var bodyBuf = [Int8].init(repeating: 0, count: bodyLen)
                
                 no = try self.sock.read(into: &bodyBuf, bufSize: bodyLen, truncate: true)
-                if no != bodyLen{
-                        NSLog("---PipeAdapter[\(self.ID!)]---=>: read body data of len[\(bodyLen)] unreach :\(no)]")
+                NSLog("---PipeAdapter[\(self.ID!)]---=>: read data from pipe server :\(no)]")
+                if no > bodyLen{
+                        NSLog("---PipeAdapter[\(self.ID!)]---=>: read body data of len[\(bodyLen)] out of range :\(no)]")
                         return 0
+                }
+                
+                var leftDataLen = bodyLen - no
+                while leftDataLen > 0 {
+                        let newNo = try self.sock.read(into: &bodyBuf + no, bufSize: leftDataLen, truncate: true)
+                        no += newNo
+                        leftDataLen -= newNo
                 }
                 
                 let cryptData = Data.init(bytes: bodyBuf, count: bodyLen)
@@ -132,58 +140,6 @@ extension PipeAdapter:Adapter{
                 NSLog("---PipeAdapter[\(self.ID!)]-readData-\(data.count)=>: after~\(data.toHexString()))~")
                 FlowCounter.shared.Consume(used: bodyLen)
                 return bodyLen
-                
-                
-//                defer{
-//                        self.byePeer()
-//                }
-//                
-//                var tmpBuf = Data(capacity: 1024)
-//                do{
-//                        while true{
-//                                
-//                                if self.readingPool.count <= 4{
-//                                        let no = try self.sock.read(into: &tmpBuf)
-//                                        NSLog("---PipeAdapter[\(self.ID!)]-FillPool start Got---=>:\(no)")
-//                                        if no < 4 {
-//                                                NSLog("---PipeAdapter[\(self.ID!)]-too short data:[\(no)]")
-//                                                return
-//                                        }
-//                                        self.readingPool.append(contentsOf:tmpBuf)
-//                                }
-//                                
-//                                let lenData = Array(self.readingPool.prefix(4))
-//                                let bodyLen = lenData.ToInt32()
-//                                if bodyLen == 0 || bodyLen > Pipe.PipeBufSize{
-//                                        NSLog("---PipeAdapter[\(self.ID!)]-invalid data lenght [\(bodyLen)]   data:[\(lenData.toHexString())]")
-//                                        throw YPError.PipeDataProtocolErr
-//                                }
-//                                
-//                                NSLog("--PipeAdapter[\(self.ID!)]-FillPool body length is \(bodyLen) ")
-//                                
-//                                self.readingPool.removeFirst(4)
-//                                while self.readingPool.count < bodyLen{
-//                                        tmpBuf.count = 0
-//                                        let bodyNO = try self.sock.read(into: &tmpBuf)
-//                                        NSLog("---PipeAdapter[\(self.ID!)]-FillPool Body Data Got---=>:\(bodyNO)")
-//                                        self.readingPool.append(contentsOf:tmpBuf)
-//                                }
-//                                
-//                                let data = Array(self.readingPool.prefix(bodyLen))
-//                                NSLog("---PipeAdapter[\(self.ID!)]-FillPool-\(data.count)=>: before~\(data.toHexString()))~")
-//                                let rawData = try self.aseBlender.decrypt(data)
-//                                NSLog("---PipeAdapter[\(self.ID!)]-FillPool-\(rawData.count)=>: after~\(rawData.toHexString()))~")
-//                                
-//                                let _ = try self.delegate.write(rawData: Data(bytes: rawData))
-//                                self.readingPool.removeFirst(bodyLen)
-//                                FlowCounter.shared.Consume(used: rawData.count)
-//                                tmpBuf.count = 0
-//                        }
-//                        
-//                }catch let err {
-//                        NSLog("---PipeAdapter[\(self.ID!)]-FillPool exit---=>:\(err.localizedDescription)")
-//                        return
-//                }
         }
         
         func writeData(data: Data) throws {

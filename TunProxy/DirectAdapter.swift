@@ -24,7 +24,9 @@ class DirectAdapter: Adapter{
         }
         
         func readData(into data: inout Data) throws -> Int{
-                return try self.sock.read(into: &data)
+                let no = try self.sock.read(into: &data)
+                NSLog("---DirectAdapter[\(self.ID!)]--=>:readData:\(no)")
+                return no
         }
         
         func writeData(data: Data) throws{
